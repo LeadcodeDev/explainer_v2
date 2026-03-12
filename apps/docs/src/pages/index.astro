@@ -1,17 +1,4 @@
 ---
-import Base from '../layouts/base.astro'
-import { Button } from '@explainer/ui'
+// Redirect to the default documentation
+return Astro.redirect('/en/my-lib/getting-started')
 ---
-
-<Base title="Explainer v2 — Docs">
-  <main class="mx-auto max-w-4xl px-6 py-16">
-    <h1 class="text-4xl font-bold tracking-tight mb-4">Explainer v2</h1>
-    <p class="text-lg text-muted-foreground mb-8">
-      Documentation boilerplate powered by Astro, React, and MDX.
-    </p>
-    <div class="flex gap-4">
-      <Button client:load>Get Started</Button>
-      <Button variant="outline" client:load>View on GitHub</Button>
-    </div>
-  </main>
-</Base>

@@ -1,0 +1,43 @@
+---
+import '../styles/globals.css'
+import { Header } from '../components/header'
+import { Sidebar } from '../components/sidebar'
+import { TableOfContents, type TocHeading } from '../components/toc'
+import { Pagination } from '../components/pagination'
+import type { NavItem } from '../lib/docs'
+
+interface Props {
+  title: string
+  description?: string
+  headings: TocHeading[]
+  navItems: NavItem[]
+  currentPath: string
+  prev: { title: string; href: string } | null
+  next: { title: string; href: string } | null
+}
+
+const { title, description, headings, navItems, currentPath, prev, next } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {description && <meta name="description" content={description} />}
+    <title>{title} — Explainer</title>
+  </head>
+  <body class="min-h-screen antialiased">
+    <Header client:load />
+    <div class="flex max-w-[1400px] mx-auto">
+      <Sidebar items={navItems} currentPath={currentPath} client:load />
+      <main class="flex-1 min-w-0 px-8 py-6">
+        <article class="prose prose-neutral max-w-none">
+          <slot />
+        </article>
+        <Pagination prev={prev} next={next} client:load />
+      </main>
+      <TableOfContents headings={headings} client:load />
+    </div>
+  </body>
+</html>

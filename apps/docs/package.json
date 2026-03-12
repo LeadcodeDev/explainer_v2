@@ -17,7 +17,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "@explainer/ui": "workspace:*",
-    "@explainer/mdx": "workspace:*"
+    "@explainer/mdx": "workspace:*",
+    "@iconify/react": "^5.2.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

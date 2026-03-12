@@ -1,0 +1,42 @@
+---
+title: API Reference
+description: Complete API reference for my-lib
+icon: file-code
+order: 1
+---
+
+# API Reference
+
+## `createApp(options)`
+
+Creates a new application instance.
+
+```typescript
+function createApp(options: AppOptions): App
+```
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `name` | `string` | Yes | Application name |
+| `port` | `number` | No | Port number (default: 3000) |
+| `plugins` | `Plugin[]` | No | Array of plugins |
+
+### Returns
+
+Returns an `App` instance with the following methods:
+
+- `start()` — Starts the application
+- `stop()` — Stops the application
+- `use(plugin)` — Registers a plugin
+
+## `defineConfig(options)`
+
+Type-safe configuration helper.
+
+```typescript
+function defineConfig(options: AppOptions): AppOptions
+```
+
+This function provides TypeScript autocompletion for configuration options.

@@ -7,11 +7,13 @@
     ".": "./src/index.ts",
     "./components/*": "./src/components/*.tsx",
     "./overrides/*": "./src/overrides/*.tsx",
-    "./shiki": "./src/shiki.ts"
+    "./shiki": "./src/shiki.ts",
+    "./remark-auto-import": "./src/remark-auto-import.ts"
   },
   "dependencies": {
     "@explainer/ui": "workspace:*",
-    "lucide-react": "^0.475.0"
+    "@iconify/react": "^5.2.0",
+    "acorn": "^8.14.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",
