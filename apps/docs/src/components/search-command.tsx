@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { Icon } from '@iconify/react'
+import * as React from 'react'
 import { SearchDialog } from './search-dialog'
 
 export function SearchCommand() {
@@ -24,7 +24,7 @@ export function SearchCommand() {
       >
         <Icon icon="lucide:search" className="size-4 shrink-0" />
         <span className="flex-1 text-left">Search docs...</span>
-        <kbd className="rounded border bg-background px-1.5 py-0.5 text-xs">⌘K</kbd>
+        <kbd className="flex items-center gap-0.5 rounded border bg-background px-1.5 py-0.5 text-xs"><span className="text-[14px]">⌘</span><span className="text-[12px]">K</span></kbd>
       </button>
       <SearchDialog open={open} onClose={() => setOpen(false)} />
     </>

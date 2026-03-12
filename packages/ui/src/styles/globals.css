@@ -32,7 +32,7 @@
 }
 
 .dark {
-  --color-background: oklch(0.145 0 0);
+  --color-background: oklch(0.21 0.006 285.885);
   --color-foreground: oklch(0.985 0 0);
   --color-card: oklch(0.205 0 0);
   --color-card-foreground: oklch(0.985 0 0);
@@ -62,4 +62,27 @@
     @apply bg-background text-foreground;
     font-family: var(--font-sans);
   }
+}
+
+hr {
+  border-color: var(--border-color);
+  opacity: 0.1;
+  border-top-width: 1px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+html:not(.dark)  .astro-code,
+html:not(.dark)  .astro-code span:not(.highlighted, .highlighted-word, .diff) * {
+  background-color: oklch(0.985 0 0) !important;
+}
+
+html.dark  .astro-code,
+html.dark  .astro-code * {
+  color: var(--shiki-dark) !important;
+}
+
+html.dark  .astro-code,
+html.dark  > .astro-code {
+  background-color: oklch(0.274 0.006 286.033) !important;
 }

@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { cn } from '@explainer/ui'
+import * as React from 'react'
 
 function getAnchor(text: React.ReactNode): string {
   if (typeof text === 'string') {
@@ -12,7 +12,7 @@ function createHeading(level: 1 | 2 | 3 | 4 | 5 | 6) {
   const Tag = `h${level}` as const
   const styles: Record<number, string> = {
     1: 'text-4xl font-bold tracking-tight mt-8 mb-4',
-    2: 'text-3xl font-semibold tracking-tight mt-8 mb-3 border-b pb-2',
+    2: 'text-3xl font-semibold tracking-tight mt-8 mb-3 pb-2',
     3: 'text-2xl font-semibold tracking-tight mt-6 mb-3',
     4: 'text-xl font-semibold tracking-tight mt-6 mb-2',
     5: 'text-lg font-semibold mt-4 mb-2',

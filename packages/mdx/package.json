@@ -5,25 +5,40 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./overrides/*": "./src/overrides/*.tsx",
+    "./components/callout.astro": "./src/components/callout/callout.astro",
+    "./components/card-group.astro": "./src/components/card-group/card-group.astro",
+    "./components/card.astro": "./src/components/card-group/card.astro",
+    "./components/tabs.astro": "./src/components/tabs/tabs.astro",
+    "./components/tab.astro": "./src/components/tabs/tab.astro",
+    "./components/steps.astro": "./src/components/steps/steps.astro",
+    "./components/step.astro": "./src/components/steps/step.astro",
+    "./components/code-group.astro": "./src/components/code-group/code-group.astro",
+    "./components/preview.astro": "./src/components/preview/preview.astro",
+    "./components/preview-demo.astro": "./src/components/preview/preview-demo.astro",
+    "./components/preview-code.astro": "./src/components/preview/preview-code.astro",
+    "./overrides/pre.astro": "./src/overrides/pre/pre.astro",
+    "./overrides/blockquote.astro": "./src/overrides/blockquote/blockquote.astro",
     "./shiki": "./src/shiki.ts",
-    "./remark-auto-import": "./src/remark-auto-import.ts"
+    "./remark-auto-import": "./src/remark-auto-import.ts",
+    "./remark-directive-handler": "./src/remark-directive-handler.ts"
   },
   "dependencies": {
     "@explainer/ui": "workspace:*",
     "@iconify/react": "^5.2.0",
-    "acorn": "^8.14.0"
+    "@shikijs/transformers": "^4.0.2",
+    "acorn": "^8.14.0",
+    "remark-directive": "^4.0.0",
+    "unist-util-visit": "^5.1.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.8.0",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
+    "typescript": "^5.8.0"
   }
 }

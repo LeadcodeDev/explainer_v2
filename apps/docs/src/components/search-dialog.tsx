@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { createPortal } from 'react-dom'
 import { cn } from '@explainer/ui'
 import { Icon } from '@iconify/react'
+import * as React from 'react'
+import { createPortal } from 'react-dom'
 
 interface PagefindResult {
   url: string
@@ -93,7 +93,7 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
   if (!open) return null
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm" onMouseDown={onClose}>
+    <div className="fixed inset-0 z-100 bg-background/80 backdrop-blur-sm" onMouseDown={onClose}>
       <div
         className="mx-auto mt-[20vh] max-w-lg rounded-lg border bg-popover shadow-lg"
         onMouseDown={(e) => e.stopPropagation()}

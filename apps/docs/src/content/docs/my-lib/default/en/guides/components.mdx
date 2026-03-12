@@ -1,0 +1,537 @@
+---
+title: Components
+description: Showcase of all available MDX components
+icon: puzzle
+order: 10
+---
+
+# Components
+
+This page demonstrates all the MDX components available for writing documentation.
+
+---
+
+## Card Group
+
+This component allows you to group text elements while providing visual impact.
+
+::::::preview
+
+:::::code-preview
+
+::::card-group{cols=2}
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+::::
+
+:::::
+
+:::::content-preview
+
+```
+::::card-group
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+::::
+```
+
+:::::
+
+::::::
+
+---
+
+### Card per line
+
+You can customize the number of elements per line by setting the `cols` prop.
+
+:::callout{variant="info"}
+Default card per line was fixed to 2
+:::
+
+::::::preview
+
+:::::code-preview
+
+::::card-group{cols=3}
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+::::
+
+:::::
+
+:::::content-preview
+
+```
+::::card-group{cols=3}
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+::::
+```
+
+:::::
+
+::::::
+
+### Card item
+
+You can customize each card using the following props:
+
+- `label`: The text to display at the top of the card. (required)
+- `icon`: The icon to display at the top of the card.
+
+:::callout{variant="info"}
+The cards use the [`iconify`](https://icon-sets.iconify.design/) library to display icons.
+:::
+
+::::::preview
+
+:::::code-preview
+
+::::card-group
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+:::card{label="Lorem ipsum dolor sit amet" icon="lucide:user"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+::::
+
+:::::
+
+:::::content-preview
+
+```
+::::card-group
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:bell"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+  :::card{label="Lorem ipsum dolor sit amet" icon="lucide:user"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+::::
+```
+
+:::::
+
+::::::
+
+---
+
+## Callout
+
+:::callout{variant="info"}
+This is an **info** callout.
+:::
+
+:::callout{variant="success"}
+This is a **success** callout.
+:::
+
+:::callout{variant="warning"}
+This is a **warning** callout.
+:::
+
+:::callout{variant="danger"}
+This is a **danger** callout.
+:::
+
+::::::preview
+
+:::::code-preview
+
+:::callout{variant="info"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+
+:::::
+
+:::::content-preview
+
+```
+:::callout{variant="info"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+:::
+```
+
+:::::
+
+::::::
+
+---
+
+## Steps
+
+This section details various processes or features, broken down into a series of manageable steps.
+
+::::::preview
+
+:::::code-preview
+
+::::step-group
+:::step{title="Lorem ipsum dolor sit amet"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+```rs [main.rs]
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+:::
+:::step{title="Lorem ipsum dolor sit amet"}
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+:::
+::::
+
+:::::
+
+:::::content-preview
+
+````plain
+::::step-group
+  :::step{title="Lorem ipsum dolor sit amet"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+    ```rs [main.rs]
+    fn main() {
+        println!("Hello, world!");
+    }
+    ```
+  :::
+
+  :::step{title="Lorem ipsum dolor sit amet"}
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  :::
+::::
+````
+
+:::::
+
+::::::
+
+---
+
+## Code Blocks
+
+Code blocks are a way to display code in a readable format.
+
+### Highlighting
+
+#### Single line
+
+Single highlight can be done with the `[!code highlight]` syntax.
+
+::::preview
+:::code-preview
+
+```rs
+pub struct User {
+  // [!code highlight]
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+
+:::
+
+:::content-preview
+
+````mdx
+```
+pub struct User {
+  // [!code highlight]
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+````
+
+:::
+::::
+
+#### Multiple lines
+
+Multiple highlights can be done with the `{1,3-4}` syntax.
+
+::::preview
+  :::code-preview
+  ```rust {1,3-4}
+  pub struct User {
+    pub firstname: String,
+    pub lastname: String,
+  }
+  ```
+  :::
+  :::content-preview
+  ````mdx
+  ```rust {1,3-4}
+  pub struct User {
+    pub firstname: String,
+    pub lastname: String,
+  }
+  ```
+  ````
+  :::
+::::
+
+---
+
+### Code block with label
+
+::::preview
+  :::code-preview
+  ```rs [entities/user.rs]
+  pub struct User {
+    pub firstname: String,
+    pub lastname: String,
+  }
+  ```
+  :::
+  :::content-preview
+  ````mdx
+    ```rs [entities/user.rs]
+    pub struct User {
+      pub firstname: String,
+      pub lastname: String,
+    }
+    ```
+  ````
+  :::
+::::
+
+---
+
+### Line modifiers
+
+The `[!code --]` and `[!code ++]` syntax will remove or add a line to the code block.
+
+::::preview
+  :::code-preview
+  ```rust
+  pub struct User {
+    pub firstname: String,
+    pub lastname: String,
+  }
+  
+  impl User {
+    pub fn new() -> Self { // [!code --]
+    pub fn new(firstname: String, lastname: String) -> Self { // [!code ++]
+      Self { firstname, lastname }
+    }
+  }
+  ```
+  :::
+
+  :::content-preview
+  ````mdx
+    ```
+    pub struct User {
+      pub firstname: String,
+      pub lastname: String,
+    }
+    
+    impl User {
+      pub fn new() -> Self { // [!code --]
+      pub fn new(firstname: String, lastname: String) -> Self { // [!code ++]
+        Self { firstname, lastname }
+      }
+    }
+    ```
+  ````
+  :::
+::::
+
+---
+
+### Group code blocks
+
+:::callout{variant="warning"}
+Only code blocks can be used in a group.
+:::
+
+:::::preview
+::::code-preview
+:::codegroup
+
+```rs [foo]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+
+```rs [bar]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+
+impl User {
+  pub fn new(firstname: String, lastname: String) -> Self {
+    Self { firstname, lastname }
+  }
+}
+```
+
+:::
+
+::::
+
+::::content-preview
+
+````md
+:::codegroup
+
+```rs [foo]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+
+```rs [bar]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+
+impl User {
+  pub fn new(firstname: String, lastname: String) -> Self {
+    Self { firstname, lastname }
+  }
+}
+```
+
+:::
+````
+
+::::
+:::::
+
+---
+
+## Code Preview
+
+This component is used to display code excerpts and provide a preview of it.
+
+::::::preview
+:::::code-preview
+
+::::preview
+:::code-preview
+
+```rs [entities/user.rs]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+
+:::
+
+:::content-preview
+
+````
+```rs [entities/user.rs]
+pub struct User {
+  pub firstname: String,
+  pub lastname: String,
+}
+```
+````
+
+:::
+::::
+
+:::::
+:::::content-preview
+
+````
+::::preview
+  :::code-preview
+    ```rs [entities/user.rs]
+    pub struct User {
+      pub firstname: String,
+      pub lastname: String,
+    }
+    ```
+  :::
+
+  :::content-preview
+    ```rs [entities/user.rs]
+    pub struct User {
+      pub firstname: String,
+      pub lastname: String,
+    }
+    ```
+  :::
+::::
+````
+
+:::::
+::::::
+
+---
+
+## Blockquote
+
+> The best documentation is the one that gets out of your way and lets you build.
+
+With author attribution:
+
+> Simplicity is the ultimate sophistication.
+>
+> — Leonardo da Vinci
+
+---
+
+## Tabs
+
+<Tabs items={["React", "Vue", "Svelte"]}>
+  ```tsx
+  export function Button() {
+    return <button>Click me</button>
+  }
+  ```
+  ```vue
+  <template>
+    <button>Click me</button>
+  </template>
+  ```
+  ```svelte
+  <button>Click me</button>
+  ```
+</Tabs>

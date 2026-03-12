@@ -12,7 +12,21 @@ import {
   buildSwitchHref,
   getBreadcrumb,
 } from '../lib/docs'
-import { mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup } from '@explainer/mdx'
+import Callout from '@explainer/mdx/components/callout.astro'
+import CardGroup from '@explainer/mdx/components/card-group.astro'
+import Card from '@explainer/mdx/components/card.astro'
+import Tabs from '@explainer/mdx/components/tabs.astro'
+import Tab from '@explainer/mdx/components/tab.astro'
+import Steps from '@explainer/mdx/components/steps.astro'
+import Step from '@explainer/mdx/components/step.astro'
+import CodeGroup from '@explainer/mdx/components/code-group.astro'
+import Preview from '@explainer/mdx/components/preview.astro'
+import PreviewDemo from '@explainer/mdx/components/preview-demo.astro'
+import PreviewCode from '@explainer/mdx/components/preview-code.astro'
+import Pre from '@explainer/mdx/overrides/pre.astro'
+import Blockquote from '@explainer/mdx/overrides/blockquote.astro'
+import { Code } from '@explainer/mdx'
+import { H1, H2, H3, H4, H5, H6, Link, Paragraph, UnorderedList, OrderedList } from '@explainer/mdx'
 
 export async function getStaticPaths() {
   const allDocs = await getCollection('docs')
@@ -94,5 +108,11 @@ const { Content, headings } = await render(entry)
   localeSwitchUrls={localeSwitchUrls}
   breadcrumb={breadcrumb}
 >
-  <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
+  <Content components={{
+    h1: H1, h2: H2, h3: H3, h4: H4, h5: H5, h6: H6,
+    a: Link, p: Paragraph, ul: UnorderedList, ol: OrderedList,
+    pre: Pre, code: Code, blockquote: Blockquote,
+    Callout, Tabs, Tab, Steps, Step, CodeGroup,
+    CardGroup, Card, Preview, PreviewDemo, PreviewCode,
+  }} />
 </DocsLayout>

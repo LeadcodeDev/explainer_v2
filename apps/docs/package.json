@@ -9,21 +9,22 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^5.5.0",
-    "@astrojs/react": "^4.2.0",
     "@astrojs/mdx": "^4.2.0",
+    "@astrojs/react": "^4.2.0",
+    "@explainer/mdx": "workspace:*",
+    "@explainer/ui": "workspace:*",
+    "@iconify/react": "^5.2.0",
     "@tailwindcss/vite": "^4.0.0",
-    "tailwindcss": "^4.0.0",
+    "astro": "^5.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@explainer/ui": "workspace:*",
-    "@explainer/mdx": "workspace:*",
-    "@iconify/react": "^5.2.0"
+    "remark-directive": "^4.0.0",
+    "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "^5.8.0",
-    "pagefind": "^1.4.0"
+    "pagefind": "^1.4.0",
+    "typescript": "^5.8.0"
   }
 }
