@@ -60,12 +60,13 @@ const languageIcons: Record<string, string> = {
 const lang = (language || '').toLowerCase()
 const lbl = (label || '').toLowerCase()
 
+const slotHtml = await Astro.slots.render('default')
+
 let icon = languageIcons[lbl] || languageIcons[lang] || 'mdi:code-tags'
 
 // For shell languages, detect package manager from content
 if (['bash', 'sh', 'shell'].includes(lang)) {
-  const html = await Astro.slots.render('default')
-  const text = html.replace(/<[^>]+>/g, '').trim()
+  const text = slotHtml.replace(/<[^>]+>/g, '').trim()
   const match = text.match(/^(\w+)/)
   if (match) {
     const cmd = match[1].toLowerCase()
@@ -89,7 +90,7 @@ if (['bash', 'sh', 'shell'].includes(lang)) {
         data-language={language}
         data-label={label}
         {...props}
-      ><slot /></pre>
+      ><Fragment set:html={slotHtml} /></pre>
     </div>
   </div>
 ) : (
@@ -97,5 +98,5 @@ if (['bash', 'sh', 'shell'].includes(lang)) {
     class={cn('my-4 overflow-x-auto rounded-lg border bg-muted p-4 text-sm leading-relaxed', className)}
     data-language={language}
     {...props}
-  ><slot /></pre>
+  ><Fragment set:html={slotHtml} /></pre>
 )}

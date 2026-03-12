@@ -4,8 +4,6 @@ const importStatements = [
   `import Callout from '@explainer/mdx/components/callout.astro'`,
   `import CardGroup from '@explainer/mdx/components/card-group.astro'`,
   `import Card from '@explainer/mdx/components/card.astro'`,
-  `import Tabs from '@explainer/mdx/components/tabs.astro'`,
-  `import Tab from '@explainer/mdx/components/tab.astro'`,
   `import Steps from '@explainer/mdx/components/steps.astro'`,
   `import Step from '@explainer/mdx/components/step.astro'`,
   `import CodeGroup from '@explainer/mdx/components/code-group.astro'`,

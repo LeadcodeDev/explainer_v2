@@ -15,36 +15,48 @@ interface TabProps {
 }
 
 export function Tabs({ items, children, className }: TabsProps) {
-  const [activeTab, setActiveTab] = React.useState(items[0])
+  const [activeTab, setActiveTab] = React.useState(0)
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const childArray = React.Children.toArray(children)
+  React.useEffect(() => {
+    if (!containerRef.current) return
+
+    const codeBlocks = containerRef.current.querySelectorAll('.code-block')
+    if (codeBlocks.length > 0) {
+      codeBlocks.forEach((el, index) => {
+        ;(el as HTMLElement).style.display = index === activeTab ? 'block' : 'none'
+      })
+    } else {
+      const preElements = containerRef.current.querySelectorAll('pre')
+      preElements.forEach((el, index) => {
+        ;(el as HTMLElement).style.display = index === activeTab ? 'block' : 'none'
+      })
+    }
+  }, [activeTab])
 
   return (
     <div className={cn('my-4', className)}>
       <div className="flex border-b" role="tablist">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <button
             key={item}
             role="tab"
-            aria-selected={activeTab === item}
+            type="button"
+            aria-selected={activeTab === index}
             className={cn(
-              'px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px',
-              activeTab === item
+              'px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px cursor-pointer',
+              activeTab === index
                 ? 'border-primary text-primary'
                 : 'border-transparent text-muted-foreground hover:text-foreground',
             )}
-            onClick={() => setActiveTab(item)}
+            onClick={() => setActiveTab(index)}
           >
             {item}
           </button>
         ))}
       </div>
-      <div className="pt-4">
-        {childArray.map((child, index) => (
-          <div key={items[index]} hidden={activeTab !== items[index]}>
-            {child}
-          </div>
-        ))}
+      <div ref={containerRef} className="pt-4 [&_.code-block-header]:hidden [&_.code-block]:my-0 [&_.code-block]:rounded-none [&_.code-block]:border-0 [&_pre]:my-0 [&_pre]:rounded-none [&_pre]:border-0">
+        {children}
       </div>
     </div>
   )

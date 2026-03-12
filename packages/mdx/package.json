@@ -8,6 +8,7 @@
     "./components/callout.astro": "./src/components/callout/callout.astro",
     "./components/card-group.astro": "./src/components/card-group/card-group.astro",
     "./components/card.astro": "./src/components/card-group/card.astro",
+    "./components/tabs": "./src/components/tabs/tabs.tsx",
     "./components/tabs.astro": "./src/components/tabs/tabs.astro",
     "./components/tab.astro": "./src/components/tabs/tab.astro",
     "./components/steps.astro": "./src/components/steps/steps.astro",
