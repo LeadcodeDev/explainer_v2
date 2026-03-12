@@ -7,9 +7,10 @@ interface VersionSwitcherProps {
   currentVersion: string
   hasVersioning: boolean
   switchUrls: Record<string, string>
+  dropUp?: boolean
 }
 
-export function VersionSwitcher({ versions, currentVersion, hasVersioning, switchUrls }: VersionSwitcherProps) {
+export function VersionSwitcher({ versions, currentVersion, hasVersioning, switchUrls, dropUp }: VersionSwitcherProps) {
   const [open, setOpen] = React.useState(false)
 
   if (!hasVersioning) return null
@@ -28,7 +29,7 @@ export function VersionSwitcher({ versions, currentVersion, hasVersioning, switc
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute left-0 top-full z-50 mt-1 min-w-[120px] rounded-md border bg-popover p-1 shadow-md">
+          <div className={cn('absolute z-50 min-w-[120px] rounded-md border bg-popover p-1 shadow-md', dropUp ? 'left-0 bottom-full mb-1' : 'left-0 top-full mt-1')}>
             {versions.map((version) => {
               const display = version === 'default' ? 'latest' : version
               return (
@@ -43,8 +44,10 @@ export function VersionSwitcher({ versions, currentVersion, hasVersioning, switc
                   )}
                   onClick={() => setOpen(false)}
                 >
-                  {version === currentVersion && (
+                  {version === currentVersion ? (
                     <Icon icon="lucide:check" className="size-3" />
+                  ) : (
+                    <span className="size-3" />
                   )}
                   {display}
                 </a>

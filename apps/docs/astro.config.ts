@@ -6,6 +6,7 @@ import { shikiConfig } from '@explainer/mdx/shiki'
 import { remarkAutoImport } from '@explainer/mdx/remark-auto-import'
 
 export default defineConfig({
+  devToolbar: { enabled: false },
   integrations: [
     react(),
     mdx({

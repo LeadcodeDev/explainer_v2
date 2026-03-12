@@ -1,9 +1,10 @@
 import { ThemeToggle, cn } from '@explainer/ui'
-import type { ProjectInfo } from '../lib/docs'
+import type { NavItem, ProjectInfo } from '../lib/docs'
 import { VersionSwitcher } from './version-switcher'
 import { LocaleSwitcher } from './locale-switcher'
 import { SearchCommand } from './search-command'
 import { ProjectTabs } from './project-tabs'
+import { MobileMenu } from './mobile-menu'
 
 interface HeaderProps {
   title?: string
@@ -15,6 +16,8 @@ interface HeaderProps {
   projectSwitchUrls: Record<string, string>
   versionSwitchUrls: Record<string, string>
   localeSwitchUrls: Record<string, string>
+  navItems: NavItem[]
+  currentPath: string
 }
 
 export function Header({
@@ -27,6 +30,8 @@ export function Header({
   projectSwitchUrls,
   versionSwitchUrls,
   localeSwitchUrls,
+  navItems,
+  currentPath,
 }: HeaderProps) {
   const currentProjectInfo = projects.find((p) => p.name === currentProject)
   const showTabs = projects.length > 1
@@ -35,29 +40,44 @@ export function Header({
     <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       {/* Row 1: Main bar */}
       <div className={cn(!showTabs && 'border-b')}>
-        <div className="flex h-14 items-center justify-between px-6 max-w-[1400px] mx-auto">
-          <div className="flex items-center gap-4">
+        <div className="flex h-14 items-center justify-between px-4 sm:px-6 max-w-[1400px] mx-auto">
+          <div className="flex items-center gap-3">
+            <MobileMenu
+              items={navItems}
+              currentPath={currentPath}
+              locales={locales}
+              currentLocale={currentLocale}
+              localeSwitchUrls={localeSwitchUrls}
+              versions={currentProjectInfo?.versions ?? []}
+              currentVersion={currentVersion}
+              hasVersioning={currentProjectInfo?.hasVersioning ?? false}
+              versionSwitchUrls={versionSwitchUrls}
+            />
             <a href="/" className="flex items-center gap-2 font-semibold text-lg">
               {title}
             </a>
             {currentProjectInfo && (
-              <VersionSwitcher
-                versions={currentProjectInfo.versions}
-                currentVersion={currentVersion}
-                hasVersioning={currentProjectInfo.hasVersioning}
-                switchUrls={versionSwitchUrls}
-              />
+              <div className="hidden lg:block">
+                <VersionSwitcher
+                  versions={currentProjectInfo.versions}
+                  currentVersion={currentVersion}
+                  hasVersioning={currentProjectInfo.hasVersioning}
+                  switchUrls={versionSwitchUrls}
+                />
+              </div>
             )}
           </div>
           <div className="hidden md:block">
             <SearchCommand />
           </div>
           <div className="flex items-center gap-2">
-            <LocaleSwitcher
-              locales={locales}
-              currentLocale={currentLocale}
-              switchUrls={localeSwitchUrls}
-            />
+            <div className="hidden lg:block">
+              <LocaleSwitcher
+                locales={locales}
+                currentLocale={currentLocale}
+                switchUrls={localeSwitchUrls}
+              />
+            </div>
             <ThemeToggle />
           </div>
         </div>

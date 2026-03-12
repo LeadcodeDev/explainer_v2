@@ -6,6 +6,7 @@ interface LocaleSwitcherProps {
   locales: string[]
   currentLocale: string
   switchUrls: Record<string, string>
+  dropUp?: boolean
 }
 
 const localeNames: Record<string, string> = {
@@ -21,7 +22,7 @@ const localeNames: Record<string, string> = {
   it: 'Italiano',
 }
 
-export function LocaleSwitcher({ locales, currentLocale, switchUrls }: LocaleSwitcherProps) {
+export function LocaleSwitcher({ locales, currentLocale, switchUrls, dropUp }: LocaleSwitcherProps) {
   const [open, setOpen] = React.useState(false)
 
   if (locales.length <= 1) return null
@@ -39,7 +40,7 @@ export function LocaleSwitcher({ locales, currentLocale, switchUrls }: LocaleSwi
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 top-full z-50 mt-1 min-w-[140px] rounded-md border bg-popover p-1 shadow-md">
+          <div className={cn('absolute z-50 min-w-[140px] rounded-md border bg-popover p-1 shadow-md', dropUp ? 'left-0 bottom-full mb-1' : 'right-0 top-full mt-1')}>
             {locales.map((locale) => (
               <a
                 key={locale}
@@ -52,8 +53,10 @@ export function LocaleSwitcher({ locales, currentLocale, switchUrls }: LocaleSwi
                 )}
                 onClick={() => setOpen(false)}
               >
-                {locale === currentLocale && (
+                {locale === currentLocale ? (
                   <Icon icon="lucide:check" className="size-3" />
+                ) : (
+                  <span className="size-3" />
                 )}
                 {localeNames[locale] ?? locale.toUpperCase()}
               </a>

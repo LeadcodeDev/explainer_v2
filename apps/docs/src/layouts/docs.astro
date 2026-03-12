@@ -91,15 +91,16 @@ const showTabs = projects.length > 1
       projectSwitchUrls={projectSwitchUrls}
       versionSwitchUrls={versionSwitchUrls}
       localeSwitchUrls={localeSwitchUrls}
+      navItems={navItems}
+      currentPath={currentPath}
       client:load
-      transition:persist
       transition:animate="none"
     />
     <div class="flex max-w-[1400px] mx-auto">
-      <div class="w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-[var(--header-height)] py-6 pl-3 pr-3" transition:animate="none">
-        <Sidebar items={navItems} currentPath={currentPath} client:load transition:persist />
+      <div class="hidden lg:block w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-[var(--header-height)] py-6 pl-3 pr-3" transition:animate="none">
+        <Sidebar items={navItems} currentPath={currentPath} client:load />
       </div>
-      <main class="flex-1 min-w-0 px-8 py-6" transition:animate="none">
+      <main class="flex-1 min-w-0 px-4 sm:px-8 py-6" transition:animate="none">
         {breadcrumb.length > 1 && (
           <nav class="flex items-center gap-1.5 text-sm text-primary mb-4">
             {breadcrumb.slice(0, -1).map((item, i) => (

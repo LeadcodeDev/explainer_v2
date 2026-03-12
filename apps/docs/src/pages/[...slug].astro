@@ -60,8 +60,16 @@ if (currentProjectInfo) {
   }
 }
 
+// Only include locales that have content for the current project/version
+const projectLocales = context.locales.filter((l) =>
+  allDocs.some((e) => {
+    const parsed = parsePath(e.id)
+    return parsed.project === project && parsed.version === version && parsed.locale === l
+  }),
+)
+
 const localeSwitchUrls: Record<string, string> = {}
-for (const l of context.locales) {
+for (const l of projectLocales) {
   localeSwitchUrls[l] = buildSwitchHref(allDocs, current, { locale: l })
 }
 
@@ -80,7 +88,7 @@ const { Content, headings } = await render(entry)
   currentProject={project}
   currentVersion={version}
   currentLocale={locale}
-  locales={context.locales}
+  locales={projectLocales}
   projectSwitchUrls={projectSwitchUrls}
   versionSwitchUrls={versionSwitchUrls}
   localeSwitchUrls={localeSwitchUrls}
