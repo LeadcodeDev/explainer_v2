@@ -4,10 +4,11 @@ export interface MetaFile {
   title?: string
   icon?: string
   order?: number
+  type?: 'group' | 'category'
 }
 
 export interface NavItem {
-  type: 'page' | 'category'
+  type: 'page' | 'category' | 'group'
   title: string
   slug: string
   href: string
@@ -20,6 +21,7 @@ export interface ProjectInfo {
   name: string
   versions: string[]
   hasVersioning: boolean
+  icon?: string
 }
 
 export interface DocsContext {
@@ -67,7 +69,7 @@ export function buildHrefFromParts(
 }
 
 /** Extract all unique projects with their versions from the collection */
-export function getProjectsInfo(entries: CollectionEntry<'docs'>[]): ProjectInfo[] {
+export function getProjectsInfo(entries: CollectionEntry<'docs'>[], metaFiles?: Record<string, MetaFile>): ProjectInfo[] {
   const projectMap = new Map<string, Set<string>>()
 
   for (const entry of entries) {
@@ -82,6 +84,7 @@ export function getProjectsInfo(entries: CollectionEntry<'docs'>[]): ProjectInfo
     name,
     versions: Array.from(versions).sort(),
     hasVersioning: versions.size > 1 || !versions.has('default'),
+    icon: metaFiles?.[name]?.icon,
   }))
 }
 
@@ -98,13 +101,14 @@ export function getLocales(entries: CollectionEntry<'docs'>[]): string[] {
 export function buildDocsContext(
   entries: CollectionEntry<'docs'>[],
   currentEntry: CollectionEntry<'docs'>,
+  metaFiles?: Record<string, MetaFile>,
 ): DocsContext {
   const { project, version, locale } = parsePath(currentEntry.id)
   return {
     project,
     version,
     locale,
-    projects: getProjectsInfo(entries),
+    projects: getProjectsInfo(entries, metaFiles),
     locales: getLocales(entries),
   }
 }
@@ -199,7 +203,7 @@ export function buildNavTree(
         if (!categoryMap.has(currentPath)) {
           const meta = metaFiles[currentPath]
           const category: NavItem = {
-            type: 'category',
+            type: meta?.type === 'group' ? 'group' : 'category',
             title: meta?.title ?? formatTitle(segment),
             slug: currentPath,
             href: '',
@@ -271,6 +275,34 @@ export function getPagination(
         ? { title: flatEntries[index + 1].data.title, href: hrefs[index + 1] }
         : null,
   }
+}
+
+export interface BreadcrumbItem {
+  title: string
+  href?: string
+}
+
+export function getBreadcrumb(navItems: NavItem[], currentPath: string): BreadcrumbItem[] {
+  const result: BreadcrumbItem[] = []
+
+  function walk(items: NavItem[]): boolean {
+    for (const item of items) {
+      if (item.type === 'page' && item.href === currentPath) {
+        result.push({ title: item.title })
+        return true
+      }
+      if ((item.type === 'category' || item.type === 'group') && item.children) {
+        if (walk(item.children)) {
+          result.unshift({ title: item.title })
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  walk(navItems)
+  return result
 }
 
 export function loadMetaFiles(

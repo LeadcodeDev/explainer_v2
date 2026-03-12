@@ -2,3 +2,7 @@
 
 @source "../../../../packages/ui/src";
 @source "../../../../packages/mdx/src";
+
+html {
+  scrollbar-gutter: stable;
+}

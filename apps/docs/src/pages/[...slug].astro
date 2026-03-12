@@ -10,6 +10,7 @@ import {
   loadMetaFiles,
   buildDocsContext,
   buildSwitchHref,
+  getBreadcrumb,
 } from '../lib/docs'
 import { mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup } from '@explainer/mdx'
 
@@ -32,11 +33,12 @@ const { project, version, locale, segments } = parsePath(entry.id)
 const metaGlobs = import.meta.glob('../content/docs/**/_meta.json', { eager: true })
 const metaFiles = loadMetaFiles(metaGlobs)
 
-const context = buildDocsContext(allDocs, entry)
+const context = buildDocsContext(allDocs, entry, metaFiles)
 const navItems = buildNavTree(allDocs, metaFiles, project, version, locale)
 const flatEntries = getFlatEntries(allDocs, project, version, locale)
 const currentHref = buildHref(entry)
 const { prev, next } = getPagination(currentHref, flatEntries)
+const breadcrumb = getBreadcrumb(navItems, currentHref)
 
 // Build switch URLs for project/version/locale switchers
 const current = { project, version, locale, segments }
@@ -82,6 +84,7 @@ const { Content, headings } = await render(entry)
   projectSwitchUrls={projectSwitchUrls}
   versionSwitchUrls={versionSwitchUrls}
   localeSwitchUrls={localeSwitchUrls}
+  breadcrumb={breadcrumb}
 >
   <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
 </DocsLayout>

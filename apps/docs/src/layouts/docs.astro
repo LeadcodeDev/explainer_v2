@@ -1,11 +1,11 @@
 ---
 import '../styles/globals.css'
+import { ViewTransitions } from 'astro:transitions'
 import { Header } from '../components/header'
 import { Sidebar } from '../components/sidebar'
 import { TableOfContents, type TocHeading } from '../components/toc'
 import { Pagination } from '../components/pagination'
-import { Search } from '../components/search'
-import type { NavItem, ProjectInfo } from '../lib/docs'
+import type { NavItem, ProjectInfo, BreadcrumbItem } from '../lib/docs'
 
 interface Props {
   title: string
@@ -23,6 +23,7 @@ interface Props {
   projectSwitchUrls: Record<string, string>
   versionSwitchUrls: Record<string, string>
   localeSwitchUrls: Record<string, string>
+  breadcrumb: BreadcrumbItem[]
 }
 
 const {
@@ -41,7 +42,10 @@ const {
   projectSwitchUrls,
   versionSwitchUrls,
   localeSwitchUrls,
+  breadcrumb,
 } = Astro.props
+
+const showTabs = projects.length > 1
 ---
 
 <!doctype html>
@@ -51,6 +55,7 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {description && <meta name="description" content={description} />}
     <title>{title} — Explainer</title>
+    <ViewTransitions />
     <script is:inline>
       (function () {
         var theme = localStorage.getItem('theme')
@@ -59,6 +64,22 @@ const {
         }
       })()
     </script>
+    <script is:inline>
+      document.addEventListener('astro:after-swap', function () {
+        window.scrollTo({ top: 0 })
+        var theme = localStorage.getItem('theme')
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+      })
+    </script>
+    <style define:vars={{ headerHeight: showTabs ? '6rem' : '3.5rem' }}>
+      :root {
+        --header-height: var(--headerHeight);
+      }
+    </style>
   </head>
   <body class="min-h-screen antialiased">
     <Header
@@ -71,19 +92,36 @@ const {
       versionSwitchUrls={versionSwitchUrls}
       localeSwitchUrls={localeSwitchUrls}
       client:load
+      transition:persist
+      transition:animate="none"
     />
     <div class="flex max-w-[1400px] mx-auto">
-      <div class="w-64 shrink-0 border-r h-[calc(100vh-4rem)] overflow-y-auto sticky top-16 py-6 pr-4 flex flex-col gap-4">
-        <Search client:load />
-        <Sidebar items={navItems} currentPath={currentPath} client:load />
+      <div class="w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-[var(--header-height)] py-6 pl-3 pr-3" transition:animate="none">
+        <Sidebar items={navItems} currentPath={currentPath} client:load transition:persist />
       </div>
-      <main class="flex-1 min-w-0 px-8 py-6">
+      <main class="flex-1 min-w-0 px-8 py-6" transition:animate="none">
+        {breadcrumb.length > 1 && (
+          <nav class="flex items-center gap-1.5 text-sm text-primary mb-4">
+            {breadcrumb.slice(0, -1).map((item, i) => (
+              <>
+                {i > 0 && <span class="text-muted-foreground">/</span>}
+                {item.href ? (
+                  <a href={item.href} class="hover:underline">{item.title}</a>
+                ) : (
+                  <span>{item.title}</span>
+                )}
+              </>
+            ))}
+          </nav>
+        )}
         <article class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>
           <slot />
         </article>
         <Pagination prev={prev} next={next} client:load />
       </main>
-      <TableOfContents headings={headings} client:load />
+      <div transition:animate="none">
+        <TableOfContents headings={headings} client:load />
+      </div>
     </div>
   </body>
 </html>

@@ -11,7 +11,7 @@ interface SidebarProps {
 export function Sidebar({ items, currentPath }: SidebarProps) {
   return (
     <nav className="flex-1 overflow-y-auto">
-      <ul className="space-y-1">
+      <ul>
         {items.map((item) => (
           <SidebarItem key={item.slug} item={item} currentPath={currentPath} />
         ))}
@@ -28,6 +28,22 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
     return false
   })
 
+  // Group: bold label, no collapse, children always visible, depth resets
+  if (item.type === 'group') {
+    return (
+      <li className="mt-6 first:mt-0">
+        <div className="px-3 pb-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          {item.title}
+        </div>
+        <ul>
+          {item.children?.map((child) => (
+            <SidebarItem key={child.slug} item={child} currentPath={currentPath} depth={0} />
+          ))}
+        </ul>
+      </li>
+    )
+  }
+
   if (item.type === 'page') {
     const isActive = currentPath === item.href
     return (
@@ -35,12 +51,12 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
         <a
           href={item.href}
           className={cn(
-            'flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors',
+            'flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:text-foreground',
             isActive
-              ? 'bg-accent text-accent-foreground font-medium'
-              : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground',
+              ? 'bg-primary/10 text-primary font-medium'
+              : 'text-muted-foreground hover:text-foreground',
           )}
-          style={{ paddingLeft: `${0.75 + depth * 0.75}rem` }}
+          style={depth > 0 ? { paddingLeft: `${0.75 + depth * 0.75}rem` } : undefined}
         >
           {item.icon && <Icon icon={`lucide:${item.icon}`} className="size-4 shrink-0" />}
           {item.title}
@@ -49,25 +65,26 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
     )
   }
 
+  // Category: collapsible
   return (
     <li>
       <button
         onClick={() => setOpen(!open)}
         className={cn(
-          'flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors',
-          'text-foreground hover:bg-accent/50',
+          'flex w-full items-center gap-2 px-3 py-1.5 text-sm transition-colors focus-visible:outline-none focus-visible:text-primary',
+          'text-muted-foreground hover:text-foreground',
         )}
-        style={{ paddingLeft: `${0.75 + depth * 0.75}rem` }}
+        style={depth > 0 ? { paddingLeft: `${0.75 + depth * 0.75}rem` } : undefined}
       >
-        <Icon
-          icon="lucide:chevron-right"
-          className={cn('size-4 shrink-0 transition-transform', open && 'rotate-90')}
-        />
         {item.icon && <Icon icon={`lucide:${item.icon}`} className="size-4 shrink-0" />}
         {item.title}
+        <Icon
+          icon="lucide:chevron-down"
+          className={cn('size-3.5 shrink-0 text-muted-foreground transition-transform ml-auto', !open && '-rotate-90')}
+        />
       </button>
       {open && item.children && (
-        <ul className="space-y-1">
+        <ul>
           {item.children.map((child) => (
             <SidebarItem key={child.slug} item={child} currentPath={currentPath} depth={depth + 1} />
           ))}
