@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content'
+import PostLayout from '../layouts/post.astro'
+import { getPublishedPosts, getPostSlug } from '../lib/posts'
+import { mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup } from '@explainer/mdx'
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts')
+  const posts = getPublishedPosts(allPosts)
+
+  return posts.map((post) => ({
+    params: { slug: getPostSlug(post) },
+    props: { post },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await render(post)
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  date={post.data.date}
+  tags={post.data.tags}
+  cover={post.data.cover}
+>
+  <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
+</PostLayout>
