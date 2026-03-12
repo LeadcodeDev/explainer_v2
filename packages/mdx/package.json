@@ -1,0 +1,27 @@
+{
+  "name": "@explainer/mdx",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./components/*": "./src/components/*.tsx",
+    "./overrides/*": "./src/overrides/*.tsx",
+    "./shiki": "./src/shiki.ts"
+  },
+  "dependencies": {
+    "@explainer/ui": "workspace:*",
+    "lucide-react": "^0.475.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.8.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0"
+  }
+}

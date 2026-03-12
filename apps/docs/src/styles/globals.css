@@ -1,0 +1,4 @@
+@import '@explainer/ui/styles/globals.css';
+
+@source "../../../../packages/ui/src";
+@source "../../../../packages/mdx/src";

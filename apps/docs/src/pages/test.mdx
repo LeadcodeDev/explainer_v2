@@ -1,0 +1,92 @@
+---
+layout: ../layouts/base.astro
+title: Test MDX Page
+---
+
+import { Callout, Tabs, Tab, Steps, Step, CodeGroup } from '@explainer/mdx'
+import { Button, Card, CardHeader, CardTitle, CardContent } from '@explainer/ui'
+
+# Welcome to Explainer v2
+
+This is a test page to validate the **MDX pipeline** with custom components.
+
+## Callout Examples
+
+<Callout variant="info" title="Information">
+  This is an informational callout.
+</Callout>
+
+<Callout variant="warning" title="Warning">
+  Be careful with this configuration.
+</Callout>
+
+<Callout variant="danger" title="Danger">
+  This action is irreversible.
+</Callout>
+
+## Tabs Example
+
+<Tabs items={["npm", "pnpm", "yarn"]} client:load>
+  <Tab label="npm">
+    ```bash
+    npm install explainer-v2
+    ```
+  </Tab>
+  <Tab label="pnpm">
+    ```bash
+    pnpm add explainer-v2
+    ```
+  </Tab>
+  <Tab label="yarn">
+    ```bash
+    yarn add explainer-v2
+    ```
+  </Tab>
+</Tabs>
+
+## Steps Example
+
+<Steps>
+  <Step title="Install dependencies">
+    Run `pnpm install` to install all dependencies.
+  </Step>
+  <Step title="Configure your project">
+    Edit the configuration files to match your needs.
+  </Step>
+  <Step title="Start developing">
+    Run `pnpm dev` to start the development server.
+  </Step>
+</Steps>
+
+## Code Example
+
+```typescript
+import { defineConfig } from 'astro/config'
+
+export default defineConfig({
+  integrations: [react(), mdx()],
+})
+```
+
+## UI Components
+
+<div className="grid grid-cols-2 gap-4 my-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>Documentation</CardTitle>
+    </CardHeader>
+    <CardContent>
+      Multi-project, multi-version, multi-language documentation.
+    </CardContent>
+  </Card>
+  <Card>
+    <CardHeader>
+      <CardTitle>Blog</CardTitle>
+    </CardHeader>
+    <CardContent>
+      Write and publish articles with MDX.
+    </CardContent>
+  </Card>
+</div>
+
+<Button client:load>Interactive Button</Button>
