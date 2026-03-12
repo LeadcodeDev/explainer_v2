@@ -1,0 +1,138 @@
+---
+import Base from '../layouts/base.astro'
+import { Button } from '@explainer/ui'
+import { Icon } from '@iconify/react'
+---
+
+<Base title="Explainer v2" description="Documentation boilerplate for developers.">
+  <header class="border-b">
+    <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+      <span class="font-semibold text-lg">Explainer</span>
+      <nav class="flex items-center gap-6 text-sm">
+        <a href="#features" class="text-muted-foreground hover:text-foreground transition-colors">Features</a>
+        <a href="#get-started" class="text-muted-foreground hover:text-foreground transition-colors">Get Started</a>
+        <Button variant="outline" size="sm" client:load>GitHub</Button>
+      </nav>
+    </div>
+  </header>
+
+  <section class="mx-auto max-w-6xl px-6 py-24 text-center">
+    <h1 class="text-5xl font-bold tracking-tight mb-6">
+      Build beautiful docs,<br />deploy anywhere.
+    </h1>
+    <p class="text-xl text-muted-foreground max-w-2xl mx-auto mb-10">
+      A documentation boilerplate with multi-project support, versioning,
+      i18n, and independent deployments. Powered by Astro and React.
+    </p>
+    <div class="flex justify-center gap-4">
+      <Button size="lg" client:load>Get Started</Button>
+      <Button variant="outline" size="lg" client:load>View Source</Button>
+    </div>
+  </section>
+
+  <section id="features" class="mx-auto max-w-6xl px-6 py-16">
+    <h2 class="text-3xl font-bold tracking-tight text-center mb-12">Features</h2>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:book-open" className="size-5" client:load />
+            Multi-Project Docs
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Host documentation for multiple projects in a single instance with a dropdown switcher.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:git-branch" className="size-5" client:load />
+            Versioning
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Multiple versions per project with automatic URL routing and version switcher.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:globe" className="size-5" client:load />
+            Internationalization
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Full i18n support with URL prefix routing and automatic browser language detection.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:pen-tool" className="size-5" client:load />
+            MDX Components
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Custom components like Callouts, Tabs, Steps, and CodeGroup auto-injected in MDX.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:rocket" className="size-5" client:load />
+            Independent Deploys
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Deploy docs, blog, and website independently on Vercel, Cloudflare, GitHub Pages, or Docker.
+          </p>
+        </div>
+      </div>
+
+      <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="flex flex-col space-y-1.5 p-6">
+          <h3 class="text-2xl font-semibold leading-none tracking-tight flex items-center gap-2">
+            <Icon icon="lucide:palette" className="size-5" client:load />
+            Shared Design System
+          </h3>
+        </div>
+        <div class="p-6 pt-0">
+          <p class="text-muted-foreground">
+            Consistent look across all apps with a shared UI package built on shadcn and Tailwind 4.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="get-started" class="border-t">
+    <div class="mx-auto max-w-6xl px-6 py-16 text-center">
+      <h2 class="text-3xl font-bold tracking-tight mb-4">Get Started</h2>
+      <p class="text-muted-foreground mb-8">Fork the repo and start building in minutes.</p>
+      <pre class="inline-block text-left bg-muted rounded-lg px-6 py-4 text-sm font-mono">git clone https://github.com/you/explainer-v2
+cd explainer-v2
+pnpm install
+pnpm dev</pre>
+    </div>
+  </section>
+
+  <footer class="border-t">
+    <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground text-center">
+      Built with Explainer v2
+    </div>
+  </footer>
+</Base>
