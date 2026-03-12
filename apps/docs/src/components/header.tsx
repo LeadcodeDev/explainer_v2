@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@explainer/ui'
 import type { ProjectInfo } from '../lib/docs'
 import { ProjectSwitcher } from './project-switcher'
 import { VersionSwitcher } from './version-switcher'
@@ -51,11 +52,14 @@ export function Header({
             )}
           </div>
         </div>
-        <LocaleSwitcher
-          locales={locales}
-          currentLocale={currentLocale}
-          switchUrls={localeSwitchUrls}
-        />
+        <div className="flex items-center gap-2">
+          <LocaleSwitcher
+            locales={locales}
+            currentLocale={currentLocale}
+            switchUrls={localeSwitchUrls}
+          />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   )

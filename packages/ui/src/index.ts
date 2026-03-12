@@ -18,3 +18,4 @@ export {
   DropdownMenuSeparator,
   DropdownMenuLabel,
 } from './components/dropdown'
+export { ThemeToggle } from './components/theme-toggle'

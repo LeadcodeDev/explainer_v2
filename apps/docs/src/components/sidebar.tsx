@@ -10,7 +10,7 @@ interface SidebarProps {
 
 export function Sidebar({ items, currentPath }: SidebarProps) {
   return (
-    <nav className="w-64 shrink-0 border-r h-[calc(100vh-4rem)] overflow-y-auto sticky top-16 py-6 pr-4">
+    <nav className="flex-1 overflow-y-auto">
       <ul className="space-y-1">
         {items.map((item) => (
           <SidebarItem key={item.slug} item={item} currentPath={currentPath} />
