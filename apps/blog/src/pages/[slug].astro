@@ -24,6 +24,7 @@ const { Content } = await render(post)
   date={post.data.date}
   tags={post.data.tags}
   cover={post.data.cover}
+  thumbnail={`/${getPostSlug(post)}/thumbnail.png`}
 >
   <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
 </PostLayout>

@@ -1,10 +1,10 @@
 import { ThemeToggle, cn } from '@explainer/ui'
 import type { NavItem, ProjectInfo } from '../lib/docs'
-import { VersionSwitcher } from './version-switcher'
 import { LocaleSwitcher } from './locale-switcher'
-import { SearchCommand } from './search-command'
-import { ProjectTabs } from './project-tabs'
 import { MobileMenu } from './mobile-menu'
+import { ProjectTabs } from './project-tabs'
+import { SearchCommand } from './search-command'
+import { VersionSwitcher } from './version-switcher'
 
 interface HeaderProps {
   title?: string
@@ -37,10 +37,10 @@ export function Header({
   const showTabs = projects.length > 1
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       {/* Row 1: Main bar */}
       <div className={cn(!showTabs && 'border-b')}>
-        <div className="flex h-14 items-center justify-between px-4 sm:px-6 max-w-[1400px] mx-auto">
+        <div className="flex h-14 items-center justify-between px-4 sm:px-6 max-w-350 mx-auto">
           <div className="flex items-center gap-3">
             <MobileMenu
               items={navItems}

@@ -1,6 +1,6 @@
 ---
 import '../styles/globals.css'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter, ViewTransitions } from 'astro:transitions'
 import { Header } from '../components/header'
 import { Sidebar } from '../components/sidebar'
 import { TableOfContents, type TocHeading } from '../components/toc'
@@ -24,6 +24,7 @@ interface Props {
   versionSwitchUrls: Record<string, string>
   localeSwitchUrls: Record<string, string>
   breadcrumb: BreadcrumbItem[]
+  thumbnail?: string
 }
 
 const {
@@ -43,9 +44,11 @@ const {
   versionSwitchUrls,
   localeSwitchUrls,
   breadcrumb,
+  thumbnail,
 } = Astro.props
 
 const showTabs = projects.length > 1
+const thumbnailUrl = '/assets' + (thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`)
 ---
 
 <!doctype html>
@@ -53,15 +56,24 @@ const showTabs = projects.length > 1
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {description && <meta name="description" content={description} />}
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={thumbnailUrl} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={thumbnailUrl} />
     <title>{title} — Explainer</title>
-    <ViewTransitions />
+
+    <ClientRouter />
     <script is:inline>
-      (function () {
-        var theme = localStorage.getItem('theme')
-        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark')
-        }
+      (() => {
+        const theme = localStorage.getItem('theme') || 'system'
+        const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', isDark)
       })()
     </script>
     <script is:inline>
@@ -69,12 +81,9 @@ const showTabs = projects.length > 1
         if (!window.location.hash) {
           window.scrollTo({ top: 0 })
         }
-        var theme = localStorage.getItem('theme')
-        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark')
-        } else {
-          document.documentElement.classList.remove('dark')
-        }
+        var theme = localStorage.getItem('theme') || 'system'
+        var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', isDark)
       })
     </script>
     <style define:vars={{ headerHeight: showTabs ? '6rem' : '3.5rem' }}>
@@ -98,8 +107,8 @@ const showTabs = projects.length > 1
       client:load
       transition:animate="none"
     />
-    <div class="flex max-w-[1400px] mx-auto">
-      <div class="hidden lg:block w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-[var(--header-height)] py-6 pl-3 pr-3" transition:animate="none">
+    <div class="flex max-w-350 mx-auto">
+      <div class="hidden lg:block w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-(--header-height) py-6 pl-3 pr-3" transition:animate="none">
         <Sidebar items={navItems} currentPath={currentPath} client:load />
       </div>
       <main class="flex-1 min-w-0 px-4 sm:px-8 py-6" transition:animate="none">

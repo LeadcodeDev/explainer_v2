@@ -12,6 +12,7 @@
     "@astrojs/mdx": "^4.2.0",
     "@astrojs/react": "^4.2.0",
     "@explainer/mdx": "workspace:*",
+    "@explainer/thumbnail": "workspace:*",
     "@explainer/ui": "workspace:*",
     "@iconify/react": "^5.2.0",
     "@tailwindcss/vite": "^4.0.0",

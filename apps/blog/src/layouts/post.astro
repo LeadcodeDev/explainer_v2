@@ -8,12 +8,13 @@ interface Props {
   date: Date
   tags: string[]
   cover?: string
+  thumbnail?: string
 }
 
-const { title, description, date, tags, cover } = Astro.props
+const { title, description, date, tags, cover, thumbnail } = Astro.props
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} thumbnail={thumbnail}>
   <article>
     {cover && (
       <img

@@ -6,6 +6,8 @@ const importStatements = [
   `import Card from '@explainer/mdx/components/card.astro'`,
   `import Steps from '@explainer/mdx/components/steps.astro'`,
   `import Step from '@explainer/mdx/components/step.astro'`,
+  `import Tabs from '@explainer/mdx/components/tabs.astro'`,
+  `import Tab from '@explainer/mdx/components/tab.astro'`,
   `import CodeGroup from '@explainer/mdx/components/code-group.astro'`,
   `import Preview from '@explainer/mdx/components/preview.astro'`,
   `import PreviewDemo from '@explainer/mdx/components/preview-demo.astro'`,

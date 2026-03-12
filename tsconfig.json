@@ -18,7 +18,9 @@
       "@explainer/ui": ["./packages/ui/src"],
       "@explainer/ui/*": ["./packages/ui/src/*"],
       "@explainer/mdx": ["./packages/mdx/src"],
-      "@explainer/mdx/*": ["./packages/mdx/src/*"]
+      "@explainer/mdx/*": ["./packages/mdx/src/*"],
+      "@explainer/thumbnail": ["./packages/thumbnail/src"],
+      "@explainer/thumbnail/*": ["./packages/thumbnail/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

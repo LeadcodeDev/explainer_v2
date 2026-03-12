@@ -4,6 +4,7 @@ import mdx from '@astrojs/mdx'
 import tailwindcss from '@tailwindcss/vite'
 import { shikiConfig } from '@explainer/mdx/shiki'
 import { remarkAutoImport } from '@explainer/mdx/remark-auto-import'
+import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
 export default defineConfig({
   site: 'https://blog.example.com',
@@ -11,6 +12,10 @@ export default defineConfig({
     react(),
     mdx({
       remarkPlugins: [remarkAutoImport],
+    }),
+    thumbnailIntegration({
+      appName: 'Blog',
+      content: { type: 'collection', dir: './src/content/posts' },
     }),
   ],
   vite: {

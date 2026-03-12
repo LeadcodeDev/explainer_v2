@@ -6,6 +6,7 @@ import remarkDirective from 'remark-directive'
 import { shikiConfig } from '@explainer/mdx/shiki'
 import { remarkAutoImport } from '@explainer/mdx/remark-auto-import'
 import { remarkDirectiveHandler } from '@explainer/mdx/remark-directive-handler'
+import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
 export default defineConfig({
   devToolbar: { enabled: false },
@@ -13,6 +14,10 @@ export default defineConfig({
     react(),
     mdx({
       remarkPlugins: [remarkAutoImport, remarkDirective, remarkDirectiveHandler],
+    }),
+    thumbnailIntegration({
+      appName: 'Docs',
+      content: { type: 'collection', dir: './src/content/docs' },
     }),
   ],
   vite: {

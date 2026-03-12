@@ -1,6 +1,6 @@
-import * as React from 'react'
 import { cn } from '@explainer/ui'
 import { Icon } from '@iconify/react'
+import * as React from 'react'
 import type { NavItem } from '../lib/docs'
 
 interface SidebarProps {
@@ -56,7 +56,7 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
               ? 'bg-primary/10 text-primary font-medium'
               : 'text-muted-foreground hover:text-foreground',
           )}
-          style={depth > 0 ? { paddingLeft: `${0.75 + depth * 0.75}rem` } : undefined}
+          style={depth > 0 ? { paddingLeft: `${1.2 + depth}rem` } : undefined}
         >
           {item.icon && <Icon icon={`lucide:${item.icon}`} className="size-4 shrink-0" />}
           {item.title}
