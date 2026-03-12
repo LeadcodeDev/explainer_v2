@@ -4,7 +4,7 @@ import { Header } from '../components/header'
 import { Sidebar } from '../components/sidebar'
 import { TableOfContents, type TocHeading } from '../components/toc'
 import { Pagination } from '../components/pagination'
-import type { NavItem } from '../lib/docs'
+import type { NavItem, ProjectInfo } from '../lib/docs'
 
 interface Props {
   title: string
@@ -14,13 +14,37 @@ interface Props {
   currentPath: string
   prev: { title: string; href: string } | null
   next: { title: string; href: string } | null
+  projects: ProjectInfo[]
+  currentProject: string
+  currentVersion: string
+  currentLocale: string
+  locales: string[]
+  projectSwitchUrls: Record<string, string>
+  versionSwitchUrls: Record<string, string>
+  localeSwitchUrls: Record<string, string>
 }
 
-const { title, description, headings, navItems, currentPath, prev, next } = Astro.props
+const {
+  title,
+  description,
+  headings,
+  navItems,
+  currentPath,
+  prev,
+  next,
+  projects,
+  currentProject,
+  currentVersion,
+  currentLocale,
+  locales,
+  projectSwitchUrls,
+  versionSwitchUrls,
+  localeSwitchUrls,
+} = Astro.props
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={currentLocale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +52,17 @@ const { title, description, headings, navItems, currentPath, prev, next } = Astr
     <title>{title} — Explainer</title>
   </head>
   <body class="min-h-screen antialiased">
-    <Header client:load />
+    <Header
+      projects={projects}
+      currentProject={currentProject}
+      currentVersion={currentVersion}
+      currentLocale={currentLocale}
+      locales={locales}
+      projectSwitchUrls={projectSwitchUrls}
+      versionSwitchUrls={versionSwitchUrls}
+      localeSwitchUrls={localeSwitchUrls}
+      client:load
+    />
     <div class="flex max-w-[1400px] mx-auto">
       <Sidebar items={navItems} currentPath={currentPath} client:load />
       <main class="flex-1 min-w-0 px-8 py-6">

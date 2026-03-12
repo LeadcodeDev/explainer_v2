@@ -16,6 +16,20 @@ export interface NavItem {
   children?: NavItem[]
 }
 
+export interface ProjectInfo {
+  name: string
+  versions: string[]
+  hasVersioning: boolean
+}
+
+export interface DocsContext {
+  project: string
+  version: string
+  locale: string
+  projects: ProjectInfo[]
+  locales: string[]
+}
+
 interface ParsedPath {
   project: string
   version: string
@@ -39,8 +53,111 @@ export function buildHref(entry: CollectionEntry<'docs'>): string {
   }
 
   const { project, version, locale, segments } = parsePath(entry.id)
+  return buildHrefFromParts(project, version, locale, segments)
+}
+
+export function buildHrefFromParts(
+  project: string,
+  version: string,
+  locale: string,
+  segments: string[],
+): string {
   const versionSegment = version === 'default' ? '' : `/${version}`
   return `/${locale}/${project}${versionSegment}/${segments.join('/')}`
+}
+
+/** Extract all unique projects with their versions from the collection */
+export function getProjectsInfo(entries: CollectionEntry<'docs'>[]): ProjectInfo[] {
+  const projectMap = new Map<string, Set<string>>()
+
+  for (const entry of entries) {
+    const { project, version } = parsePath(entry.id)
+    if (!projectMap.has(project)) {
+      projectMap.set(project, new Set())
+    }
+    projectMap.get(project)!.add(version)
+  }
+
+  return Array.from(projectMap.entries()).map(([name, versions]) => ({
+    name,
+    versions: Array.from(versions).sort(),
+    hasVersioning: versions.size > 1 || !versions.has('default'),
+  }))
+}
+
+/** Extract all unique locales from the collection */
+export function getLocales(entries: CollectionEntry<'docs'>[]): string[] {
+  const locales = new Set<string>()
+  for (const entry of entries) {
+    locales.add(parsePath(entry.id).locale)
+  }
+  return Array.from(locales).sort()
+}
+
+/** Build the full docs context for the current page */
+export function buildDocsContext(
+  entries: CollectionEntry<'docs'>[],
+  currentEntry: CollectionEntry<'docs'>,
+): DocsContext {
+  const { project, version, locale } = parsePath(currentEntry.id)
+  return {
+    project,
+    version,
+    locale,
+    projects: getProjectsInfo(entries),
+    locales: getLocales(entries),
+  }
+}
+
+/**
+ * Build a URL to switch project/version/locale while preserving the current page path.
+ * Falls back to the first page of the target if the equivalent page doesn't exist.
+ */
+export function buildSwitchHref(
+  entries: CollectionEntry<'docs'>[],
+  current: { project: string; version: string; locale: string; segments: string[] },
+  target: { project?: string; version?: string; locale?: string },
+): string {
+  const newProject = target.project ?? current.project
+  const newVersion = target.version ?? current.version
+  const newLocale = target.locale ?? current.locale
+
+  // Try to find the same page in the new context
+  const targetEntry = entries.find((e) => {
+    const parsed = parsePath(e.id)
+    return (
+      parsed.project === newProject &&
+      parsed.version === newVersion &&
+      parsed.locale === newLocale &&
+      parsed.segments.join('/') === current.segments.join('/')
+    )
+  })
+
+  if (targetEntry) {
+    return buildHref(targetEntry)
+  }
+
+  // Fallback: try same locale, different page
+  const fallback = entries.find((e) => {
+    const parsed = parsePath(e.id)
+    return (
+      parsed.project === newProject &&
+      parsed.version === newVersion &&
+      parsed.locale === newLocale
+    )
+  })
+
+  if (fallback) {
+    return buildHref(fallback)
+  }
+
+  // Last resort: fallback to English
+  const enFallback = entries.find((e) => {
+    const parsed = parsePath(e.id)
+    return parsed.project === newProject && parsed.version === newVersion && parsed.locale === 'en'
+  })
+
+  return enFallback ? buildHref(enFallback) : '/'
 }
 
 export function buildNavTree(
@@ -163,8 +280,6 @@ export function loadMetaFiles(
 
   for (const [path, mod] of Object.entries(globs)) {
     const meta = (mod as { default?: MetaFile }).default ?? (mod as MetaFile)
-    // path like ../content/docs/my-lib/default/en/guides/_meta.yaml
-    // extract: my-lib/default/en/guides
     const match = path.match(/content\/docs\/(.+)\/_meta\.json$/)
     if (match) {
       result[match[1]] = meta

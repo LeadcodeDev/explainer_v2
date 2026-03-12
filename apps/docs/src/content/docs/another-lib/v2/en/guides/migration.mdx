@@ -1,0 +1,31 @@
+---
+title: Migration Guide
+description: Migrate from another-lib v1 to v2
+icon: arrow-right
+order: 1
+---
+
+# Migration from v1 to v2
+
+<Steps>
+  <Step title="Update the package">
+    ```bash
+    pnpm add another-lib@2
+    ```
+  </Step>
+  <Step title="Update imports">
+    Replace `init()` with `createInstance()`:
+    ```typescript
+    // Before (v1)
+    import { init } from 'another-lib'
+    init({ debug: true })
+
+    // After (v2)
+    import { createInstance } from 'another-lib'
+    createInstance({ mode: 'development' })
+    ```
+  </Step>
+  <Step title="Update configuration">
+    The configuration format has changed. See the API reference for details.
+  </Step>
+</Steps>
