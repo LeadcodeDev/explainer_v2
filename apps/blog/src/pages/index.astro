@@ -1,41 +1,49 @@
 ---
 import { getCollection } from 'astro:content'
 import Base from '../layouts/base.astro'
-import { getPublishedPosts, getPostSlug, formatDate } from '../lib/posts'
+import TagFilter from '../components/TagFilter.astro'
+import PostCard from '../components/PostCard.astro'
+import { getPublishedPosts, getPostSlug, getAllTags, getReadingTime } from '../lib/posts'
+import { getAuthor } from '../lib/authors'
 
 const allPosts = await getCollection('posts')
 const posts = getPublishedPosts(allPosts)
+const tags = getAllTags(posts)
 ---
 
 <Base title="Articles">
-  <h1 class="text-3xl font-bold tracking-tight mb-8">Articles</h1>
-  <div class="space-y-8">
-    {posts.map((post) => (
-      <article class="group">
-        <a href={`/${getPostSlug(post)}`} class="block">
-          <div class="flex flex-col gap-2">
-            <time datetime={post.data.date.toISOString()} class="text-sm text-muted-foreground">
-              {formatDate(post.data.date)}
-            </time>
-            <h2 class="text-xl font-semibold group-hover:text-primary transition-colors">
-              {post.data.title}
-            </h2>
-            <p class="text-muted-foreground">{post.data.description}</p>
-            {post.data.tags.length > 0 && (
-              <div class="flex gap-2 mt-1">
-                {post.data.tags.map((tag) => (
-                  <span class="rounded-full bg-secondary px-3 py-0.5 text-xs font-medium text-secondary-foreground">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        </a>
-      </article>
-    ))}
-  </div>
+  <!-- Page header -->
+  <section class="mb-8">
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
+      Latest <span class="text-primary">articles</span>
+    </h1>
+  </section>
+
+  <!-- Tag filter -->
+  <TagFilter tags={tags} />
+
+  <!-- Articles grid -->
+  {posts.length > 0 && (
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          cover={post.data.cover ?? `/${getPostSlug(post)}/thumbnail.png`}
+          slug={getPostSlug(post)}
+          readingTime={getReadingTime(post.body ?? '')}
+          author={post.data.author ? getAuthor(post.data.author) : undefined}
+        />
+      ))}
+    </div>
+  )}
+
+  <!-- Empty state -->
   {posts.length === 0 && (
-    <p class="text-muted-foreground">No articles yet.</p>
+    <div class="text-center py-20">
+      <p class="text-muted-foreground text-lg">No articles yet.</p>
+    </div>
   )}
 </Base>

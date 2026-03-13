@@ -19,3 +19,4 @@ export {
   DropdownMenuLabel,
 } from './components/dropdown'
 export { ThemeToggle } from './components/theme-toggle'
+export { Navbar, type NavbarLink, type NavbarProps } from './components/navbar'

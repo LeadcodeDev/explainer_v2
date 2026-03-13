@@ -7,10 +7,9 @@ on:
       - 'apps/blog/**'
       - 'packages/**'
       - 'pnpm-lock.yaml'
+  schedule:
+    - cron: '0 6 * * *' # Every day at 6:00 UTC
   workflow_dispatch:
-
-env:
-  DEPLOY_TARGET: '' # Set to 'vercel', 'cloudflare', 'github-pages', or leave empty to skip
 
 jobs:
   build:
@@ -36,7 +35,7 @@ jobs:
 
   deploy-vercel:
     needs: build
-    if: env.DEPLOY_TARGET == 'vercel'
+    if: vars.DEPLOY_TARGET == 'vercel'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -57,7 +56,7 @@ jobs:
 
   deploy-cloudflare:
     needs: build
-    if: env.DEPLOY_TARGET == 'cloudflare'
+    if: vars.DEPLOY_TARGET == 'cloudflare'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -75,7 +74,7 @@ jobs:
 
   deploy-github-pages:
     needs: build
-    if: env.DEPLOY_TARGET == 'github-pages'
+    if: vars.DEPLOY_TARGET == 'github-pages'
     runs-on: ubuntu-latest
     permissions:
       pages: write

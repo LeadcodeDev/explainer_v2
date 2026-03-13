@@ -10,14 +10,16 @@ const tags = getAllTags(posts)
 
 <Base title="Tags">
   <h1 class="text-3xl font-bold tracking-tight mb-8">Tags</h1>
-  <div class="flex flex-wrap gap-3">
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     {tags.map((tag) => (
       <a
         href={`/tags/${tag.name}`}
-        class="rounded-full border px-4 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
+        class="group rounded-xl border bg-card p-5 text-center transition-colors hover:border-primary/50"
       >
-        {tag.name}
-        <span class="ml-1 text-muted-foreground">({tag.count})</span>
+        <span class="text-lg font-semibold group-hover:text-primary transition-colors">#{tag.name}</span>
+        <p class="text-sm text-muted-foreground mt-1">
+          {tag.count} article{tag.count !== 1 ? 's' : ''}
+        </p>
       </a>
     ))}
   </div>

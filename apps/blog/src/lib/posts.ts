@@ -3,8 +3,9 @@ import type { CollectionEntry } from 'astro:content'
 export type Post = CollectionEntry<'posts'>
 
 export function getPublishedPosts(posts: Post[]): Post[] {
+  const now = new Date()
   return posts
-    .filter((post) => !post.data.draft)
+    .filter((post) => !post.data.draft && post.data.date <= now)
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 }
 
@@ -31,6 +32,20 @@ export function formatDate(date: Date): string {
     month: 'long',
     day: 'numeric',
   })
+}
+
+export function getReadingTime(body: string): number {
+  const text = body.replace(/<[^>]*>/g, '').replace(/\{[^}]*\}/g, '')
+  const words = text.split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.ceil(words / 200))
+}
+
+export function getFeaturedPosts(posts: Post[], count = 3): Post[] {
+  return posts.slice(0, count)
+}
+
+export function getNonFeaturedPosts(posts: Post[], featuredCount = 3): Post[] {
+  return posts.slice(featuredCount)
 }
 
 export const POSTS_PER_PAGE = 10

@@ -1,4 +1,4 @@
-import { ThemeToggle, cn } from '@explainer/ui'
+import { Navbar, cn } from '@explainer/ui'
 import type { NavItem, ProjectInfo } from '../lib/docs'
 import { LocaleSwitcher } from './locale-switcher'
 import { MobileMenu } from './mobile-menu'
@@ -37,25 +37,28 @@ export function Header({
   const showTabs = projects.length > 1
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      {/* Row 1: Main bar */}
-      <div className={cn(!showTabs && 'border-b')}>
-        <div className="flex h-14 items-center justify-between px-4 sm:px-6 max-w-350 mx-auto">
-          <div className="flex items-center gap-3">
-            <MobileMenu
-              items={navItems}
-              currentPath={currentPath}
-              locales={locales}
-              currentLocale={currentLocale}
-              localeSwitchUrls={localeSwitchUrls}
-              versions={currentProjectInfo?.versions ?? []}
-              currentVersion={currentVersion}
-              hasVersioning={currentProjectInfo?.hasVersioning ?? false}
-              versionSwitchUrls={versionSwitchUrls}
-            />
-            <a href="/" className="flex items-center gap-2 font-semibold text-lg">
-              {title}
-            </a>
+    <div className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <Navbar
+        brand={title}
+        brandHref="/"
+        maxWidth="max-w-350"
+        sticky={false}
+        className={cn(!showTabs ? 'border-b' : 'border-b-0')}
+        leftSlot={
+          <MobileMenu
+            items={navItems}
+            currentPath={currentPath}
+            locales={locales}
+            currentLocale={currentLocale}
+            localeSwitchUrls={localeSwitchUrls}
+            versions={currentProjectInfo?.versions ?? []}
+            currentVersion={currentVersion}
+            hasVersioning={currentProjectInfo?.hasVersioning ?? false}
+            versionSwitchUrls={versionSwitchUrls}
+          />
+        }
+        rightSlot={
+          <>
             {currentProjectInfo && (
               <div className="hidden lg:block">
                 <VersionSwitcher
@@ -66,11 +69,9 @@ export function Header({
                 />
               </div>
             )}
-          </div>
-          <div className="hidden md:block">
-            <SearchCommand />
-          </div>
-          <div className="flex items-center gap-2">
+            <div className="hidden md:block">
+              <SearchCommand />
+            </div>
             <div className="hidden lg:block">
               <LocaleSwitcher
                 locales={locales}
@@ -78,12 +79,10 @@ export function Header({
                 switchUrls={localeSwitchUrls}
               />
             </div>
-            <ThemeToggle />
-          </div>
-        </div>
-      </div>
+          </>
+        }
+      />
 
-      {/* Row 2: Project tabs */}
       {showTabs && (
         <ProjectTabs
           projects={projects}
@@ -91,6 +90,6 @@ export function Header({
           switchUrls={projectSwitchUrls}
         />
       )}
-    </header>
+    </div>
   )
 }
