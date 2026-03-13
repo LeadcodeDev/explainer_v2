@@ -1,9 +1,6 @@
-import * as React from 'react'
-import { createPortal } from 'react-dom'
-import { Icon } from '@iconify/react'
-import { cn } from '@explainer/ui'
+import { MobileMenu as MobileMenuShell, LocaleSwitcher } from '@explainer/ui'
+import type { AppLink } from '@explainer/ui'
 import { Sidebar } from './sidebar'
-import { LocaleSwitcher } from './locale-switcher'
 import { VersionSwitcher } from './version-switcher'
 import type { NavItem } from '../lib/docs'
 
@@ -17,6 +14,7 @@ interface MobileMenuProps {
   currentVersion: string
   hasVersioning: boolean
   versionSwitchUrls: Record<string, string>
+  appLinks?: AppLink[]
 }
 
 export function MobileMenu({
@@ -29,83 +27,52 @@ export function MobileMenu({
   currentVersion,
   hasVersioning,
   versionSwitchUrls,
+  appLinks,
 }: MobileMenuProps) {
-  const [open, setOpen] = React.useState(false)
-  const [visible, setVisible] = React.useState(false)
-
-  // Close immediately on navigation (no animation delay)
-  React.useEffect(() => {
-    setVisible(false)
-    setOpen(false)
-  }, [currentPath])
-
-  const handleOpen = () => {
-    setOpen(true)
-    requestAnimationFrame(() => setVisible(true))
-  }
-
-  const handleClose = () => {
-    setVisible(false)
-    setTimeout(() => setOpen(false), 200)
-  }
-
   return (
-    <>
-      <button
-        onClick={handleOpen}
-        className="lg:hidden flex items-center justify-center size-9 rounded-md hover:bg-accent transition-colors"
-        aria-label="Open menu"
-      >
-        <Icon icon="lucide:menu" className="size-5" />
-      </button>
-      {open &&
-        createPortal(
-          <div className="fixed inset-0 z-[90] lg:hidden">
-            <div
-              className={cn(
-                'fixed inset-0 bg-background/80 backdrop-blur-sm transition-opacity duration-200',
-                visible ? 'opacity-100' : 'opacity-0',
-              )}
-              onMouseDown={handleClose}
-            />
-            <div
-              className={cn(
-                'fixed inset-y-0 left-0 w-72 bg-background border-r shadow-lg overflow-y-auto flex flex-col transition-transform duration-200 ease-out',
-                visible ? 'translate-x-0' : '-translate-x-full',
-              )}
-            >
-              <div className="flex items-center justify-between p-4 pb-2">
-                <span className="font-semibold text-lg">Menu</span>
-                <button
-                  onClick={handleClose}
-                  className="flex items-center justify-center size-8 rounded-md hover:bg-accent transition-colors"
-                  aria-label="Close menu"
-                >
-                  <Icon icon="lucide:x" className="size-5" />
-                </button>
-              </div>
-              <div className="flex-1 overflow-y-auto px-4 pb-4">
-                <Sidebar items={items} currentPath={currentPath} />
-              </div>
-              <div className="border-t p-4 flex items-center gap-2">
-                <LocaleSwitcher
-                  locales={locales}
-                  currentLocale={currentLocale}
-                  switchUrls={localeSwitchUrls}
-                  dropUp
-                />
-                <VersionSwitcher
-                  versions={versions}
-                  currentVersion={currentVersion}
-                  hasVersioning={hasVersioning}
-                  switchUrls={versionSwitchUrls}
-                  dropUp
-                />
-              </div>
-            </div>
-          </div>,
-          document.body,
-        )}
-    </>
+    <MobileMenuShell
+      breakpoint="lg"
+      footer={
+        <>
+          <LocaleSwitcher
+            locales={locales}
+            currentLocale={currentLocale}
+            switchUrls={localeSwitchUrls}
+            dropUp
+          />
+          <VersionSwitcher
+            versions={versions}
+            currentVersion={currentVersion}
+            hasVersioning={hasVersioning}
+            switchUrls={versionSwitchUrls}
+            dropUp
+          />
+        </>
+      }
+    >
+      <Sidebar items={items} currentPath={currentPath} />
+      {appLinks && appLinks.length > 0 && (
+        <div className="mt-4 pt-4 border-t">
+          <span className="px-3 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
+            Explainer
+          </span>
+          <nav className="flex flex-col gap-1 mt-1">
+            {appLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                  link.current
+                    ? 'bg-secondary text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
+    </MobileMenuShell>
   )
 }

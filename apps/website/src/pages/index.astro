@@ -1,19 +1,17 @@
 ---
 import Base from '../layouts/base.astro'
-import { Button, Navbar } from '@explainer/ui'
+import { Button } from '@explainer/ui'
+import { WebsiteNavbar } from '../components/website-navbar'
 import { Icon } from '@iconify/react'
+
+const appUrlOverrides = {
+  docs: import.meta.env.PUBLIC_DOCS_URL,
+  blog: import.meta.env.PUBLIC_BLOG_URL,
+}
 ---
 
 <Base title="Explainer v2" description="Documentation boilerplate for developers." thumbnail="/thumbnail.png">
-  <Navbar
-    brand="Explainer"
-    links={[
-      { label: 'Features', href: '#features' },
-      { label: 'Get Started', href: '#get-started' },
-    ]}
-    maxWidth="max-w-6xl"
-    client:load
-  />
+  <WebsiteNavbar appUrlOverrides={appUrlOverrides} client:load transition:persist />
 
   <section class="mx-auto max-w-6xl px-6 py-24 text-center">
     <h1 class="text-5xl font-bold tracking-tight mb-6">

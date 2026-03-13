@@ -1,6 +1,5 @@
-import { Navbar, cn } from '@explainer/ui'
+import { Navbar, LocaleSwitcher, getAppLinks, cn } from '@explainer/ui'
 import type { NavItem, ProjectInfo } from '../lib/docs'
-import { LocaleSwitcher } from './locale-switcher'
 import { MobileMenu } from './mobile-menu'
 import { ProjectTabs } from './project-tabs'
 import { SearchCommand } from './search-command'
@@ -18,6 +17,7 @@ interface HeaderProps {
   localeSwitchUrls: Record<string, string>
   navItems: NavItem[]
   currentPath: string
+  appUrlOverrides?: Partial<Record<string, string>>
 }
 
 export function Header({
@@ -32,18 +32,22 @@ export function Header({
   localeSwitchUrls,
   navItems,
   currentPath,
+  appUrlOverrides,
 }: HeaderProps) {
   const currentProjectInfo = projects.find((p) => p.name === currentProject)
   const showTabs = projects.length > 1
+  const appLinks = getAppLinks('docs', appUrlOverrides)
 
   return (
     <div className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <Navbar
         brand={title}
         brandHref="/"
-        maxWidth="max-w-350"
+        currentApp="docs"
+        appUrlOverrides={appUrlOverrides}
+        breakpoint="lg"
         sticky={false}
-        className={cn(!showTabs ? 'border-b' : 'border-b-0')}
+        className="border-b"
         leftSlot={
           <MobileMenu
             items={navItems}
@@ -55,6 +59,7 @@ export function Header({
             currentVersion={currentVersion}
             hasVersioning={currentProjectInfo?.hasVersioning ?? false}
             versionSwitchUrls={versionSwitchUrls}
+            appLinks={appLinks}
           />
         }
         rightSlot={

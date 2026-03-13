@@ -1,6 +1,7 @@
 ---
 import '../styles/globals.css'
-import { Navbar } from '@explainer/ui'
+import { ClientRouter } from 'astro:transitions'
+import { BlogNavbar } from '../components/blog-navbar'
 
 interface Props {
   title: string
@@ -10,6 +11,11 @@ interface Props {
 
 const { title, description = 'Explainer Blog', thumbnail } = Astro.props
 const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`
+
+const appUrlOverrides = {
+  website: import.meta.env.PUBLIC_WEBSITE_URL,
+  docs: import.meta.env.PUBLIC_DOCS_URL,
+}
 ---
 
 <!doctype html>
@@ -28,6 +34,7 @@ const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thum
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={thumbnailUrl} />
     <title>{title} — Blog</title>
+    <ClientRouter />
     <script is:inline>
       (function () {
         var theme = localStorage.getItem('theme') || 'system'
@@ -37,17 +44,7 @@ const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thum
     </script>
   </head>
   <body class="min-h-screen antialiased">
-    <Navbar
-      brand="Explainer"
-      links={[
-        { label: 'Blog', href: '/' },
-        { label: 'Tags', href: '/tags' },
-        { label: 'RSS', href: '/rss.xml' },
-      ]}
-      activePath={Astro.url.pathname}
-      maxWidth="max-w-6xl"
-      client:load
-    />
+    <BlogNavbar activePath={Astro.url.pathname} appUrlOverrides={appUrlOverrides} client:load transition:persist />
     <main class="mx-auto max-w-6xl px-6 py-10">
       <slot />
     </main>

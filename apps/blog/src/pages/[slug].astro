@@ -15,8 +15,9 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props
-const { Content } = await render(post)
+const { Content, headings } = await render(post)
 const readingTime = getReadingTime(post.body ?? '')
+const articleUrl = new URL(`/${getPostSlug(post)}`, Astro.site ?? Astro.url.origin).href
 ---
 
 <PostLayout
@@ -27,6 +28,8 @@ const readingTime = getReadingTime(post.body ?? '')
   cover={post.data.cover}
   thumbnail={`/${getPostSlug(post)}/thumbnail.png`}
   readingTime={readingTime}
+  headings={headings}
+  url={articleUrl}
 >
   <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
 </PostLayout>

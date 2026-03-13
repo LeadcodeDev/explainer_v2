@@ -114,4 +114,5 @@ const { title, description, date, tags, cover, slug, readingTime, author, class:
   initPostCards()
   window.addEventListener('resize', initPostCards)
   document.addEventListener('astro:after-swap', initPostCards)
+  document.addEventListener('tags:filter', initPostCards)
 </script>

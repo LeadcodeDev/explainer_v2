@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import Base from '../layouts/base.astro'
-import TagFilter from '../components/TagFilter.astro'
+import { TagFilter } from '../components/TagFilter'
 import PostCard from '../components/PostCard.astro'
 import { getPublishedPosts, getPostSlug, getAllTags, getReadingTime } from '../lib/posts'
 import { getAuthor } from '../lib/authors'
@@ -20,22 +20,24 @@ const tags = getAllTags(posts)
   </section>
 
   <!-- Tag filter -->
-  <TagFilter tags={tags} />
+  <TagFilter tags={tags} client:load />
 
   <!-- Articles grid -->
   {posts.length > 0 && (
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          date={post.data.date}
-          tags={post.data.tags}
-          cover={post.data.cover ?? `/${getPostSlug(post)}/thumbnail.png`}
-          slug={getPostSlug(post)}
-          readingTime={getReadingTime(post.body ?? '')}
-          author={post.data.author ? getAuthor(post.data.author) : undefined}
-        />
+        <div data-tags={JSON.stringify(post.data.tags)} data-title={post.data.title} data-description={post.data.description ?? ''}>
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+            cover={post.data.cover ?? `/${getPostSlug(post)}/thumbnail.png`}
+            slug={getPostSlug(post)}
+            readingTime={getReadingTime(post.body ?? '')}
+            author={post.data.author ? getAuthor(post.data.author) : undefined}
+          />
+        </div>
       ))}
     </div>
   )}

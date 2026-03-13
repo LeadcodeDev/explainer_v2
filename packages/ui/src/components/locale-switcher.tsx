@@ -1,8 +1,10 @@
+'use client'
+
 import * as React from 'react'
 import { Icon } from '@iconify/react'
-import { cn } from '@explainer/ui'
+import { cn } from '../lib/utils'
 
-interface LocaleSwitcherProps {
+export interface LocaleSwitcherProps {
   locales: string[]
   currentLocale: string
   switchUrls: Record<string, string>

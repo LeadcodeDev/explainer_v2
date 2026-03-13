@@ -49,6 +49,11 @@ const {
 
 const showTabs = projects.length > 1
 const thumbnailUrl = '/assets' + (thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`)
+
+const appUrlOverrides = {
+  website: import.meta.env.PUBLIC_WEBSITE_URL,
+  blog: import.meta.env.PUBLIC_BLOG_URL,
+}
 ---
 
 <!doctype html>
@@ -104,7 +109,9 @@ const thumbnailUrl = '/assets' + (thumbnail ?? `${Astro.url.pathname.replace(/\/
       localeSwitchUrls={localeSwitchUrls}
       navItems={navItems}
       currentPath={currentPath}
+      appUrlOverrides={appUrlOverrides}
       client:load
+      transition:persist
       transition:animate="none"
     />
     <div class="flex max-w-350 mx-auto">

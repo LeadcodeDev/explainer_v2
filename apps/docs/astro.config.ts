@@ -22,6 +22,7 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    envDir: '../../',
   },
   markdown: {
     shikiConfig,
