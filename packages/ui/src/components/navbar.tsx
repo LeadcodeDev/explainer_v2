@@ -1,10 +1,10 @@
 'use client'
 
-import * as React from 'react'
 import { Icon } from '@iconify/react'
+import * as React from 'react'
+import { getAppLinks } from '../lib/app-links'
 import { cn } from '../lib/utils'
 import { ThemeToggle } from './theme-toggle'
-import { getAppLinks } from '../lib/app-links'
 
 export interface NavbarLink {
   label: string
@@ -64,7 +64,7 @@ export function Navbar({
         <div className="flex items-center gap-3">
           {leftSlot}
           <a href={brandHref} className="flex items-center gap-2 font-semibold text-lg">
-            {brandIcon && <img src={brandIcon} alt="" className="size-6 dark:invert" />}
+            {brandIcon && <img src={brandIcon} alt="" className="size-5 dark:invert" />}
             {brand}
           </a>
           {appLinks.length > 0 && (
