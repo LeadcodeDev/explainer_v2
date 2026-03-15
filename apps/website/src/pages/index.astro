@@ -6,11 +6,14 @@ import FeaturesSection from '../components/features-section.astro'
 import HighlightsSection from '../components/highlights-section.astro'
 import TestimonialsSection from '../components/testimonials-section.astro'
 import CtaSection from '../components/cta-section.astro'
+import { ui } from '../i18n/ui'
 
 const appUrlOverrides = {
   docs: import.meta.env.PUBLIC_DOCS_URL,
   blog: import.meta.env.PUBLIC_BLOG_URL,
 }
+
+const translations = ui.fr
 ---
 
 <Base title="Explainer" description="Documentation boilerplate for developers." thumbnail="/thumbnail.png">
@@ -23,8 +26,38 @@ const appUrlOverrides = {
   <CtaSection />
 
   <footer class="border-t">
-    <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground text-center">
+    <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground text-center" data-t="footer.text">
       Built with Explainer v2
     </div>
   </footer>
 </Base>
+
+<script is:inline define:vars={{ translations }}>
+  function detectLocale() {
+    var match = document.cookie.match(/(?:^|; )locale=([^;]*)/)
+    var cookie = match ? match[1] : null
+    if (cookie === 'en' || cookie === 'fr') return cookie
+    var browser = (navigator.language || '').split('-')[0]
+    if (browser === 'en' || browser === 'fr') return browser
+    return 'en'
+  }
+
+  function applyTranslations() {
+    var locale = detectLocale()
+    document.documentElement.lang = locale
+    if (locale === 'en') {
+      document.querySelectorAll('[data-t]').forEach(function (el) {
+        if (el.dataset.tDefault) el.textContent = el.dataset.tDefault
+      })
+      return
+    }
+    document.querySelectorAll('[data-t]').forEach(function (el) {
+      var key = el.getAttribute('data-t')
+      if (!el.dataset.tDefault) el.dataset.tDefault = el.textContent
+      if (translations[key]) el.textContent = translations[key]
+    })
+  }
+
+  applyTranslations()
+  document.addEventListener('astro:after-swap', applyTranslations)
+</script>

@@ -7,8 +7,9 @@ import { cn } from '../lib/utils'
 export interface LocaleSwitcherProps {
   locales: string[]
   currentLocale: string
-  switchUrls: Record<string, string>
+  switchUrls?: Record<string, string>
   dropUp?: boolean
+  onLocaleChange?: (locale: string) => void
 }
 
 const localeNames: Record<string, string> = {
@@ -24,7 +25,14 @@ const localeNames: Record<string, string> = {
   it: 'Italiano',
 }
 
-export function LocaleSwitcher({ locales, currentLocale, switchUrls, dropUp }: LocaleSwitcherProps) {
+function setLocaleCookie(locale: string) {
+  const hostname = window.location.hostname
+  const parts = hostname.split('.')
+  const rootDomain = parts.length >= 2 ? '.' + parts.slice(-2).join('.') : hostname
+  document.cookie = `locale=${locale};path=/;domain=${rootDomain};max-age=${60 * 60 * 24 * 365};SameSite=Lax`
+}
+
+export function LocaleSwitcher({ locales, currentLocale, switchUrls = {}, dropUp, onLocaleChange }: LocaleSwitcherProps) {
   const [open, setOpen] = React.useState(false)
 
   return (
@@ -51,7 +59,14 @@ export function LocaleSwitcher({ locales, currentLocale, switchUrls, dropUp }: L
                     ? 'bg-accent text-accent-foreground font-medium'
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
-                onClick={() => setOpen(false)}
+                onClick={(e) => {
+                  setLocaleCookie(locale)
+                  setOpen(false)
+                  if (onLocaleChange) {
+                    e.preventDefault()
+                    onLocaleChange(locale)
+                  }
+                }}
               >
                 {locale === currentLocale ? (
                   <Icon icon="lucide:check" className="size-3" />

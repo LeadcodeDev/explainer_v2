@@ -2,27 +2,6 @@
 import { BackgroundAnimation } from "./background-animation";
 import { Icon } from "@iconify/react";
 import { Button } from "@explainer/ui";
-
-const badge = "Explainer";
-const title = "Explain your ideas";
-const description =
-  "Quickly design your documentation and optimise it for search engine optimisation to showcase your products.";
-
-const primaryAction = {
-  label: "Getting Started",
-  href: "/docs/framework/getting-started/getting-started",
-};
-const secondaryAction = {
-  label: "View on GitHub",
-  href: "https://github.com/explainer/explainer",
-  icon: "mdi:github",
-};
-
-const socialProof = [
-  { icon: "mdi:open-source-initiative", text: "Open source" },
-  { icon: "mdi:license", text: "MIT License" },
-  { icon: "mdi:download-outline", text: "1k+ downloads" },
-];
 ---
 
 <div
@@ -103,19 +82,21 @@ const socialProof = [
             rel="noopener noreferrer"
             class="rounded-full font-semibold inline-flex items-center gap-2 transition-colors px-4 py-1.5 text-xs ring ring-inset ring-primary/50 text-primary hover:bg-primary/10 active:bg-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            <span>{badge}</span>
+            <span data-t="hero.badge">Explainer</span>
             <Icon icon="mdi:arrow-right" className="size-3.5" client:load />
           </a>
         </div>
         <h1
           class="text-5xl text-pretty tracking-tight text-foreground font-semibold sm:text-7xl max-w-6xl mx-auto"
+          data-t="hero.title"
         >
-          {title}
+          Explain your ideas
         </h1>
         <p
           class="text-lg sm:text-xl/8 text-muted-foreground text-balance mt-6 max-w-2xl mx-auto"
+          data-t="hero.description"
         >
-          {description}
+          Quickly design your documentation and optimise it for search engine optimisation to showcase your products.
         </p>
       </div>
 
@@ -123,11 +104,11 @@ const socialProof = [
         <div class="flex flex-wrap gap-x-4 gap-y-3">
           <Button size="lg" className="cursor-pointer" client:load>
             <a
-              href={primaryAction.href}
+              href="/docs/framework/getting-started/getting-started"
               class="flex gap-2"
               rel="noopener noreferrer"
             >
-              {primaryAction.label}
+              <span data-t="hero.primaryAction">Getting Started</span>
               <Icon
                 icon="mdi:arrow-right"
                 aria-hidden="true"
@@ -143,18 +124,18 @@ const socialProof = [
             client:load
           >
             <a
-              href={secondaryAction.href}
+              href="https://github.com/explainer/explainer"
               class="flex gap-2"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Icon
-                icon={secondaryAction.icon}
+                icon="mdi:github"
                 aria-hidden="true"
                 className="size-5"
                 client:load
               />
-              {secondaryAction.label}
+              <span data-t="hero.secondaryAction">View on GitHub</span>
             </a>
           </Button>
         </div>
@@ -163,18 +144,18 @@ const socialProof = [
       <div
         class="mt-10 flex items-center justify-center gap-x-8 gap-y-3 flex-wrap"
       >
-        {
-          socialProof.map((item) => (
-            <div class="flex items-center gap-2 text-sm text-muted-foreground">
-              <Icon
-                icon={item.icon}
-                className="size-4 text-primary/70"
-                client:load
-              />
-              <span>{item.text}</span>
-            </div>
-          ))
-        }
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <Icon icon="mdi:open-source-initiative" className="size-4 text-primary/70" client:load />
+          <span data-t="hero.openSource">Open source</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <Icon icon="mdi:license" className="size-4 text-primary/70" client:load />
+          <span data-t="hero.license">MIT License</span>
+        </div>
+        <div class="flex items-center gap-2 text-sm text-muted-foreground">
+          <Icon icon="mdi:download-outline" className="size-4 text-primary/70" client:load />
+          <span data-t="hero.downloads">1k+ downloads</span>
+        </div>
       </div>
     </div>
   </div>

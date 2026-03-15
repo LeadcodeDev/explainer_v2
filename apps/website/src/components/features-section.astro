@@ -1,46 +1,13 @@
 ---
 import { Icon } from "@iconify/react";
 
-const title = "Everything you need, out of the box";
-const description = "Explainer gives you the tools to focus on your content, not your tooling.";
-
 const features = [
-  {
-    icon: "mdi:language-markdown",
-    title: "Markdown & MDX",
-    description:
-      "Write content in Markdown or MDX with custom components, directives, and JSX support.",
-  },
-  {
-    icon: "mdi:flash-outline",
-    title: "Lightning fast",
-    description:
-      "Static site generation for instant page loads. Zero JavaScript shipped by default.",
-  },
-  {
-    icon: "mdi:code-braces",
-    title: "Rich code blocks",
-    description:
-      "Dual-theme syntax highlighting, line diffs, focus mode, and 60+ language icons.",
-  },
-  {
-    icon: "mdi:magnify",
-    title: "Built-in search",
-    description:
-      "Command palette search so your readers find any page instantly.",
-  },
-  {
-    icon: "mdi:search-web",
-    title: "SEO ready",
-    description:
-      "Auto-generated OG thumbnails, sitemap, robots.txt, and RSS feed.",
-  },
-  {
-    icon: "mdi:theme-light-dark",
-    title: "Dark mode",
-    description:
-      "Full light and dark theme support with system preference detection.",
-  },
+  { icon: "mdi:language-markdown", titleKey: "features.markdown.title", descKey: "features.markdown.description", title: "Markdown & MDX", description: "Write content in Markdown or MDX with custom components, directives, and JSX support." },
+  { icon: "mdi:flash-outline", titleKey: "features.fast.title", descKey: "features.fast.description", title: "Lightning fast", description: "Static site generation for instant page loads. Zero JavaScript shipped by default." },
+  { icon: "mdi:code-braces", titleKey: "features.code.title", descKey: "features.code.description", title: "Rich code blocks", description: "Dual-theme syntax highlighting, line diffs, focus mode, and 60+ language icons." },
+  { icon: "mdi:magnify", titleKey: "features.search.title", descKey: "features.search.description", title: "Built-in search", description: "Command palette search so your readers find any page instantly." },
+  { icon: "mdi:search-web", titleKey: "features.seo.title", descKey: "features.seo.description", title: "SEO ready", description: "Auto-generated OG thumbnails, sitemap, robots.txt, and RSS feed." },
+  { icon: "mdi:theme-light-dark", titleKey: "features.darkMode.title", descKey: "features.darkMode.description", title: "Dark mode", description: "Full light and dark theme support with system preference detection." },
 ];
 ---
 
@@ -76,16 +43,18 @@ const features = [
     <div class="text-center mb-16">
       <p
         class="text-sm font-semibold text-primary uppercase tracking-wide mb-3"
+        data-t="features.label"
       >
         Features
       </p>
-      <h2 class="text-3xl font-semibold text-foreground sm:text-4xl">
-        {title}
+      <h2 class="text-3xl font-semibold text-foreground sm:text-4xl" data-t="features.title">
+        Everything you need, out of the box
       </h2>
       <p
         class="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto text-balance"
+        data-t="features.description"
       >
-        {description}
+        Explainer gives you the tools to focus on your content, not your tooling.
       </p>
     </div>
 
@@ -102,10 +71,10 @@ const features = [
                 />
               </div>
               <div>
-                <h3 class="text-base font-semibold text-foreground">
+                <h3 class="text-base font-semibold text-foreground" data-t={feature.titleKey}>
                   {feature.title}
                 </h3>
-                <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed">
+                <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed" data-t={feature.descKey}>
                   {feature.description}
                 </p>
               </div>

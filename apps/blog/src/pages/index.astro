@@ -15,8 +15,15 @@ const fallback = supportedLocales.includes('en') ? 'en' : supportedLocales[0]
     <title>Redirecting…</title>
     <meta http-equiv="refresh" content={`0;url=/${fallback}`} />
     <script define:vars={{ supportedLocales, fallback }}>
+      function getCookie(name) {
+        const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'))
+        return match ? match[1] : null
+      }
+      const cookieLocale = getCookie('locale')
       const browserLang = (navigator.language || '').split('-')[0]
-      const locale = supportedLocales.includes(browserLang) ? browserLang : fallback
+      const locale = (cookieLocale && supportedLocales.includes(cookieLocale))
+        ? cookieLocale
+        : supportedLocales.includes(browserLang) ? browserLang : fallback
       window.location.replace('/' + locale)
     </script>
   </head>
