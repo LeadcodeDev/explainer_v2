@@ -2,7 +2,9 @@
 import { getCollection, render } from 'astro:content'
 import PostLayout from '../layouts/post.astro'
 import { getPublishedPosts, getPostSlug, getReadingTime } from '../lib/posts'
-import { mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup } from '@explainer/mdx'
+import Pre from '@explainer/mdx/overrides/pre.astro'
+import Blockquote from '@explainer/mdx/overrides/blockquote.astro'
+import { Code, H1, H2, H3, H4, H5, H6, Link, Paragraph, UnorderedList, OrderedList } from '@explainer/mdx'
 
 export async function getStaticPaths() {
   const allPosts = await getCollection('posts')
@@ -31,5 +33,9 @@ const articleUrl = new URL(`/${getPostSlug(post)}`, Astro.site ?? Astro.url.orig
   headings={headings}
   url={articleUrl}
 >
-  <Content components={{ ...mdxOverrides, Callout, Tabs, Tab, Steps, Step, CodeGroup }} />
+  <Content components={{
+    h1: H1, h2: H2, h3: H3, h4: H4, h5: H5, h6: H6,
+    a: Link, p: Paragraph, ul: UnorderedList, ol: OrderedList,
+    pre: Pre, code: Code, blockquote: Blockquote,
+  }} />
 </PostLayout>
