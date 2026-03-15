@@ -23,6 +23,8 @@ import CodeGroup from '@explainer/mdx/components/code-group.astro'
 import Preview from '@explainer/mdx/components/preview.astro'
 import PreviewDemo from '@explainer/mdx/components/preview-demo.astro'
 import PreviewCode from '@explainer/mdx/components/preview-code.astro'
+import MathBlock from '@explainer/mdx/components/math.astro'
+import MermaidBlock from '@explainer/mdx/components/mermaid.astro'
 import Pre from '@explainer/mdx/overrides/pre.astro'
 import Blockquote from '@explainer/mdx/overrides/blockquote.astro'
 import { Code } from '@explainer/mdx'
@@ -115,5 +117,6 @@ const { Content, headings } = await render(entry)
     pre: Pre, code: Code, blockquote: Blockquote,
     Callout, Tabs, Tab, Steps, Step, CodeGroup,
     CardGroup, Card, Preview, PreviewDemo, PreviewCode,
+    MathBlock, MermaidBlock,
   }} />
 </DocsLayout>

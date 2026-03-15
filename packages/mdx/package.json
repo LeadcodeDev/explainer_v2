@@ -21,13 +21,18 @@
     "./overrides/blockquote.astro": "./src/overrides/blockquote/blockquote.astro",
     "./shiki": "./src/shiki.ts",
     "./remark-auto-import": "./src/remark-auto-import.ts",
-    "./remark-directive-handler": "./src/remark-directive-handler.ts"
+    "./remark-directive-handler": "./src/remark-directive-handler.ts",
+    "./remark-code-blocks": "./src/remark-code-blocks.ts",
+    "./components/math.astro": "./src/components/math/math.astro",
+    "./components/mermaid.astro": "./src/components/mermaid/mermaid.astro"
   },
   "dependencies": {
     "@explainer/ui": "workspace:*",
     "@iconify/react": "^5.2.0",
     "@shikijs/transformers": "^4.0.2",
     "acorn": "^8.14.0",
+    "katex": "^0.16.38",
+    "mermaid": "^11.13.0",
     "remark-directive": "^4.0.0",
     "unist-util-visit": "^5.1.0"
   },
@@ -36,6 +41,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/katex": "^0.16.8",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",

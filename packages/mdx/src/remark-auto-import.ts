@@ -12,6 +12,8 @@ const importStatements = [
   `import Preview from '@explainer/mdx/components/preview.astro'`,
   `import PreviewDemo from '@explainer/mdx/components/preview-demo.astro'`,
   `import PreviewCode from '@explainer/mdx/components/preview-code.astro'`,
+  `import MathBlock from '@explainer/mdx/components/math.astro'`,
+  `import MermaidBlock from '@explainer/mdx/components/mermaid.astro'`,
 ]
 
 const importBlock = importStatements.join('\n')

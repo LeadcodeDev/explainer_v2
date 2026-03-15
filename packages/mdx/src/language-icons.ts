@@ -37,6 +37,9 @@ export const languageIcons: Record<string, string> = {
   git: 'devicon:git',
   github: 'devicon:github',
   gitlab: 'devicon:gitlab',
+  math: 'mdi:function-variant',
+  latex: 'mdi:function-variant',
+  mermaid: 'mdi:graph-outline',
 }
 
 export const shellLanguages = ['bash', 'sh', 'shell']
