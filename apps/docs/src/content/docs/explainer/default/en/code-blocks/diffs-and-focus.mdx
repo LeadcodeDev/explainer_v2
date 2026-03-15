@@ -14,7 +14,7 @@ Highlight code changes, focus areas, and errors using inline comment annotations
 Mark lines as added or removed using `// [!code ++]` and `// [!code --]`:
 
 ````mdx
-```typescript
+```ts
 function createUser(name: string) {
   const user = { name }       // [!code --]
   const user = { name, id: generateId() }  // [!code ++]
@@ -25,7 +25,7 @@ function createUser(name: string) {
 
 Renders as:
 
-```typescript
+```ts
 function createUser(name: string) {
   const user = { name }       // [!code --]
   const user = { name, id: generateId() }  // [!code ++]
@@ -40,7 +40,7 @@ Removed lines are highlighted in red, added lines in green.
 Use `// [!code focus]` to dim all lines except the focused ones:
 
 ````mdx
-```typescript
+```ts
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
@@ -56,7 +56,7 @@ export default defineConfig({
 
 Renders as:
 
-```typescript
+```ts
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
@@ -74,7 +74,7 @@ export default defineConfig({
 Mark lines with `// [!code error]` to highlight them as errors:
 
 ````mdx
-```typescript
+```ts
 const port = process.env.PORT
 app.listen(port) // [!code error]
 app.listen(Number(port)) // [!code highlight]
@@ -83,7 +83,7 @@ app.listen(Number(port)) // [!code highlight]
 
 Renders as:
 
-```typescript
+```ts
 const port = process.env.PORT
 app.listen(port) // [!code error]
 app.listen(Number(port)) // [!code highlight]
@@ -93,7 +93,7 @@ app.listen(Number(port)) // [!code highlight]
 
 You can use multiple annotation types in the same code block:
 
-```typescript
+```ts
 function connect(url: string) {
   const oldClient = createClient(url)    // [!code --]
   const newClient = createClient(url, {  // [!code ++]

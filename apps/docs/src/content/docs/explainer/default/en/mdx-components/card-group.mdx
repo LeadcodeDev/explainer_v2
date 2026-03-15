@@ -12,69 +12,69 @@ Card groups display related content in a responsive grid layout. Each card can h
 ## Basic usage
 
 ::::::preview
-:::::code-preview
-::::card-group{cols=2}
-:::card{label="Getting Started" icon="lucide:rocket"}
-Set up Explainer v2 and start building documentation.
-:::
+  :::::code-preview
+    ::::card-group{cols=2}
+      :::card{label="Getting Started" icon="lucide:rocket"}
+      Set up Explainer v2 and start building documentation.
+      :::
+      
+      :::card{label="Project Structure" icon="lucide:folder-tree"}
+      Understand the monorepo layout and configuration.
+      :::
+    ::::
+  :::::
 
-:::card{label="Project Structure" icon="lucide:folder-tree"}
-Understand the monorepo layout and configuration.
-:::
-::::
-:::::
-
-:::::content-preview
-```mdx
-::::card-group{cols=2}
-:::card{label="Getting Started" icon="lucide:rocket"}
-Set up Explainer v2 and start building documentation.
-:::
-
-:::card{label="Project Structure" icon="lucide:folder-tree"}
-Understand the monorepo layout and configuration.
-:::
-::::
-```
-:::::
+  :::::content-preview
+  ```mdx
+  ::::card-group{cols=2}
+    :::card{label="Getting Started" icon="lucide:rocket"}
+      Set up Explainer v2 and start building documentation.
+    :::
+    
+    :::card{label="Project Structure" icon="lucide:folder-tree"}
+      Understand the monorepo layout and configuration.
+    :::
+  ::::
+  ```
+  :::::
 ::::::
 
 ## Three columns
 
 ::::::preview
-:::::code-preview
-::::card-group{cols=3}
-:::card{label="Docs" icon="lucide:book-open"}
-Main documentation site.
-:::
-
-:::card{label="Blog" icon="lucide:newspaper"}
-Blog with posts and tags.
-:::
-
-:::card{label="Website" icon="lucide:globe"}
-Marketing landing page.
-:::
-::::
-:::::
-
-:::::content-preview
-```mdx
-::::card-group{cols=3}
-:::card{label="Docs" icon="lucide:book-open"}
-Main documentation site.
-:::
-
-:::card{label="Blog" icon="lucide:newspaper"}
-Blog with posts and tags.
-:::
-
-:::card{label="Website" icon="lucide:globe"}
-Marketing landing page.
-:::
-::::
-```
-:::::
+  :::::code-preview
+    ::::card-group{cols=3}
+      :::card{label="Docs" icon="lucide:book-open"}
+        Main documentation site.
+      :::
+      
+      :::card{label="Blog" icon="lucide:newspaper"}
+        Blog with posts and tags.
+      :::
+      
+      :::card{label="Website" icon="lucide:globe"}
+        Marketing landing page.
+      :::
+    ::::
+  :::::
+  
+  :::::content-preview
+  ```mdx
+  ::::card-group{cols=3}
+    :::card{label="Docs" icon="lucide:book-open"}
+      Main documentation site.
+    :::
+    
+    :::card{label="Blog" icon="lucide:newspaper"}
+      Blog with posts and tags.
+    :::
+    
+    :::card{label="Website" icon="lucide:globe"}
+      Marketing landing page.
+    :::
+  ::::
+  ```
+  :::::
 ::::::
 
 ## Syntax
@@ -83,9 +83,9 @@ Card groups use nested directive syntax. Note the increasing colons for nesting:
 
 ```mdx
 ::::card-group{cols=2}
-:::card{label="Title" icon="lucide:icon-name"}
-Card content with **Markdown** support.
-:::
+  :::card{label="Title" icon="lucide:icon-name"}
+    Card content with **Markdown** support.
+  :::
 ::::
 ```
 

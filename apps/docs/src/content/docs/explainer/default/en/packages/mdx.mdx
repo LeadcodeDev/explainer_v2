@@ -13,7 +13,7 @@ The `@explainer/mdx` package provides MDX component overrides, custom components
 
 The package exports heading components (H1–H6) that automatically add anchor links to headings:
 
-```typescript
+```ts
 import { H1, H2, H3, H4, H5, H6 } from '@explainer/mdx'
 ```
 
@@ -57,7 +57,7 @@ Automatically adds import statements for MDX components used in a file. You do n
 
 Transforms directive syntax (`:::callout`, `::::card-group`, etc.) into JSX component calls. The mapping is defined in the `componentMap`:
 
-```typescript [remark-directive-handler.ts]
+```ts [remark-directive-handler.ts]
 const componentMap = {
   'card-group': 'CardGroup',
   'card': 'Card',
@@ -76,7 +76,7 @@ const componentMap = {
 
 The package exports the shared Shiki configuration used for code block syntax highlighting:
 
-```typescript
+```ts
 import { shikiConfig } from '@explainer/mdx/shiki'
 ```
 

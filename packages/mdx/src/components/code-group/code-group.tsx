@@ -1,42 +1,9 @@
 'use client'
 
-import { Icon } from '@iconify/react'
 import { cn } from '@explainer/ui'
+import { Icon } from '@iconify/react'
 import { type PropsWithChildren, useEffect, useRef, useState } from 'react'
-
-const languageIcons: Record<string, string> = {
-  markdown: 'devicon:markdown',
-  mdx: 'devicon:markdown',
-  html: 'devicon:html5',
-  css: 'devicon:css3',
-  javascript: 'devicon:javascript',
-  js: 'devicon:javascript',
-  typescript: 'devicon:typescript',
-  ts: 'devicon:typescript',
-  python: 'devicon:python',
-  py: 'devicon:python',
-  dart: 'devicon:dart',
-  rust: 'catppuccin:rust',
-  rs: 'catppuccin:rust',
-  npm: 'devicon:npm',
-  npx: 'devicon:npm',
-  yarn: 'devicon:yarn',
-  pnpm: 'devicon:pnpm',
-  cargo: 'catppuccin:cargo',
-  bun: 'devicon:bun',
-  bash: 'devicon:bash',
-  sh: 'devicon:bash',
-  shell: 'devicon:bash',
-  go: 'devicon:go',
-  json: 'devicon:json',
-  yaml: 'devicon:yaml',
-  yml: 'devicon:yaml',
-  sql: 'devicon:azuresqldatabase',
-  dockerfile: 'devicon:docker',
-  react: 'devicon:react',
-  vue: 'devicon:vuejs',
-  svelte: 'devicon:svelte',
-}
+import { languageIcons, terminalCommands } from '../../language-icons'
 
 interface Tab {
   label: string
@@ -80,7 +47,7 @@ export function CodeGroup({ titles, children, className }: PropsWithChildren<Cod
         const match = text.replace(/^\$\s*/, '').match(/^(\w+)/)
         if (match) {
           const cmd = match[1].toLowerCase()
-          if (['npm', 'npx', 'pnpm', 'yarn', 'bun', 'cargo'].includes(cmd) && languageIcons[cmd]) {
+          if (terminalCommands.includes(cmd) && languageIcons[cmd]) {
             icon = languageIcons[cmd]
           }
         }

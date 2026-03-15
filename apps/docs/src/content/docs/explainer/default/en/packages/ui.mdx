@@ -26,7 +26,7 @@ The `@explainer/ui` package provides shared React UI components used across the 
 
 The package is already included in the monorepo workspace. Import components directly:
 
-```typescript
+```ts
 import { Button, Card, ThemeToggle, Navbar } from '@explainer/ui'
 ```
 
@@ -43,7 +43,7 @@ import { Button, Card, ThemeToggle, Navbar } from '@explainer/ui'
 
 The navbar uses `getAppLinks()` to resolve cross-app navigation URLs from environment variables:
 
-```typescript
+```ts
 import { getAppLinks } from '@explainer/ui'
 
 const links = getAppLinks({

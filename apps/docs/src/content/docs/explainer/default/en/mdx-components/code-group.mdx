@@ -12,49 +12,49 @@ Code groups display multiple code blocks as switchable tabs. Each tab is automat
 ## Basic usage
 
 ::::::preview
-:::::code-preview
-:::codegroup
-```ts [index.ts]
-import { createApp } from './app'
+  :::::code-preview
+    :::codegroup
+      ```ts [index.ts]
+      import { createApp } from './app'
+      
+      const app = createApp()
+      app.listen(3000)
+      ```
+      
+      ```ts [app.ts]
+      export function createApp() {
+        return {
+          listen(port: number) {
+            console.log(`Listening on port ${port}`)
+          }
+        }
+      }
+      ```
+    :::
+  :::::
 
-const app = createApp()
-app.listen(3000)
-```
-
-```ts [app.ts]
-export function createApp() {
-  return {
-    listen(port: number) {
-      console.log(`Listening on port ${port}`)
-    }
-  }
-}
-```
-:::
-:::::
-
-:::::content-preview
-````mdx
-:::codegroup
-```ts [index.ts]
-import { createApp } from './app'
-
-const app = createApp()
-app.listen(3000)
-```
-
-```ts [app.ts]
-export function createApp() {
-  return {
-    listen(port: number) {
-      console.log(`Listening on port ${port}`)
-    }
-  }
-}
-```
-:::
-````
-:::::
+  :::::content-preview
+    ````mdx
+    :::codegroup
+      ```ts [index.ts]
+      import { createApp } from './app'
+      
+      const app = createApp()
+      app.listen(3000)
+      ```
+      
+      ```ts [app.ts]
+      export function createApp() {
+        return {
+          listen(port: number) {
+            console.log(`Listening on port ${port}`)
+          }
+        }
+      }
+      ```
+    :::
+    ````
+  :::::
 ::::::
 
 ## Syntax
@@ -63,13 +63,13 @@ Wrap multiple fenced code blocks inside a `:::codegroup` directive. Use the `[la
 
 ````mdx
 :::codegroup
-```language [Tab Label]
-code here
-```
-
-```language [Another Tab]
-code here
-```
+  ```language [Tab Label]
+  code here
+  ```
+  
+  ```language [Another Tab]
+  code here
+  ```
 :::
 ````
 
@@ -80,15 +80,15 @@ The `[label]` in the code block meta string is used both as the tab title and as
 ## Multi-language example
 
 :::codegroup
-```bash [pnpm]
-pnpm add @explainer/ui
-```
-
-```bash [npm]
-npm install @explainer/ui
-```
-
-```bash [yarn]
-yarn add @explainer/ui
-```
+  ```bash [pnpm]
+  pnpm add @explainer/ui
+  ```
+  
+  ```bash [npm]
+  npm install @explainer/ui
+  ```
+  
+  ```bash [yarn]
+  yarn add @explainer/ui
+  ```
 :::

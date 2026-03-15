@@ -56,7 +56,7 @@ When `DEPLOY_TARGET` is set to `github-pages`, the workflow uses the native Page
 :::callout{variant="warning"}
 If your repository is not a user/organization site (i.e., it's at `username.github.io/repo-name`), you need to configure the Astro `base` path:
 
-```typescript [astro.config.ts]
+```ts [astro.config.ts]
 export default defineConfig({
   base: '/repo-name',
   // ...

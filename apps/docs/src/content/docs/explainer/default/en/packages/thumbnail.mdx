@@ -15,7 +15,7 @@ The `@explainer/thumbnail` package generates Open Graph thumbnail images for doc
 
 Generates an SVG string from the given options:
 
-```typescript
+```ts
 import { generateThumbnail } from '@explainer/thumbnail'
 
 const svg = await generateThumbnail({
@@ -30,7 +30,7 @@ const svg = await generateThumbnail({
 
 Converts an SVG string to a PNG buffer:
 
-```typescript
+```ts
 import { renderThumbnail } from '@explainer/thumbnail'
 
 const pngBuffer = await renderThumbnail(svg)
@@ -40,7 +40,7 @@ const pngBuffer = await renderThumbnail(svg)
 
 Renders an SVG to a PNG file on disk:
 
-```typescript
+```ts
 import { renderThumbnailToFile } from '@explainer/thumbnail'
 
 await renderThumbnailToFile(svg, 'dist/thumbnail.png')
@@ -50,7 +50,7 @@ await renderThumbnailToFile(svg, 'dist/thumbnail.png')
 
 The package exports an Astro integration for automatic thumbnail generation:
 
-```typescript [astro.config.ts]
+```ts [astro.config.ts]
 import { thumbnail } from '@explainer/thumbnail'
 
 export default defineConfig({

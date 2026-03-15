@@ -12,63 +12,55 @@ Steps display sequential instructions with automatic numbering and a vertical pr
 ## Basic usage
 
 ::::::preview
-:::::code-preview
-::::step-group
-:::step{title="Install dependencies"}
-Run the install command in your project root:
+  :::::code-preview
+    ::::step-group
+      :::step{title="Install dependencies"}
+        Run the install command in your project root:
 
-```bash
-pnpm install
-```
-:::
+        ```bash
+        pnpm install
+        ```
+      :::
 
-:::step{title="Configure your environment"}
-Copy the example environment file:
+      :::step{title="Configure your environment"}
+        Copy the example environment file:
 
-```bash
-cp .env .env.local
-```
-:::
+        ```bash
+        cp .env .env.local
+        ```
+      :::
 
-:::step{title="Start developing"}
-Launch the development server:
+      :::step{title="Start developing"}
+        Launch the development server:
+        
+        ```bash
+        pnpm dev
+        ```
+      :::
+    ::::
+  :::::
 
-```bash
-pnpm dev
-```
-:::
-::::
-:::::
-
-:::::content-preview
-```mdx
-::::step-group
-:::step{title="Install dependencies"}
-Run the install command in your project root:
-
-```bash
-pnpm install
-```
-:::
-
-:::step{title="Configure your environment"}
-Copy the example environment file:
-
-```bash
-cp .env .env.local
-```
-:::
-
-:::step{title="Start developing"}
-Launch the development server:
-
-```bash
-pnpm dev
-```
-:::
-::::
-```
-:::::
+  :::::content-preview
+    ````mdx
+    ::::step-group
+      :::step{title="Install dependencies"}
+        Run the install command in your project root:
+        
+        ```bash
+        pnpm install
+        ```
+      :::
+  
+      :::step{title="Configure your environment"}
+        Copy the example environment file:
+  
+        ```bash
+        cp .env .env.local
+        ```
+      :::
+    ::::
+    ````
+  :::::
 ::::::
 
 ## Syntax
@@ -77,9 +69,9 @@ Steps use nested directive syntax:
 
 ```mdx
 ::::step-group
-:::step{title="Step title"}
-Step content with **Markdown** and code blocks.
-:::
+  :::step{title="Step title"}
+    Step content with **Markdown** and code blocks.
+  :::
 ::::
 ```
 
