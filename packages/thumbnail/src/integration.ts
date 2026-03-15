@@ -1,7 +1,7 @@
-import { readFile, readdir } from 'node:fs/promises'
-import { join, relative } from 'node:path'
 import type { AstroIntegration } from 'astro'
 import matter from 'gray-matter'
+import { readFile, readdir } from 'node:fs/promises'
+import { join } from 'node:path'
 import { generateThumbnail } from './generator'
 import { renderThumbnail, renderThumbnailToFile } from './renderer'
 
@@ -111,7 +111,7 @@ export function thumbnailIntegration(config: ThumbnailConfig): AstroIntegration 
                     }
 
                     try {
-                      const { headline, title, description } = await resolvePageMeta(
+                      const { headline, title, description } = resolvePageMeta(
                         config,
                         req.url,
                         await getContentIndex(),
