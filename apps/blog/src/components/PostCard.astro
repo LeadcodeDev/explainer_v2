@@ -8,17 +8,18 @@ interface Props {
   date: Date
   tags: string[]
   cover?: string
-  slug: string
+  href: string
+  locale?: string
   readingTime: number
   author?: Author
   class?: string
 }
 
-const { title, description, date, tags, cover, slug, readingTime, author, class: className } = Astro.props
+const { title, description, date, tags, cover, href, locale, readingTime, author, class: className } = Astro.props
 ---
 
 <article class:list={['post-card group', className]}>
-  <a href={`/${slug}`} class="post-card-link block rounded-xl overflow-hidden relative border border-transparent hover:border-primary/20 transition-colors duration-400">
+  <a href={href} class="post-card-link block rounded-xl overflow-hidden relative border border-transparent hover:border-primary/20 transition-colors duration-400">
     <div class="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-b from-primary/20 via-primary/10 to-transparent" />
     <div class="post-card-inner transition-transform duration-300 ease-out">
       <!-- Image -->
@@ -40,7 +41,7 @@ const { title, description, date, tags, cover, slug, readingTime, author, class:
 
         </div>
         <time datetime={date.toISOString()} class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {formatDate(date)}
+          {formatDate(date, locale)}
         </time>
         <h2 class="font-bold text-lg leading-snug mt-1.5 line-clamp-2">
           {title}

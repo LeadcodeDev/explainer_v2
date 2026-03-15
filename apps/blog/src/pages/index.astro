@@ -1,51 +1,24 @@
 ---
 import { getCollection } from 'astro:content'
-import Base from '../layouts/base.astro'
-import { TagFilter } from '../components/TagFilter'
-import PostCard from '../components/PostCard.astro'
-import { getPublishedPosts, getPostSlug, getAllTags, getReadingTime } from '../lib/posts'
-import { getAuthor } from '../lib/authors'
+import { getLocales } from '../lib/posts'
 
 const allPosts = await getCollection('posts')
-const posts = getPublishedPosts(allPosts)
-const tags = getAllTags(posts)
+const locales = getLocales(allPosts)
+const supportedLocales = locales.length > 0 ? locales : ['en']
+const fallback = supportedLocales.includes('en') ? 'en' : supportedLocales[0]
 ---
 
-<Base title="Articles">
-  <!-- Page header -->
-  <section class="mb-8">
-    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
-      Latest <span class="text-primary">articles</span>
-    </h1>
-  </section>
-
-  <!-- Tag filter -->
-  <TagFilter tags={tags} client:load />
-
-  <!-- Articles grid -->
-  {posts.length > 0 && (
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {posts.map((post) => (
-        <div data-tags={JSON.stringify(post.data.tags)} data-title={post.data.title} data-description={post.data.description ?? ''}>
-          <PostCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            tags={post.data.tags}
-            cover={post.data.cover ?? `/${getPostSlug(post)}/thumbnail.png`}
-            slug={getPostSlug(post)}
-            readingTime={getReadingTime(post.body ?? '')}
-            author={post.data.author ? getAuthor(post.data.author) : undefined}
-          />
-        </div>
-      ))}
-    </div>
-  )}
-
-  <!-- Empty state -->
-  {posts.length === 0 && (
-    <div class="text-center py-20">
-      <p class="text-muted-foreground text-lg">No articles yet.</p>
-    </div>
-  )}
-</Base>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting…</title>
+    <meta http-equiv="refresh" content={`0;url=/${fallback}`} />
+    <script define:vars={{ supportedLocales, fallback }}>
+      const browserLang = (navigator.language || '').split('-')[0]
+      const locale = supportedLocales.includes(browserLang) ? browserLang : fallback
+      window.location.replace('/' + locale)
+    </script>
+  </head>
+  <body />
+</html>

@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/base.astro'
+import { TagFilter } from '../../components/TagFilter'
+import PostCard from '../../components/PostCard.astro'
+import { getPublishedPosts, getPostSlug, getPostHref, getPostsByLocale, getLocales, getAllTags, getReadingTime, buildListingSwitchUrls } from '../../lib/posts'
+import { getAuthor } from '../../lib/authors'
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('posts')
+  const locales = getLocales(allPosts)
+
+  return locales.map((locale) => ({
+    params: { locale },
+    props: { locale },
+  }))
+}
+
+const { locale } = Astro.props
+const allPosts = await getCollection('posts')
+const locales = getLocales(allPosts)
+const localePosts = getPostsByLocale(allPosts, locale)
+const posts = getPublishedPosts(localePosts)
+const tags = getAllTags(posts)
+const localeSwitchUrls = buildListingSwitchUrls(locales)
+---
+
+<Base title="Articles" locale={locale} locales={locales} localeSwitchUrls={localeSwitchUrls}>
+  <!-- Page header -->
+  <section class="mb-8">
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
+      Latest <span class="text-primary">articles</span>
+    </h1>
+  </section>
+
+  <!-- Tag filter -->
+  <TagFilter tags={tags} client:load />
+
+  <!-- Articles grid -->
+  {posts.length > 0 && (
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map((post) => (
+        <div data-tags={JSON.stringify(post.data.tags)} data-title={post.data.title} data-description={post.data.description ?? ''}>
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+            cover={post.data.cover ?? `/${getPostSlug(post)}/thumbnail.png`}
+            href={getPostHref(post)}
+            locale={locale}
+            readingTime={getReadingTime(post.body ?? '')}
+            author={post.data.author ? getAuthor(post.data.author) : undefined}
+          />
+        </div>
+      ))}
+    </div>
+  )}
+
+  <!-- Empty state -->
+  {posts.length === 0 && (
+    <div class="text-center py-20">
+      <p class="text-muted-foreground text-lg">No articles yet.</p>
+    </div>
+  )}
+</Base>

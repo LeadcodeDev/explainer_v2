@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content'
-import PostLayout from '../layouts/post.astro'
-import { getPublishedPosts, getPostSlug, getReadingTime } from '../lib/posts'
+import PostLayout from '../../layouts/post.astro'
+import { getPublishedPosts, getPostSlug, getPostLocale, getPostHref, getLocales, getReadingTime, buildLocaleSwitchUrls } from '../../lib/posts'
 import Pre from '@explainer/mdx/overrides/pre.astro'
 import Blockquote from '@explainer/mdx/overrides/blockquote.astro'
 import { Code, H1, H2, H3, H4, H5, H6, Link, Paragraph, UnorderedList, OrderedList } from '@explainer/mdx'
@@ -9,17 +9,21 @@ import { Code, H1, H2, H3, H4, H5, H6, Link, Paragraph, UnorderedList, OrderedLi
 export async function getStaticPaths() {
   const allPosts = await getCollection('posts')
   const posts = getPublishedPosts(allPosts)
+  const locales = getLocales(allPosts)
 
   return posts.map((post) => ({
-    params: { slug: getPostSlug(post) },
-    props: { post },
+    params: { locale: getPostLocale(post), slug: getPostSlug(post) },
+    props: { post, locales },
   }))
 }
 
-const { post } = Astro.props
+const { post, locales } = Astro.props
+const allPosts = await getCollection('posts')
+const locale = getPostLocale(post)
 const { Content, headings } = await render(post)
 const readingTime = getReadingTime(post.body ?? '')
-const articleUrl = new URL(`/${getPostSlug(post)}`, Astro.site ?? Astro.url.origin).href
+const articleUrl = new URL(getPostHref(post), Astro.site ?? Astro.url.origin).href
+const localeSwitchUrls = buildLocaleSwitchUrls(allPosts, post, locales)
 ---
 
 <PostLayout
@@ -32,6 +36,9 @@ const articleUrl = new URL(`/${getPostSlug(post)}`, Astro.site ?? Astro.url.orig
   readingTime={readingTime}
   headings={headings}
   url={articleUrl}
+  locale={locale}
+  locales={locales}
+  localeSwitchUrls={localeSwitchUrls}
 >
   <Content components={{
     h1: H1, h2: H2, h3: H3, h4: H4, h5: H5, h6: H6,

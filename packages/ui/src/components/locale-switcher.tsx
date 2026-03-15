@@ -27,8 +27,6 @@ const localeNames: Record<string, string> = {
 export function LocaleSwitcher({ locales, currentLocale, switchUrls, dropUp }: LocaleSwitcherProps) {
   const [open, setOpen] = React.useState(false)
 
-  if (locales.length <= 1) return null
-
   return (
     <div className="relative">
       <button

@@ -7,9 +7,12 @@ interface Props {
   title: string
   description?: string
   thumbnail?: string
+  locale?: string
+  locales?: string[]
+  localeSwitchUrls?: Record<string, string>
 }
 
-const { title, description = 'Explainer Blog', thumbnail } = Astro.props
+const { title, description = 'Explainer Blog', thumbnail, locale = 'en', locales = ['en'], localeSwitchUrls = {} } = Astro.props
 const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`
 
 const appUrlOverrides = {
@@ -19,7 +22,7 @@ const appUrlOverrides = {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,7 +54,7 @@ const appUrlOverrides = {
     </script>
   </head>
   <body class="min-h-screen antialiased">
-    <BlogNavbar activePath={Astro.url.pathname} appUrlOverrides={appUrlOverrides} client:load transition:persist />
+    <BlogNavbar activePath={Astro.url.pathname} appUrlOverrides={appUrlOverrides} locale={locale} locales={locales} localeSwitchUrls={localeSwitchUrls} client:load transition:persist />
     <main class="mx-auto max-w-6xl px-6 py-10">
       <slot />
     </main>

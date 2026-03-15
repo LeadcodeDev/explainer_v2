@@ -20,14 +20,17 @@ interface Props {
   readingTime: number
   headings: Heading[]
   url: string
+  locale?: string
+  locales?: string[]
+  localeSwitchUrls?: Record<string, string>
 }
 
-const { title, description, date, tags, cover, thumbnail, readingTime, headings, url } = Astro.props
+const { title, description, date, tags, cover, thumbnail, readingTime, headings, url, locale = 'en', locales, localeSwitchUrls } = Astro.props
 ---
 
-<Base title={title} description={description} thumbnail={thumbnail}>
+<Base title={title} description={description} thumbnail={thumbnail} locale={locale} locales={locales} localeSwitchUrls={localeSwitchUrls}>
   <div class="mb-8">
-    <a href="/" class="text-sm font-medium text-primary hover:underline transition-colors">
+    <a href={`/${locale}`} class="text-sm font-medium text-primary hover:underline transition-colors">
       &larr; Back to writing
     </a>
   </div>
@@ -44,7 +47,7 @@ const { title, description, date, tags, cover, thumbnail, readingTime, headings,
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">{title}</h1>
         <p class="text-lg text-muted-foreground mb-4">{description}</p>
         <p class="text-sm text-muted-foreground">
-          Published {formatDate(date)}
+          Published {formatDate(date, locale)}
         </p>
       </header>
       {tags.length > 0 && (

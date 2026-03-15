@@ -1,11 +1,22 @@
 import rss from '@astrojs/rss'
 import { getCollection } from 'astro:content'
-import { getPublishedPosts, getPostSlug } from '../lib/posts'
+import { getPublishedPosts, getPostsByLocale, getPostSlug, getLocales } from '../../lib/posts'
 import type { APIContext } from 'astro'
 
-export async function GET(context: APIContext) {
+export async function getStaticPaths() {
   const allPosts = await getCollection('posts')
-  const posts = getPublishedPosts(allPosts)
+  const locales = getLocales(allPosts)
+
+  return locales.map((locale) => ({
+    params: { locale },
+  }))
+}
+
+export async function GET(context: APIContext) {
+  const locale = context.params.locale!
+  const allPosts = await getCollection('posts')
+  const localePosts = getPostsByLocale(allPosts, locale)
+  const posts = getPublishedPosts(localePosts)
 
   return rss({
     title: 'Explainer Blog',
@@ -15,7 +26,7 @@ export async function GET(context: APIContext) {
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/${getPostSlug(post)}`,
+      link: `/${locale}/${getPostSlug(post)}`,
     })),
   })
 }
