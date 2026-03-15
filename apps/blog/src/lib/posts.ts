@@ -3,16 +3,15 @@ import type { CollectionEntry } from 'astro:content'
 export type Post = CollectionEntry<'posts'>
 
 export function getPublishedPosts(posts: Post[]): Post[] {
-  const now = new Date()
   return posts
-    .filter((post) => !post.data.draft && post.data.date <= now)
+    .filter((post) => post.data.status === 'published')
     .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 }
 
 export function getAllTags(posts: Post[]): { name: string; count: number }[] {
   const tagMap = new Map<string, number>()
   for (const post of posts) {
-    if (post.data.draft) continue
+    if (post.data.status !== 'published') continue
     for (const tag of post.data.tags) {
       tagMap.set(tag, (tagMap.get(tag) ?? 0) + 1)
     }

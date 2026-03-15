@@ -42,6 +42,13 @@ const appUrlOverrides = {
         document.documentElement.classList.toggle('dark', isDark)
       })()
     </script>
+    <script is:inline>
+      document.addEventListener('astro:after-swap', function () {
+        var theme = localStorage.getItem('theme') || 'system'
+        var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+        document.documentElement.classList.toggle('dark', isDark)
+      })
+    </script>
   </head>
   <body class="min-h-screen antialiased">
     <BlogNavbar activePath={Astro.url.pathname} appUrlOverrides={appUrlOverrides} client:load transition:persist />

@@ -22,28 +22,22 @@ const { title, description, date, tags, cover, slug, readingTime, author, class:
     <div class="pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-linear-to-b from-primary/20 via-primary/10 to-transparent" />
     <div class="post-card-inner transition-transform duration-300 ease-out">
       <!-- Image -->
-      <div class="post-card-img rounded-t-xl bg-muted aspect-16/10 shrink-0">
+      <div class="post-card-img rounded-t-xl bg-muted aspect-16/10 shrink-0 rounded-xl">
         {cover ? (
           <img src={cover} alt={title} class="w-full h-full rounded-xl object-cover" />
         ) : (
-          <div class="w-full h-full bg-linear-to-br from-primary/20 to-primary/5" />
+          <div class="w-full h-full rounded-xl bg-linear-to-br from-primary/20 to-primary/5" />
         )}
       </div>
       <!-- Body -->
       <div class="post-card-body relative z-30 p-3 flex flex-col">
         <div class="flex flex-wrap items-center gap-2 mb-2">
-          {tags.map((tag) => (
-            <span class="rounded-full border border-primary/30 bg-primary/10 text-primary group-hover:border-border group-hover:bg-background group-hover:text-foreground px-2 py-px text-[9px] font-semibold uppercase tracking-wider transition-colors duration-300">
+          {tags.slice(0, 3).map((tag) => (
+            <span class="rounded border border-primary/30 bg-primary/10 text-primary group-hover:border-border group-hover:bg-background group-hover:text-foreground px-2 py-px text-[9px] font-semibold uppercase tracking-wider transition-colors duration-300">
               {tag}
             </span>
           ))}
 
-          {readingTime > 0 && (
-            <span class="flex items-center gap-1 rounded-full border border-primary/30 bg-primary/10 text-primary group-hover:border-border group-hover:bg-background group-hover:text-foreground px-2.5 py-px text-[9px] font-semibold uppercase tracking-wider transition-colors duration-300">
-              <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              {readingTime} minutes
-            </span>
-          )}
         </div>
         <time datetime={date.toISOString()} class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           {formatDate(date)}

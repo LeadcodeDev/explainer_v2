@@ -1,5 +1,5 @@
-import { defineCollection, z } from 'astro:content'
 import { glob } from 'astro/loaders'
+import { defineCollection, z } from 'astro:content'
 
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/posts' }),
@@ -9,7 +9,7 @@ const posts = defineCollection({
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
     cover: z.string().optional(),
-    draft: z.boolean().default(false),
+    status: z.enum(['draft', 'published']).default('draft'),
     author: z.string().optional(),
   }),
 })
