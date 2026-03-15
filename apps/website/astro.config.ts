@@ -16,6 +16,11 @@ export default defineConfig({
             title: 'Explainer v2',
             description: 'Documentation boilerplate for developers.',
           },
+          {
+            path: '/thumbnails/fr',
+            title: 'Explainer v2',
+            description: 'Boilerplate de documentation pour les développeurs.',
+          },
         ],
       },
     }),
