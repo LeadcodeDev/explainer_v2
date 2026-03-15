@@ -1,4 +1,4 @@
-import { Navbar, LocaleSwitcher, getAppLinks, cn } from '@explainer/ui'
+import { LocaleSwitcher, Navbar, getAppLinks } from '@explainer/ui'
 import type { NavItem, ProjectInfo } from '../lib/docs'
 import { MobileMenu } from './mobile-menu'
 import { ProjectTabs } from './project-tabs'
@@ -39,7 +39,7 @@ export function Header({
   const appLinks = getAppLinks('docs', appUrlOverrides)
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur `supports-backdrop-filter:bg-background/60">
       <Navbar
         brand={title}
         brandHref="/"

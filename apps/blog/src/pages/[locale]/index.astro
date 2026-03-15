@@ -45,7 +45,7 @@ const t = useTranslations(locale)
         <div data-tags={JSON.stringify(post.data.tags)} data-title={post.data.title} data-description={post.data.description ?? ''}>
           <PostCard
             title={post.data.title}
-            description={post.data.description}
+            description={post.data.short_description ?? post.data.description}
             date={post.data.date}
             tags={post.data.tags}
             cover={post.data.cover ?? `${getPostHref(post)}/thumbnail.png`}

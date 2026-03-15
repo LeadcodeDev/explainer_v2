@@ -20,6 +20,7 @@ interface ContentEntry {
   filePath: string
   title: string
   description?: string
+  shortDescription?: string
   /** URL pathname this entry maps to (without leading slash) */
   urlPath: string
 }
@@ -52,6 +53,7 @@ async function buildContentIndex(
         filePath,
         title: data.title ?? urlPath.split('/').pop() ?? '',
         description: data.description,
+        shortDescription: data.short_description,
         urlPath,
       }
 
@@ -238,7 +240,7 @@ function resolveFromIndex(
     return {
       headline: appName,
       title: direct.title,
-      description: direct.description,
+      description: direct.shortDescription ?? direct.description,
     }
   }
 
@@ -260,7 +262,7 @@ function resolveFromIndex(
         return {
           headline: appName,
           title: entry.title,
-          description: entry.description,
+          description: entry.shortDescription ?? entry.description,
         }
       }
     }
@@ -274,7 +276,7 @@ function resolveFromIndex(
       return {
         headline: appName,
         title: entry.title,
-        description: entry.description,
+        description: entry.shortDescription ?? entry.description,
       }
     }
   }
