@@ -2,6 +2,7 @@
 import '../styles/globals.css'
 import { ClientRouter } from 'astro:transitions'
 import { BlogNavbar } from '../components/blog-navbar'
+import { useTranslations } from '../i18n/utils'
 
 interface Props {
   title: string
@@ -13,6 +14,7 @@ interface Props {
 }
 
 const { title, description = 'Explainer Blog', thumbnail, locale = 'en', locales = ['en'], localeSwitchUrls = {} } = Astro.props
+const t = useTranslations(locale)
 const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`
 
 const appUrlOverrides = {
@@ -60,7 +62,7 @@ const appUrlOverrides = {
     </main>
     <footer class="border-t mt-16">
       <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">
-        Built with Explainer v2
+        {t('footer.text')}
       </div>
     </footer>
   </body>

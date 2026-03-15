@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { cn } from '@explainer/ui'
+import { useTranslations } from '../i18n/utils'
 
 interface ShareButtonsProps {
   url: string
   title: string
   horizontal?: boolean
+  locale?: string
 }
 
 function LinkedInIcon() {
@@ -48,7 +50,8 @@ function CheckIcon() {
   )
 }
 
-export function ShareButtons({ url, title, horizontal }: ShareButtonsProps) {
+export function ShareButtons({ url, title, horizontal, locale = 'en' }: ShareButtonsProps) {
+  const t = useTranslations(locale)
   const [copied, setCopied] = React.useState(false)
 
   const handleCopy = async () => {
@@ -68,16 +71,16 @@ export function ShareButtons({ url, title, horizontal }: ShareButtonsProps) {
 
   const buttons = (
     <>
-      <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label="Share on LinkedIn">
+      <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label={t('share.linkedin')}>
         <LinkedInIcon />
       </a>
-      <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label="Share on Twitter">
+      <a href={twitterUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label={t('share.twitter')}>
         <TwitterIcon />
       </a>
-      <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label="Share on Facebook">
+      <a href={facebookUrl} target="_blank" rel="noopener noreferrer" className={buttonClass} aria-label={t('share.facebook')}>
         <FacebookIcon />
       </a>
-      <button onClick={handleCopy} className={buttonClass} aria-label="Copy link">
+      <button onClick={handleCopy} className={buttonClass} aria-label={t('share.copyLink')}>
         {copied ? <CheckIcon /> : <LinkIcon />}
       </button>
     </>

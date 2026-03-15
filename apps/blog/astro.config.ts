@@ -10,6 +10,13 @@ import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
 export default defineConfig({
   site: 'https://blog.example.com',
+  i18n: {
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    routing: {
+      prefixDefaultLocale: true,
+    },
+  },
   integrations: [
     react(),
     mdx({

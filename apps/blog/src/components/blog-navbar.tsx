@@ -1,5 +1,6 @@
-import { Navbar, MobileMenu, MobileNavLinks, LocaleSwitcher, getAppLinks } from '@explainer/ui'
 import type { NavbarLink } from '@explainer/ui'
+import { LocaleSwitcher, MobileMenu, MobileNavLinks, Navbar, getAppLinks } from '@explainer/ui'
+import { useTranslations } from '../i18n/utils'
 
 interface BlogNavbarProps {
   activePath: string
@@ -11,11 +12,11 @@ interface BlogNavbarProps {
 
 export function BlogNavbar({ activePath, appUrlOverrides, locale, locales, localeSwitchUrls }: BlogNavbarProps) {
   const appLinks = getAppLinks('blog', appUrlOverrides)
+  const t = useTranslations(locale)
 
   const blogLinks: NavbarLink[] = [
-    { label: 'Tous les articles', href: `/${locale}`, icon: 'lucide:newspaper' },
-    { label: 'Catégories', href: '/tags', icon: 'lucide:folder' },
-    { label: 'RSS', href: `/${locale}/rss.xml`, icon: 'lucide:rss' },
+    { label: t('nav.allArticles'), href: `/${locale}`, icon: 'lucide:newspaper' },
+    { label: t('nav.rss'), href: `/${locale}/rss.xml`, icon: 'lucide:rss' },
   ]
 
   return (

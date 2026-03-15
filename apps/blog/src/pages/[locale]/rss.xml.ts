@@ -1,6 +1,7 @@
 import rss from '@astrojs/rss'
 import { getCollection } from 'astro:content'
 import { getPublishedPosts, getPostsByLocale, getPostSlug, getLocales } from '../../lib/posts'
+import { useTranslations } from '../../i18n/utils'
 import type { APIContext } from 'astro'
 
 export async function getStaticPaths() {
@@ -14,13 +15,14 @@ export async function getStaticPaths() {
 
 export async function GET(context: APIContext) {
   const locale = context.params.locale!
+  const t = useTranslations(locale)
   const allPosts = await getCollection('posts')
   const localePosts = getPostsByLocale(allPosts, locale)
   const posts = getPublishedPosts(localePosts)
 
   return rss({
-    title: 'Explainer Blog',
-    description: 'Latest articles from the Explainer blog',
+    title: t('rss.title'),
+    description: t('rss.description'),
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,

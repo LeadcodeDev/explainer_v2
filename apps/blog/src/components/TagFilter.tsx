@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useTranslations } from '../i18n/utils';
 
 interface TagFilterProps {
   tags: { name: string; count: number }[]
   initialTags?: string[]
+  locale?: string
 }
 
 function TagIcon({ className }: { className?: string }) {
@@ -39,7 +41,8 @@ function writeURL(selectedTags: string[], query: string) {
   window.history.replaceState(null, '', url)
 }
 
-export function TagFilter({ tags, initialTags = [] }: TagFilterProps) {
+export function TagFilter({ tags, initialTags = [], locale = 'en' }: TagFilterProps) {
+  const t = useTranslations(locale)
   const [selectedTags, setSelectedTags] = useState<string[]>(initialTags)
   const [query, setQuery] = useState<string>('')
 
@@ -84,7 +87,7 @@ export function TagFilter({ tags, initialTags = [] }: TagFilterProps) {
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Rechercher un article..."
+          placeholder={t('tagFilter.placeholder')}
           className="w-full rounded-md border border-border bg-transparent pl-10 pr-4 py-2 max-w-sm text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary/50"
         />
       </div>

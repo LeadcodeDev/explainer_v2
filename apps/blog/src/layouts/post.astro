@@ -3,6 +3,7 @@ import Base from './base.astro'
 import { formatDate } from '../lib/posts'
 import { TableOfContents } from '../components/TableOfContents'
 import { ShareButtons } from '../components/ShareButtons'
+import { useTranslations } from '../i18n/utils'
 
 interface Heading {
   depth: number
@@ -26,19 +27,20 @@ interface Props {
 }
 
 const { title, description, date, tags, cover, thumbnail, readingTime, headings, url, locale = 'en', locales, localeSwitchUrls } = Astro.props
+const t = useTranslations(locale)
 ---
 
 <Base title={title} description={description} thumbnail={thumbnail} locale={locale} locales={locales} localeSwitchUrls={localeSwitchUrls}>
   <div class="mb-8">
     <a href={`/${locale}`} class="text-sm font-medium text-primary hover:underline transition-colors">
-      &larr; Back to writing
+      &larr; {t('post.back')}
     </a>
   </div>
 
   <div class="flex gap-8 relative">
     <!-- Left column: Share buttons (sticky) -->
     <aside class="hidden lg:block w-12 shrink-0">
-      <ShareButtons url={url} title={title} client:load />
+      <ShareButtons url={url} title={title} locale={locale} client:load />
     </aside>
 
     <!-- Center column: Article -->
@@ -47,7 +49,7 @@ const { title, description, date, tags, cover, thumbnail, readingTime, headings,
         <h1 class="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-4">{title}</h1>
         <p class="text-lg text-muted-foreground mb-4">{description}</p>
         <p class="text-sm text-muted-foreground">
-          Published {formatDate(date, locale)}
+          {t('post.published')} {formatDate(date, locale)}
         </p>
       </header>
       {tags.length > 0 && (
@@ -74,13 +76,13 @@ const { title, description, date, tags, cover, thumbnail, readingTime, headings,
       </div>
       <!-- Share buttons mobile (bottom of article) -->
       <div class="lg:hidden mt-10">
-        <ShareButtons url={url} title={title} horizontal client:load />
+        <ShareButtons url={url} title={title} locale={locale} horizontal client:load />
       </div>
     </article>
 
     <!-- Right column: Table of Contents (sticky) -->
     <aside class="hidden xl:block w-56 shrink-0">
-      <TableOfContents headings={headings} client:load />
+      <TableOfContents headings={headings} locale={locale} client:load />
     </aside>
   </div>
 </Base>

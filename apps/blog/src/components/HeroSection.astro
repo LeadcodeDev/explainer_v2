@@ -1,12 +1,15 @@
 ---
 import type { Post } from '../lib/posts'
 import { formatDate, getPostSlug, getReadingTime } from '../lib/posts'
+import { useTranslations } from '../i18n/utils'
 
 interface Props {
   posts: Post[]
+  locale?: string
 }
 
-const { posts } = Astro.props
+const { posts, locale = 'en' } = Astro.props
+const t = useTranslations(locale)
 const [first, second, third] = posts
 ---
 
@@ -35,9 +38,9 @@ const [first, second, third] = posts
             <h2 class="text-2xl font-bold group-hover:text-primary transition-colors">{first.data.title}</h2>
             <p class="text-muted-foreground mt-2">{first.data.description}</p>
             <div class="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-              <time datetime={first.data.date.toISOString()}>{formatDate(first.data.date)}</time>
+              <time datetime={first.data.date.toISOString()}>{formatDate(first.data.date, locale)}</time>
               <span>·</span>
-              <span>{getReadingTime(first.body ?? '')} min read</span>
+              <span>{getReadingTime(first.body ?? '')} {t('hero.minRead')}</span>
             </div>
           </div>
         </a>
@@ -67,9 +70,9 @@ const [first, second, third] = posts
                 <h2 class="text-2xl font-bold group-hover:text-primary transition-colors">{post.data.title}</h2>
                 <p class="text-muted-foreground mt-2">{post.data.description}</p>
                 <div class="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-                  <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+                  <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, locale)}</time>
                   <span>·</span>
-                  <span>{getReadingTime(post.body ?? '')} min read</span>
+                  <span>{getReadingTime(post.body ?? '')} {t('hero.minRead')}</span>
                 </div>
               </div>
             </a>
@@ -100,9 +103,9 @@ const [first, second, third] = posts
               <h2 class="text-2xl font-bold group-hover:text-primary transition-colors">{first.data.title}</h2>
               <p class="text-muted-foreground mt-2">{first.data.description}</p>
               <div class="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-                <time datetime={first.data.date.toISOString()}>{formatDate(first.data.date)}</time>
+                <time datetime={first.data.date.toISOString()}>{formatDate(first.data.date, locale)}</time>
                 <span>·</span>
-                <span>{getReadingTime(first.body ?? '')} min read</span>
+                <span>{getReadingTime(first.body ?? '')} {t('hero.minRead')}</span>
               </div>
             </div>
           </a>
@@ -120,9 +123,9 @@ const [first, second, third] = posts
               <h2 class="text-xl font-bold group-hover:text-primary transition-colors">{post.data.title}</h2>
               <p class="text-muted-foreground text-sm mt-2">{post.data.description}</p>
               <div class="flex items-center gap-1.5 text-xs text-muted-foreground mt-3">
-                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+                <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date, locale)}</time>
                 <span>·</span>
-                <span>{getReadingTime(post.body ?? '')} min read</span>
+                <span>{getReadingTime(post.body ?? '')} {t('hero.minRead')}</span>
               </div>
             </a>
           </article>

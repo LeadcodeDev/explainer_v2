@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { cn } from '@explainer/ui'
+import { useTranslations } from '../i18n/utils'
 
 export interface TocHeading {
   depth: number
@@ -9,9 +10,11 @@ export interface TocHeading {
 
 interface TableOfContentsProps {
   headings: TocHeading[]
+  locale?: string
 }
 
-export function TableOfContents({ headings }: TableOfContentsProps) {
+export function TableOfContents({ headings, locale = 'en' }: TableOfContentsProps) {
+  const t = useTranslations(locale)
   const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 3)
   const [activeId, setActiveId] = React.useState<string>('')
 
@@ -42,7 +45,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
 
   return (
     <nav className="sticky top-24 h-fit">
-      <p className="text-sm font-medium mb-3">On this page</p>
+      <p className="text-sm font-medium mb-3">{t('toc.title')}</p>
       <ul className="border-l border-border space-y-0.5">
         {filtered.map((heading) => (
           <li key={heading.slug}>
