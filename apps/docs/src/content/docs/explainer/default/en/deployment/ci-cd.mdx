@@ -1,0 +1,96 @@
+---
+title: CI/CD
+description: Understand the GitHub Actions workflow structure and deployment pipeline.
+icon: refresh-cw
+order: 5
+---
+
+# CI/CD
+
+Explainer uses GitHub Actions for continuous deployment. Each app has its own workflow file with path-based triggers and a shared deployment pattern.
+
+## Workflow files
+
+| File | App | Triggers |
+|------|-----|----------|
+| `.github/workflows/deploy-docs.yml` | Docs | `apps/docs/**`, `packages/**` |
+| `.github/workflows/deploy-blog.yml` | Blog | `apps/blog/**`, `packages/**` |
+| `.github/workflows/deploy-website.yml` | Website | `apps/website/**`, `packages/**` |
+
+All workflows also trigger on `workflow_dispatch` for manual deployments.
+
+## Trigger patterns
+
+Workflows trigger on push to `main` with path filters:
+
+```yaml
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/docs/**'
+      - 'packages/**'
+  workflow_dispatch:
+```
+
+:::callout{variant="info"}
+Changes to `packages/**` trigger **all** app workflows. This is intentional — shared packages like `@explainer/ui` or `@explainer/mdx` affect all apps, so they all need to be rebuilt and deployed.
+:::
+
+## DEPLOY_TARGET pattern
+
+Each workflow uses a repository variable `DEPLOY_TARGET` to select the deployment platform:
+
+```yaml
+jobs:
+  deploy-vercel:
+    if: vars.DEPLOY_TARGET == 'vercel'
+    # ...
+
+  deploy-cloudflare:
+    if: vars.DEPLOY_TARGET == 'cloudflare'
+    # ...
+
+  deploy-github-pages:
+    if: vars.DEPLOY_TARGET == 'github-pages'
+    # ...
+```
+
+Set `DEPLOY_TARGET` once in your repository variables and the correct deployment job runs automatically.
+
+## Build job
+
+All workflows share a common build step:
+
+```yaml
+build:
+  runs-on: ubuntu-latest
+  steps:
+    - uses: actions/checkout@v4
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'pnpm'
+    - run: pnpm install --frozen-lockfile
+    - run: pnpm --filter @explainer/docs build
+    - uses: actions/upload-artifact@v4
+      with:
+        name: dist
+        path: apps/docs/dist
+```
+
+The built artifacts are uploaded and consumed by the deployment job.
+
+## Environment variables and secrets
+
+| Type | Name | Used by |
+|------|------|---------|
+| Variable | `DEPLOY_TARGET` | All workflows |
+| Secret | `VERCEL_TOKEN` | Vercel |
+| Secret | `VERCEL_ORG_ID` | Vercel |
+| Secret | `VERCEL_DOCS_PROJECT_ID` | Vercel (docs) |
+| Secret | `CLOUDFLARE_API_TOKEN` | Cloudflare |
+| Secret | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare |
+
+GitHub Pages uses built-in `GITHUB_TOKEN` permissions — no additional secrets are needed.

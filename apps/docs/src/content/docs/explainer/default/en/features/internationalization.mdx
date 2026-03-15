@@ -1,0 +1,82 @@
+---
+title: Internationalization
+description: Serve documentation in multiple languages with locale-based routing.
+icon: globe
+order: 3
+---
+
+# Internationalization
+
+Explainer supports serving documentation in multiple languages using locale-based URL routing.
+
+## URL structure
+
+The locale appears as the first segment in the URL:
+
+```text
+/{locale}/{project}/{path}
+```
+
+| URL | Locale | Page |
+|-----|--------|------|
+| `/en/explainer/getting-started` | English | Getting Started |
+| `/fr/explainer/getting-started` | French | Getting Started |
+
+## Adding a locale
+
+::::step-group
+:::step{title="Create the locale directory"}
+Inside your project's version directory, create a new directory with the locale code:
+
+```bash
+mkdir -p apps/docs/src/content/docs/explainer/default/fr
+```
+:::
+
+:::step{title="Add translated content"}
+Create MDX files that mirror the English structure:
+
+```mdx [explainer/default/fr/getting-started.mdx]
+---
+title: Premiers pas
+description: Configurez Explainer v2 et commencez à créer votre site de documentation.
+order: 1
+---
+
+# Premiers pas
+
+Bienvenue dans la documentation d'Explainer v2.
+```
+:::
+
+:::step{title="Verify"}
+Navigate to `/fr/explainer/getting-started`. The **locale switcher** in the navbar allows users to switch between available languages.
+:::
+::::
+
+## File structure
+
+```text
+explainer/
+  default/
+    en/                         # English (primary)
+      getting-started.mdx
+      guides/
+        installation.mdx
+    fr/                         # French
+      getting-started.mdx
+      guides/
+        installation.mdx
+```
+
+## Locale switcher
+
+The `LocaleSwitcher` component in the navbar automatically detects available locales and allows users to switch between them. It preserves the current page path when switching.
+
+:::callout{variant="info"}
+If a page is not translated, the locale switcher still shows the locale option but the user will see a 404. Consider duplicating the English content as a starting point for translations.
+:::
+
+## Fallback behavior
+
+There is no automatic fallback to English. Each locale must have its own content files. This ensures translations are intentional and complete.

@@ -1,0 +1,75 @@
+---
+title: Labels & Icons
+description: Add file labels and automatic language icons to code blocks.
+icon: tag
+order: 2
+---
+
+# Labels & Icons
+
+Code blocks can display a file path label and an automatically detected language icon in the header.
+
+## File labels
+
+Add a label using the `[path/to/file]` syntax in the code block meta:
+
+````mdx
+```typescript [src/index.ts]
+import { createApp } from './app'
+```
+````
+
+Renders as:
+
+```typescript [src/index.ts]
+import { createApp } from './app'
+```
+
+The label appears in the top-right corner of the code block, giving readers context about which file the code belongs to.
+
+## More examples
+
+```python [app/main.py]
+from fastapi import FastAPI
+
+app = FastAPI()
+```
+
+```rust [src/main.rs]
+fn main() {
+    println!("Hello, world!");
+}
+```
+
+```json [package.json]
+{
+  "name": "@explainer/docs",
+  "version": "1.0.0"
+}
+```
+
+```yaml [docker-compose.yml]
+services:
+  docs:
+    build:
+      context: .
+      args:
+        APP: docs
+    ports:
+      - "8080:8080"
+```
+
+## Language icons
+
+Language icons are automatically detected from the code block language identifier. Over 60 languages are supported with their recognizable icons, including:
+
+- TypeScript, JavaScript, JSX, TSX
+- Python, Rust, Go, Java, C#
+- HTML, CSS, SCSS, Tailwind
+- JSON, YAML, TOML
+- Bash, Shell, Dockerfile
+- Markdown, MDX
+- SQL, GraphQL
+- And many more
+
+No configuration is needed — icons appear automatically when a language is specified.
