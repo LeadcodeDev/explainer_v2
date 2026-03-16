@@ -28,8 +28,15 @@ const localeNames: Record<string, string> = {
 function setLocaleCookie(locale: string) {
   const hostname = window.location.hostname
   const parts = hostname.split('.')
-  const rootDomain = parts.length >= 2 ? '.' + parts.slice(-2).join('.') : hostname
-  document.cookie = `locale=${locale};path=/;domain=${rootDomain};max-age=${60 * 60 * 24 * 365};SameSite=Lax`
+
+  // Set cookie without domain for public suffixes (e.g. pages.dev, github.io)
+  // and with root domain for custom domains (e.g. .explainer.dev)
+  const isPublicSuffix = parts.length <= 2 || ['pages.dev', 'github.io', 'vercel.app', 'netlify.app', 'workers.dev'].some(
+    (s) => hostname.endsWith(s)
+  )
+
+  const domainAttr = isPublicSuffix ? '' : `;domain=.${parts.slice(-2).join('.')}`
+  document.cookie = `locale=${locale};path=/${domainAttr};max-age=${60 * 60 * 24 * 365};SameSite=Lax`
 }
 
 export function LocaleSwitcher({ locales, currentLocale, switchUrls = {}, dropUp, onLocaleChange }: LocaleSwitcherProps) {
