@@ -36,7 +36,7 @@ Create a Pages project in the Cloudflare dashboard for each app you want to depl
 
 ## GitHub Actions workflow
 
-When `DEPLOY_TARGET` is set to `cloudflare`, the workflow uses the wrangler action:
+The unified workflow at `.github/workflows/deploy.yml` handles all three apps. When `DEPLOY_TARGET` is set to `cloudflare`, the deploy job uses the wrangler action:
 
 ```yaml
 - uses: cloudflare/wrangler-action@v3
@@ -44,9 +44,8 @@ When `DEPLOY_TARGET` is set to `cloudflare`, the workflow uses the wrangler acti
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
     command: pages deploy dist --project-name=explainer-docs
-    workingDirectory: apps/docs
 ```
 
 :::callout{variant="info"}
-Replace `explainer-docs` with your Cloudflare Pages project name. Each app needs its own project.
+Replace `explainer-docs` with your Cloudflare Pages project name. Each app needs its own project. See the [CI/CD](/explainer/deployment/ci-cd) page for the full workflow structure.
 :::

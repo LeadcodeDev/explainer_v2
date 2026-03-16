@@ -44,19 +44,7 @@ Each app can have its own `vercel.json` for customization:
 
 ## GitHub Actions workflow
 
-The deploy workflow is triggered on push to `main` when files in the relevant app or shared packages change:
-
-```yaml [.github/workflows/deploy-docs.yml]
-on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/docs/**'
-      - 'packages/**'
-  workflow_dispatch:
-```
-
-When `DEPLOY_TARGET` is set to `vercel`, the workflow uses:
+The unified workflow at `.github/workflows/deploy.yml` handles all three apps. When `DEPLOY_TARGET` is set to `vercel`, the deploy job uses:
 
 ```yaml
 - uses: amondnet/vercel-action@v25
@@ -69,5 +57,5 @@ When `DEPLOY_TARGET` is set to `vercel`, the workflow uses:
 ```
 
 :::callout{variant="info"}
-Create separate workflows (`deploy-blog.yml`, `deploy-website.yml`) for each app, using the same pattern with different project IDs and path filters.
+Each app has its own build and deploy jobs within the same workflow. See the [CI/CD](/explainer/deployment/ci-cd) page for the full workflow structure.
 :::
