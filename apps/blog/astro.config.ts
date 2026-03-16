@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { defineConfig } from 'astro/config'
 import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
@@ -9,8 +10,24 @@ import { remarkDirectiveHandler } from '@explainer/mdx/remark-directive-handler'
 import { remarkCodeBlocks } from '@explainer/mdx/remark-code-blocks'
 import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
+function loadRootEnv() {
+  try {
+    const content = readFileSync('../../.env', 'utf-8')
+    const env: Record<string, string> = {}
+    for (const line of content.split('\n')) {
+      const match = line.match(/^\s*([\w.]+)\s*=\s*(.*)?\s*$/)
+      if (match) env[match[1]] = match[2]?.replace(/^['"]|['"]$/g, '') ?? ''
+    }
+    return env
+  } catch {
+    return {}
+  }
+}
+
+const env = loadRootEnv()
+
 export default defineConfig({
-  site: 'https://blog.example.com',
+  site: process.env.PUBLIC_BLOG_URL || env.PUBLIC_BLOG_URL,
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'en',

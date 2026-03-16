@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
 export default defineConfig({
+  site: process.env.PUBLIC_WEBSITE_URL || undefined,
   integrations: [
     react(),
     thumbnailIntegration({

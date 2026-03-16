@@ -10,6 +10,7 @@ import { remarkCodeBlocks } from '@explainer/mdx/remark-code-blocks'
 import { thumbnailIntegration } from '@explainer/thumbnail/integration'
 
 export default defineConfig({
+  site: process.env.PUBLIC_DOCS_URL || undefined,
   devToolbar: { enabled: false },
   integrations: [
     react(),

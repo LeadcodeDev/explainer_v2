@@ -27,6 +27,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm --filter @explainer/blog build
+        env:
+          PUBLIC_BLOG_URL: ${{ vars.PUBLIC_BLOG_URL }}
+          PUBLIC_DOCS_URL: ${{ vars.PUBLIC_DOCS_URL }}
+          PUBLIC_WEBSITE_URL: ${{ vars.PUBLIC_WEBSITE_URL }}
 
       - uses: actions/upload-artifact@v4
         with:
