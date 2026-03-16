@@ -7,6 +7,7 @@ export const ui = {
     'index.heading.prefix': 'Latest',
     'index.heading.highlight': 'articles',
     'index.empty': 'No articles yet.',
+    'index.noResults': 'No articles match your search.',
 
     // RSS
     'rss.title': 'Explainer Blog',
@@ -51,6 +52,7 @@ export const ui = {
     'index.heading.prefix': 'Derniers',
     'index.heading.highlight': 'articles',
     'index.empty': 'Aucun article pour le moment.',
+    'index.noResults': 'Aucun article ne correspond à votre recherche.',
 
     // RSS
     'rss.title': 'Blog Explainer',

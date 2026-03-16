@@ -58,9 +58,13 @@ export function TagFilter({ tags, initialTags = [], locale = 'en' }: TagFilterPr
     )
   }
 
+  const [visibleCount, setVisibleCount] = useState<number | null>(null)
+  const hasActiveFilter = selectedTags.length > 0 || query.trim().length > 0
+
   useEffect(() => {
     const cards = document.querySelectorAll<HTMLElement>('[data-tags]')
     const normalizedQuery = query.toLowerCase().trim()
+    let count = 0
 
     cards.forEach((card) => {
       const cardTags: string[] = JSON.parse(card.dataset.tags ?? '[]')
@@ -72,46 +76,62 @@ export function TagFilter({ tags, initialTags = [], locale = 'en' }: TagFilterPr
         (card.dataset.title ?? '').toLowerCase().includes(normalizedQuery) ||
         (card.dataset.description ?? '').toLowerCase().includes(normalizedQuery)
 
-      card.hidden = !matchesTags || !matchesQuery
+      const visible = matchesTags && matchesQuery
+      card.hidden = !visible
+      if (visible && card.style.display !== 'none') count++
     })
 
+    setVisibleCount(count)
     writeURL(selectedTags, query)
     window.dispatchEvent(new Event('tags:filter'))
   }, [selectedTags, query])
 
   return (
-    <div className="mb-10 space-y-4">
-      <div className="relative">
-        <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder={t('tagFilter.placeholder')}
-          className="w-full rounded-md border border-border bg-transparent pl-10 pr-4 py-2 max-w-sm text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary/50"
-        />
+    <>
+      <div className="mb-10 space-y-4">
+        <div className="relative">
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t('tagFilter.placeholder')}
+            className="w-full rounded-md border border-border bg-transparent pl-10 pr-4 py-2 max-w-sm text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors focus:border-primary/50"
+          />
+        </div>
+
+        <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+          {tags.map((tag) => {
+            const active = selectedTags.includes(tag.name)
+            return (
+              <button
+                key={tag.name}
+                type="button"
+                onClick={() => toggleTag(tag.name)}
+                className={`flex items-center gap-1.5 rounded-md border px-4 py-1.5 text-sm shrink-0 transition-colors cursor-pointer border-dashed ${
+                  active
+                    ? 'border-primary/50 bg-primary/5 text-primary font-medium'
+                    : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
+                }`}
+              >
+                <TagIcon className="size-3.5" />
+                {tag.name}
+              </button>
+            )
+          })}
+        </div>
       </div>
 
-      <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
-        {tags.map((tag) => {
-          const active = selectedTags.includes(tag.name)
-          return (
-            <button
-              key={tag.name}
-              type="button"
-              onClick={() => toggleTag(tag.name)}
-              className={`flex items-center gap-1.5 rounded-md border px-4 py-1.5 text-sm shrink-0 transition-colors cursor-pointer border-dashed ${
-                active
-                  ? 'border-primary/50 bg-primary/5 text-primary font-medium'
-                  : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
-              }`}
-            >
-              <TagIcon className="size-3.5" />
-              {tag.name}
-            </button>
-          )
-        })}
-      </div>
-    </div>
+      {hasActiveFilter && visibleCount === 0 && (
+        <div className="flex flex-col items-center justify-center gap-4 rounded-xl border-2 border-dashed border-border py-20">
+          <svg className="size-10 text-muted-foreground/50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+            <path d="M8 11h6" />
+          </svg>
+          <p className="text-muted-foreground text-lg">{t('index.noResults')}</p>
+        </div>
+      )}
+    </>
   )
 }
