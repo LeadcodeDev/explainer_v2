@@ -1,4 +1,4 @@
-import { cn, defaultSponsors, SponsorCards } from '@explainer/ui'
+import { cn, defaultSponsors, SponsorCards, ContributorCards, type Contributor } from '@explainer/ui'
 import * as React from 'react'
 
 export interface TocHeading {
@@ -9,9 +9,10 @@ export interface TocHeading {
 
 interface TocProps {
   headings: TocHeading[]
+  contributors?: Contributor[]
 }
 
-export function TableOfContents({ headings }: TocProps) {
+export function TableOfContents({ headings, contributors = [] }: TocProps) {
   const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 3)
   const [activeId, setActiveId] = React.useState<string>('')
 
@@ -73,6 +74,7 @@ export function TableOfContents({ headings }: TocProps) {
         ))}
       </ul>
       <SponsorCards sponsors={defaultSponsors} />
+      <ContributorCards contributors={contributors} />
     </nav>
   )
 }

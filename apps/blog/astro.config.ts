@@ -9,6 +9,7 @@ import { remarkAutoImport } from '@explainer/mdx/remark-auto-import'
 import { remarkDirectiveHandler } from '@explainer/mdx/remark-directive-handler'
 import { remarkCodeBlocks } from '@explainer/mdx/remark-code-blocks'
 import { thumbnailIntegration } from '@explainer/thumbnail/integration'
+import { remarkDocsLinks } from './src/plugins/remark-docs-links'
 
 function loadRootEnv() {
   try {
@@ -31,7 +32,13 @@ export default defineConfig({
   integrations: [
     react(),
     mdx({
-      remarkPlugins: [remarkAutoImport, remarkCodeBlocks, remarkDirective, remarkDirectiveHandler],
+      remarkPlugins: [
+        remarkAutoImport,
+        remarkCodeBlocks,
+        remarkDirective,
+        [remarkDocsLinks, { docsUrl: process.env.PUBLIC_DOCS_URL || env.PUBLIC_DOCS_URL }],
+        remarkDirectiveHandler,
+      ],
     }),
     thumbnailIntegration({
       appName: 'Blog',

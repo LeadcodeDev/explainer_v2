@@ -21,12 +21,13 @@ interface Props {
   readingTime: number
   headings: Heading[]
   url: string
+  author?: { name: string; title: string; avatar: string; href?: string }
   locale?: string
   locales?: string[]
   localeSwitchUrls?: Record<string, string>
 }
 
-const { title, description, date, tags, cover, thumbnail, readingTime, headings, url, locale = 'en', locales, localeSwitchUrls } = Astro.props
+const { title, description, date, tags, cover, thumbnail, readingTime, headings, url, author, locale = 'en', locales, localeSwitchUrls } = Astro.props
 const t = useTranslations(locale)
 ---
 
@@ -82,7 +83,7 @@ const t = useTranslations(locale)
 
     <!-- Right column: Table of Contents (sticky) -->
     <aside class="hidden xl:block w-56 shrink-0">
-      <TableOfContents headings={headings} locale={locale} client:load />
+      <TableOfContents headings={headings} locale={locale} author={author} client:load />
     </aside>
   </div>
 </Base>

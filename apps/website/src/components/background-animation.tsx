@@ -9,9 +9,9 @@ export function BackgroundAnimation() {
   const [points, setPoints] = useState<Point[]>(() =>
     Array(16)
       .fill(0)
-      .map(() => ({
-        x: Math.random(),
-        y: Math.random(),
+      .map((_, i) => ({
+        x: (i * 7 + 3) % 16 / 16,
+        y: (i * 11 + 5) % 16 / 16,
       })),
   )
 

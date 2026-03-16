@@ -36,6 +36,9 @@ export const ui = {
     // Sponsors
     'sponsors.title': 'Sponsors',
 
+    // Author
+    'author.label': 'Written by',
+
     // Share buttons
     'share.linkedin': 'Share on LinkedIn',
     'share.twitter': 'Share on Twitter',
@@ -76,6 +79,9 @@ export const ui = {
 
     // Sponsors
     'sponsors.title': 'Sponsors',
+
+    // Author
+    'author.label': 'Écrit par',
 
     // Share buttons
     'share.linkedin': 'Partager sur LinkedIn',

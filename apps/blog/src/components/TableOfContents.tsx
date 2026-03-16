@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { cn, SponsorCards, defaultSponsors } from '@explainer/ui'
 import { useTranslations } from '../i18n/utils'
+import { AuthorCard } from './AuthorCard'
 
 export interface TocHeading {
   depth: number
@@ -8,12 +9,20 @@ export interface TocHeading {
   text: string
 }
 
+interface Author {
+  name: string
+  title: string
+  avatar: string
+  href?: string
+}
+
 interface TableOfContentsProps {
   headings: TocHeading[]
   locale?: string
+  author?: Author
 }
 
-export function TableOfContents({ headings, locale = 'en' }: TableOfContentsProps) {
+export function TableOfContents({ headings, locale = 'en', author }: TableOfContentsProps) {
   const t = useTranslations(locale)
   const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 3)
   const [activeId, setActiveId] = React.useState<string>(filtered[0]?.slug ?? '')
@@ -64,6 +73,7 @@ export function TableOfContents({ headings, locale = 'en' }: TableOfContentsProp
           </li>
         ))}
       </ul>
+      {author && <AuthorCard author={author} label={t('author.label')} />}
       <SponsorCards sponsors={defaultSponsors} title={t('sponsors.title')} />
     </nav>
   )

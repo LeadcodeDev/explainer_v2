@@ -4,6 +4,7 @@ import { ClientRouter, ViewTransitions } from 'astro:transitions'
 import { Header } from '../components/header'
 import { Sidebar } from '../components/sidebar'
 import { TableOfContents, type TocHeading } from '../components/toc'
+import { fetchContributors, sortContributors } from '@explainer/ui'
 import { Pagination } from '../components/pagination'
 import type { NavItem, ProjectInfo, BreadcrumbItem } from '../lib/docs'
 
@@ -46,6 +47,11 @@ const {
   breadcrumb,
   thumbnail,
 } = Astro.props
+
+const contributors = sortContributors(
+  await fetchContributors({ token: import.meta.env.GITHUB_TOKEN }),
+  'contributions'
+)
 
 const showTabs = projects.length > 1
 const thumbnailUrl = '/assets' + (thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`)
@@ -140,7 +146,7 @@ const appUrlOverrides = {
         <Pagination prev={prev} next={next} client:load />
       </main>
       <div transition:animate="none">
-        <TableOfContents headings={headings} client:load />
+        <TableOfContents headings={headings} contributors={contributors} client:load />
       </div>
     </div>
   </body>
