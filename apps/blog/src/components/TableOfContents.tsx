@@ -16,7 +16,7 @@ interface TableOfContentsProps {
 export function TableOfContents({ headings, locale = 'en' }: TableOfContentsProps) {
   const t = useTranslations(locale)
   const filtered = headings.filter((h) => h.depth >= 2 && h.depth <= 3)
-  const [activeId, setActiveId] = React.useState<string>('')
+  const [activeId, setActiveId] = React.useState<string>(filtered[0]?.slug ?? '')
 
   React.useEffect(() => {
     const elements = filtered.map((h) => document.getElementById(h.slug)).filter(Boolean) as HTMLElement[]
