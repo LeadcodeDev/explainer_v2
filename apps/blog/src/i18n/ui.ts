@@ -33,6 +33,9 @@ export const ui = {
     // Table of contents
     'toc.title': 'On this page',
 
+    // Sponsors
+    'sponsors.title': 'Sponsors',
+
     // Share buttons
     'share.linkedin': 'Share on LinkedIn',
     'share.twitter': 'Share on Twitter',
@@ -70,6 +73,9 @@ export const ui = {
 
     // Table of contents
     'toc.title': 'Sur cette page',
+
+    // Sponsors
+    'sponsors.title': 'Sponsors',
 
     // Share buttons
     'share.linkedin': 'Partager sur LinkedIn',

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { cn } from '@explainer/ui'
+import { cn, SponsorCards, defaultSponsors } from '@explainer/ui'
 import { useTranslations } from '../i18n/utils'
 
 export interface TocHeading {
@@ -64,6 +64,7 @@ export function TableOfContents({ headings, locale = 'en' }: TableOfContentsProp
           </li>
         ))}
       </ul>
+      <SponsorCards sponsors={defaultSponsors} title={t('sponsors.title')} />
     </nav>
   )
 }

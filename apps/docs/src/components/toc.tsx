@@ -1,5 +1,5 @@
+import { cn, defaultSponsors, SponsorCards } from '@explainer/ui'
 import * as React from 'react'
-import { cn } from '@explainer/ui'
 
 export interface TocHeading {
   depth: number
@@ -52,7 +52,7 @@ export function TableOfContents({ headings }: TocProps) {
   })
 
   return (
-    <nav className="w-56 shrink-0 hidden xl:block h-[calc(100vh-var(--header-height,4rem))] overflow-y-auto sticky top-[var(--header-height,4rem)] py-6 pl-4">
+    <nav className="w-56 shrink-0 hidden xl:block h-[calc(100vh-var(--header-height,4rem))] overflow-y-auto sticky top-(--header-height,4rem) py-6 pl-4">
       <p className="text-sm font-medium mb-3">On this page</p>
       <ul className="border-l border-border space-y-0.5">
         {numbered.map((heading) => (
@@ -72,6 +72,7 @@ export function TableOfContents({ headings }: TocProps) {
           </li>
         ))}
       </ul>
+      <SponsorCards sponsors={defaultSponsors} />
     </nav>
   )
 }
