@@ -104,7 +104,7 @@ import { Button } from "@explainer/ui";
         <div class="flex flex-wrap gap-x-4 gap-y-3">
           <Button size="lg" className="cursor-pointer" client:load>
             <a
-              href="/docs/framework/getting-started/getting-started"
+              href={`${import.meta.env.PUBLIC_DOCS_URL || ''}/en/explainer/getting-started`}
               class="flex gap-2"
               rel="noopener noreferrer"
             >

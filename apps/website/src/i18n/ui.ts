@@ -64,6 +64,12 @@ export const ui = {
     'testimonials.7.body': 'Our team loves writing docs now. The components make it easy to create rich, interactive content.',
     'testimonials.8.body': 'Seriously impressed by the OG thumbnail generation. Every page gets a beautiful social card automatically.',
 
+    // Articles
+    'articles.label': 'Blog',
+    'articles.title': 'Latest articles',
+    'articles.description': 'Stay up to date with the latest news and updates.',
+    'articles.viewAll': 'View all articles',
+
     // CTA
     'cta.title': 'Ready to get started?',
     'cta.description': 'Start building your documentation in minutes. Free, open source, and yours to customize.',
@@ -131,6 +137,12 @@ export const ui = {
     'testimonials.6.body': "L'expérience développeur est au top. Le hot reload est instantané et l'intégration de référence API est parfaite.",
     'testimonials.7.body': 'Notre équipe adore écrire de la documentation maintenant. Les composants rendent facile la création de contenu riche et interactif.',
     'testimonials.8.body': "Vraiment impressionné par la génération de miniatures OG. Chaque page obtient automatiquement une belle carte sociale.",
+
+    // Articles
+    'articles.label': 'Blog',
+    'articles.title': 'Derniers articles',
+    'articles.description': 'Restez informé des dernières actualités et mises à jour.',
+    'articles.viewAll': 'Voir tous les articles',
 
     // CTA
     'cta.title': 'Prêt à commencer ?',
