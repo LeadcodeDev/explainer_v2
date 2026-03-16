@@ -6,6 +6,19 @@ on:
   schedule:
     - cron: '0 6 * * *'
   workflow_dispatch:
+    inputs:
+      docs:
+        description: 'Deploy Docs'
+        type: boolean
+        default: true
+      blog:
+        description: 'Deploy Blog'
+        type: boolean
+        default: true
+      website:
+        description: 'Deploy Website'
+        type: boolean
+        default: true
 
 jobs:
   changes:
@@ -35,7 +48,7 @@ jobs:
 
   build-docs:
     needs: changes
-    if: needs.changes.outputs.docs == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.changes.outputs.docs == 'true' || (github.event_name == 'workflow_dispatch' && inputs.docs)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -57,14 +70,14 @@ jobs:
 
   build-blog:
     needs: changes
-    if: needs.changes.outputs.blog == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    if: needs.changes.outputs.blog == 'true' || (github.event_name == 'workflow_dispatch' && inputs.blog) || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @explainer/blog build
@@ -79,14 +92,14 @@ jobs:
 
   build-website:
     needs: changes
-    if: needs.changes.outputs.website == 'true' || github.event_name == 'workflow_dispatch'
+    if: needs.changes.outputs.website == 'true' || (github.event_name == 'workflow_dispatch' && inputs.website)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @explainer/website build
