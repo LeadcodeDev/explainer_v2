@@ -28,13 +28,6 @@ const env = loadRootEnv()
 
 export default defineConfig({
   site: process.env.PUBLIC_BLOG_URL || env.PUBLIC_BLOG_URL,
-  i18n: {
-    locales: ['en', 'fr'],
-    defaultLocale: 'en',
-    routing: {
-      prefixDefaultLocale: true,
-    },
-  },
   integrations: [
     react(),
     mdx({

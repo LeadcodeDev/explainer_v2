@@ -64,7 +64,7 @@ export function buildLocaleSwitchUrls(posts: Post[], currentPost: Post, locales:
     if (match) {
       urls[locale] = getPostHref(match)
     } else {
-      urls[locale] = `/${locale}`
+      urls[locale] = '/'
     }
   }
   return urls

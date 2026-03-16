@@ -9,6 +9,7 @@ import CtaSection from '../components/cta-section.astro'
 import { ui } from '../i18n/ui'
 
 const appUrlOverrides = {
+  website: import.meta.env.PUBLIC_WEBSITE_URL,
   docs: import.meta.env.PUBLIC_DOCS_URL,
   blog: import.meta.env.PUBLIC_BLOG_URL,
 }

@@ -15,7 +15,7 @@ export function BlogNavbar({ activePath, appUrlOverrides, locale, locales, local
   const t = useTranslations(locale)
 
   const blogLinks: NavbarLink[] = [
-    { label: t('nav.allArticles'), href: `/${locale}`, icon: 'lucide:newspaper' },
+    { label: t('nav.allArticles'), href: '/', icon: 'lucide:newspaper' },
     { label: t('nav.rss'), href: `/${locale}/rss.xml`, icon: 'lucide:rss' },
   ]
 
