@@ -6,25 +6,13 @@ export interface Sponsor {
   tier: 'gold' | 'silver' | 'bronze'
 }
 
-export interface SiteConfigTranslations {
-  /** Default page description for meta tags */
-  description: string
-  /** Footer section */
-  footer: {
-    description: string
-    columns: {
-      documentation: string
-      resources: string
-      community: string
-    }
-    copyright: string
-    builtWith: string
-    links: {
-      documentation: { label: string; href: string }[]
-      resources: { label: string; href: string; external?: boolean; appId?: string }[]
-      community: { label: string; href: string; external?: boolean }[]
-    }
-  }
+export interface FooterLink {
+  /** i18n key for the label */
+  label: string
+  /** URL — use {locale} as placeholder */
+  href: string
+  external?: boolean
+  appId?: string
 }
 
 export interface SiteConfig {
@@ -48,6 +36,27 @@ export interface SiteConfig {
   sponsors: Sponsor[]
   /** Default locale */
   defaultLocale: string
-  /** Translations keyed by locale */
-  i18n: Record<string, SiteConfigTranslations>
+  /** Supported locales */
+  locales: string[]
+  /** Footer configuration — labels are i18n keys */
+  footer: {
+    /** i18n key for footer description */
+    description: string
+    columns: {
+      documentation: string
+      resources: string
+      community: string
+    }
+    /** i18n key — supports {year} placeholder */
+    copyright: string
+    /** i18n key — supports {icon} placeholder */
+    builtWith: string
+    links: {
+      documentation: FooterLink[]
+      resources: FooterLink[]
+      community: FooterLink[]
+    }
+  }
 }
+
+export type I18nMessages = Record<string, string>

@@ -16,6 +16,7 @@ explainer-v2/
 │   ├── blog/          # Blog (Astro)
 │   └── website/       # Page d'accueil (Astro)
 ├── packages/
+│   ├── config/        # Configuration globale du site
 │   ├── ui/            # Composants React UI partagés
 │   ├── mdx/           # Composants MDX & plugins remark
 │   └── thumbnail/     # Génération de miniatures OG
@@ -41,7 +42,8 @@ Chaque application est un projet Astro indépendant qui peut être construit et 
 
 | Package | Nom | Objectif | Utilisé par |
 |---------|-----|----------|-------------|
-| `packages/ui` | `@explainer/ui` | Button, Card, Navbar, ThemeToggle, Dropdown, MobileMenu, LocaleSwitcher | Toutes les applications |
+| `packages/config` | `@explainer/config` | Configuration globale du site, sponsors, i18n, templates de titre | Toutes les applications |
+| `packages/ui` | `@explainer/ui` | Button, Card, Navbar, Footer, ThemeToggle, Dropdown, MobileMenu, LocaleSwitcher | Toutes les applications |
 | `packages/mdx` | `@explainer/mdx` | Surcharges de composants MDX, Callout, Steps, Tabs, CodeGroup, Preview, plugins remark, configuration Shiki | Docs, Blog |
 | `packages/thumbnail` | `@explainer/thumbnail` | Génération d'images OG avec Satori + Resvg | Docs, Blog, Website |
 

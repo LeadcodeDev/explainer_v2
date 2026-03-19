@@ -11,13 +11,6 @@ export const defaultConfig: SiteConfig = {
   github: 'https://github.com/LeadcodeDev/explainer_v2',
   sponsors: [
     {
-      id: 'cloudiam',
-      name: 'Cloud IAM',
-      href: 'https://www.cloud-iam.com/',
-      logoUrl: 'https://cdn.brandfetch.io/idEKeGBP2Y/w/300/h/300/theme/dark/icon.png?c=1bxid64Mup7aczewSAYMX&t=1769852965392',
-      tier: 'gold',
-    },
-    {
       id: 'mineral',
       name: 'Mineral',
       href: 'https://mineral-dart.dev/',
@@ -26,68 +19,33 @@ export const defaultConfig: SiteConfig = {
     },
   ],
   defaultLocale: 'en',
-  i18n: {
-    en: {
-      description: 'Documentation boilerplate for developers.',
-      footer: {
-        description: 'A modern documentation framework built with Astro. Create beautiful, fast, and accessible docs with ease.',
-        columns: {
-          documentation: 'Documentation',
-          resources: 'Resources',
-          community: 'Community',
-        },
-        copyright: '© {year} Explainer. All rights reserved.',
-        builtWith: 'Built with {icon} using Astro',
-        links: {
-          documentation: [
-            { label: 'Getting Started', href: '/en/explainer/getting-started' },
-            { label: 'MDX Components', href: '/en/explainer/mdx-components/callout' },
-            { label: 'Customization', href: '/en/explainer/features/theme-customization' },
-            { label: 'Deployment', href: '/en/explainer/deployment/docker' },
-          ],
-          resources: [
-            { label: 'GitHub', href: 'https://github.com/LeadcodeDev/explainer_v2', external: true },
-            { label: 'Blog', href: '', appId: 'blog' },
-            { label: 'Changelog', href: 'https://github.com/LeadcodeDev/explainer_v2/releases', external: true },
-          ],
-          community: [
-            { label: 'Issues', href: 'https://github.com/LeadcodeDev/explainer_v2/issues', external: true },
-            { label: 'Discussions', href: 'https://github.com/LeadcodeDev/explainer_v2/discussions', external: true },
-            { label: 'Contributing', href: 'https://github.com/LeadcodeDev/explainer_v2/blob/main/CONTRIBUTING.md', external: true },
-          ],
-        },
-      },
+  locales: ['en', 'fr'],
+  footer: {
+    description: 'footer.description',
+    columns: {
+      documentation: 'footer.columns.documentation',
+      resources: 'footer.columns.resources',
+      community: 'footer.columns.community',
     },
-    fr: {
-      description: 'Boilerplate de documentation pour les développeurs.',
-      footer: {
-        description: 'Un framework de documentation moderne construit avec Astro. Créez des docs belles, rapides et accessibles facilement.',
-        columns: {
-          documentation: 'Documentation',
-          resources: 'Ressources',
-          community: 'Communauté',
-        },
-        copyright: '© {year} Explainer. Tous droits réservés.',
-        builtWith: 'Construit avec {icon} grâce à Astro',
-        links: {
-          documentation: [
-            { label: 'Premiers pas', href: '/fr/explainer/getting-started' },
-            { label: 'Composants MDX', href: '/fr/explainer/mdx-components/callout' },
-            { label: 'Personnalisation', href: '/fr/explainer/features/theme-customization' },
-            { label: 'Déploiement', href: '/fr/explainer/deployment/docker' },
-          ],
-          resources: [
-            { label: 'GitHub', href: 'https://github.com/LeadcodeDev/explainer_v2', external: true },
-            { label: 'Blog', href: '', appId: 'blog' },
-            { label: 'Changelog', href: 'https://github.com/LeadcodeDev/explainer_v2/releases', external: true },
-          ],
-          community: [
-            { label: 'Issues', href: 'https://github.com/LeadcodeDev/explainer_v2/issues', external: true },
-            { label: 'Discussions', href: 'https://github.com/LeadcodeDev/explainer_v2/discussions', external: true },
-            { label: 'Contribuer', href: 'https://github.com/LeadcodeDev/explainer_v2/blob/main/CONTRIBUTING.md', external: true },
-          ],
-        },
-      },
+    copyright: 'footer.copyright',
+    builtWith: 'footer.builtWith',
+    links: {
+      documentation: [
+        { label: 'footer.links.gettingStarted', href: '/{locale}/explainer/getting-started' },
+        { label: 'footer.links.mdxComponents', href: '/{locale}/explainer/mdx-components/callout' },
+        { label: 'footer.links.customization', href: '/{locale}/explainer/features/theme-customization' },
+        { label: 'footer.links.deployment', href: '/{locale}/explainer/deployment/docker' },
+      ],
+      resources: [
+        { label: 'footer.links.github', href: 'https://github.com/LeadcodeDev/explainer_v2', external: true },
+        { label: 'footer.links.blog', href: '', appId: 'blog' },
+        { label: 'footer.links.changelog', href: 'https://github.com/LeadcodeDev/explainer_v2/releases', external: true },
+      ],
+      community: [
+        { label: 'footer.links.issues', href: 'https://github.com/LeadcodeDev/explainer_v2/issues', external: true },
+        { label: 'footer.links.discussions', href: 'https://github.com/LeadcodeDev/explainer_v2/discussions', external: true },
+        { label: 'footer.links.contributing', href: 'https://github.com/LeadcodeDev/explainer_v2/blob/main/CONTRIBUTING.md', external: true },
+      ],
     },
   },
 }

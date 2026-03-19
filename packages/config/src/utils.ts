@@ -1,5 +1,6 @@
-import type { SiteConfig, SiteConfigTranslations } from './contracts'
+import type { SiteConfig, I18nMessages } from './contracts'
 import { defaultConfig } from './config'
+import { i18n } from './i18n/footer'
 
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K]
@@ -26,7 +27,17 @@ export function formatTitle(config: SiteConfig, pageTitle: string): string {
   return config.titleTemplate.replace('%s', pageTitle)
 }
 
-export function getTranslations(config: SiteConfig, locale?: string): SiteConfigTranslations {
-  const lang = locale ?? config.defaultLocale
-  return config.i18n[lang] ?? config.i18n[config.defaultLocale]
+export function getMessages(locale?: string): I18nMessages {
+  const lang = locale ?? defaultConfig.defaultLocale
+  return i18n[lang] ?? i18n[defaultConfig.defaultLocale]
+}
+
+export function t(locale: string | undefined, key: string): string {
+  const messages = getMessages(locale)
+  const fallback = i18n[defaultConfig.defaultLocale]
+  return messages[key] ?? fallback[key] ?? key
+}
+
+export function resolveHref(href: string, locale?: string): string {
+  return href.replace('{locale}', locale ?? defaultConfig.defaultLocale)
 }
