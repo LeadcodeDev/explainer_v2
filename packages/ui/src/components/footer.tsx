@@ -26,6 +26,7 @@ export function Footer({ config = defaultConfig, locale: localeProp, appUrlOverr
     }
   }, [localeProp, config])
 
+  const docsUrl = (appUrlOverrides?.docs ?? '').replace(/\/$/, '')
   const blogUrl = appUrlOverrides?.blog ?? '/'
   const t = getTranslations(config, locale)
   const { name } = config
@@ -51,7 +52,7 @@ export function Footer({ config = defaultConfig, locale: localeProp, appUrlOverr
           <ul className="space-y-2">
             {t.footer.links.documentation.map((link) => (
               <li key={link.href}>
-                <a href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href={`${docsUrl}${link.href}`} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   {link.label}
                 </a>
               </li>
