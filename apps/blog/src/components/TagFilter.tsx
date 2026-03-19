@@ -100,7 +100,7 @@ export function TagFilter({ tags, initialTags = [], locale = 'en' }: TagFilterPr
           />
         </div>
 
-        <div className="flex items-center gap-3 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-3 flex-wrap">
           {tags.map((tag) => {
             const active = selectedTags.includes(tag.name)
             return (
@@ -108,7 +108,7 @@ export function TagFilter({ tags, initialTags = [], locale = 'en' }: TagFilterPr
                 key={tag.name}
                 type="button"
                 onClick={() => toggleTag(tag.name)}
-                className={`flex items-center gap-1.5 rounded-md border px-4 py-1.5 text-sm shrink-0 transition-colors cursor-pointer border-dashed ${
+                className={`flex items-center gap-1.5 rounded-md border px-4 py-1.5 text-sm transition-colors cursor-pointer border-dashed ${
                   active
                     ? 'border-primary/50 bg-primary/5 text-primary font-medium'
                     : 'border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground'
