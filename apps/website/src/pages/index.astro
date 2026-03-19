@@ -7,6 +7,8 @@ import HighlightsSection from '../components/highlights-section.astro'
 import TestimonialsSection from '../components/testimonials-section.astro'
 import CtaSection from '../components/cta-section.astro'
 import LatestArticlesSection from '../components/latest-articles-section.astro'
+import { Footer } from '@explainer/ui'
+import { siteConfig } from '../config'
 import { ui } from '../i18n/ui'
 
 const appUrlOverrides = {
@@ -29,11 +31,9 @@ const thumbnails = { en: '/thumbnail.png', fr: '/thumbnails/fr/thumbnail.png' }
   <LatestArticlesSection />
   <CtaSection />
 
-  <footer class="border-t">
-    <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground text-center" data-t="footer.text">
-      Built with Explainer v2
-    </div>
-  </footer>
+  <div class="mx-auto max-w-6xl px-6">
+    <Footer config={siteConfig} appUrlOverrides={appUrlOverrides} client:load />
+  </div>
 </Base>
 
 <script is:inline define:vars={{ translations, thumbnails }}>

@@ -36,7 +36,19 @@ export function TableOfContents({ headings, contributors = [] }: TocProps) {
       observer.observe(el)
     }
 
-    return () => observer.disconnect()
+    const onScroll = () => {
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50
+      if (atBottom && elements.length > 0) {
+        setActiveId(elements[elements.length - 1].id)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [filtered.map((h) => h.slug).join(',')])
 
   if (filtered.length === 0) return null

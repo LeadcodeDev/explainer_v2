@@ -2,6 +2,9 @@
 import '../styles/globals.css'
 import { ClientRouter } from 'astro:transitions'
 import { BlogNavbar } from '../components/blog-navbar'
+import { Footer } from '@explainer/ui'
+import { formatTitle } from '@explainer/config'
+import { siteConfig } from '../config'
 import { useTranslations } from '../i18n/utils'
 
 interface Props {
@@ -13,7 +16,7 @@ interface Props {
   localeSwitchUrls?: Record<string, string>
 }
 
-const { title, description = 'Explainer Blog', thumbnail, locale = 'en', locales = ['en'], localeSwitchUrls = {} } = Astro.props
+const { title, description = siteConfig.description, thumbnail, locale = 'en', locales = ['en'], localeSwitchUrls = {} } = Astro.props
 const t = useTranslations(locale)
 const thumbnailUrl = thumbnail ?? `${Astro.url.pathname.replace(/\/$/, '')}/thumbnail.png`
 
@@ -29,17 +32,17 @@ const appUrlOverrides = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={siteConfig.favicon} />
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={thumbnailUrl} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:type" content={siteConfig.ogType} />
+    <meta name="twitter:card" content={siteConfig.twitterCard} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={thumbnailUrl} />
-    <title>{title} — Blog</title>
+    <title>{formatTitle(siteConfig, title)}</title>
     <ClientRouter />
     <script is:inline>
       (function () {
@@ -61,10 +64,8 @@ const appUrlOverrides = {
     <main class="mx-auto max-w-6xl px-6 py-10">
       <slot />
     </main>
-    <footer class="border-t mt-16">
-      <div class="mx-auto max-w-6xl px-6 py-8 text-sm text-muted-foreground">
-        {t('footer.text')}
-      </div>
-    </footer>
+    <div class="mx-auto max-w-6xl px-6">
+      <Footer config={siteConfig} locale={locale} appUrlOverrides={appUrlOverrides} client:load />
+    </div>
   </body>
 </html>

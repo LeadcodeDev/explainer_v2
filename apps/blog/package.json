@@ -12,6 +12,7 @@
     "@astrojs/mdx": "^4.2.0",
     "@astrojs/react": "^4.2.0",
     "@astrojs/rss": "^4.0.0",
+    "@explainer/config": "workspace:*",
     "@explainer/mdx": "workspace:*",
     "@explainer/thumbnail": "workspace:*",
     "@explainer/ui": "workspace:*",

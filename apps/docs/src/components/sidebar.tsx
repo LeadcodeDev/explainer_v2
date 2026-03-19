@@ -32,7 +32,7 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
   if (item.type === 'group') {
     return (
       <li className="mt-6 first:mt-0">
-        <div className="px-3 pb-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="px-3 pb-1.5 text-xs font-medium uppercase text-foreground/80">
           {item.title}
         </div>
         <ul>

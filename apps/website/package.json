@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^4.2.0",
+    "@explainer/config": "workspace:*",
     "@explainer/thumbnail": "workspace:*",
     "@explainer/ui": "workspace:*",
     "@iconify/react": "^5.2.0",

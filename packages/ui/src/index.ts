@@ -28,3 +28,4 @@ export { SponsorCards, type SponsorCardsProps } from './components/sponsor-cards
 export { defaultSponsors, getSponsors, type Sponsor } from './lib/sponsors'
 export { ContributorCards, type ContributorCardsProps } from './components/contributor-cards'
 export { fetchContributors, sortContributors, defaultContributors, type Contributor, type ContributorSortStrategy } from './lib/contributors'
+export { Footer, type FooterProps } from './components/footer'

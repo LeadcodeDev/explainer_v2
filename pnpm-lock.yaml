@@ -32,6 +32,9 @@ importers:
       '@astrojs/rss':
         specifier: ^4.0.0
         version: 4.0.17
+      '@explainer/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@explainer/mdx':
         specifier: workspace:*
         version: link:../../packages/mdx
@@ -84,6 +87,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.2.0
         version: 4.4.2(@types/node@25.5.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.31.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@explainer/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@explainer/mdx':
         specifier: workspace:*
         version: link:../../packages/mdx
@@ -136,6 +142,9 @@ importers:
       '@astrojs/react':
         specifier: ^4.2.0
         version: 4.4.2(@types/node@25.5.0)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(jiti@2.6.1)(lightningcss@1.31.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@explainer/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@explainer/thumbnail':
         specifier: workspace:*
         version: link:../../packages/thumbnail
@@ -173,6 +182,8 @@ importers:
       typescript:
         specifier: ^5.8.0
         version: 5.9.3
+
+  packages/config: {}
 
   packages/mdx:
     dependencies:
@@ -247,6 +258,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@explainer/config':
+        specifier: workspace:*
+        version: link:../config
       '@iconify/react':
         specifier: ^5.2.0
         version: 5.2.1(react@19.2.4)

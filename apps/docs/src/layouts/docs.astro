@@ -5,7 +5,10 @@ import { Header } from '../components/header'
 import { Sidebar } from '../components/sidebar'
 import { TableOfContents, type TocHeading } from '../components/toc'
 import { fetchContributors, sortContributors } from '@explainer/ui'
+import { formatTitle } from '@explainer/config'
 import { Pagination } from '../components/pagination'
+import { Footer } from '../components/footer'
+import { siteConfig } from '../config'
 import type { NavItem, ProjectInfo, BreadcrumbItem } from '../lib/docs'
 
 interface Props {
@@ -68,17 +71,17 @@ const appUrlOverrides = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={siteConfig.favicon} />
     {description && <meta name="description" content={description} />}
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <meta property="og:image" content={thumbnailUrl} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:type" content={siteConfig.ogType} />
+    <meta name="twitter:card" content={siteConfig.twitterCard} />
     <meta name="twitter:title" content={title} />
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={thumbnailUrl} />
-    <title>{title} — Explainer</title>
+    <title>{formatTitle(siteConfig, title)}</title>
 
     <ClientRouter />
     <script is:inline>
@@ -144,6 +147,7 @@ const appUrlOverrides = {
           <slot />
         </article>
         <Pagination prev={prev} next={next} client:load />
+        <Footer config={siteConfig} locale={currentLocale} appUrlOverrides={appUrlOverrides} client:load />
       </main>
       <div transition:animate="none">
         <TableOfContents headings={headings} contributors={contributors} client:load />
