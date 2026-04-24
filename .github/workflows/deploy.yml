@@ -128,7 +128,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=baptistep-docs
+          command: pages deploy dist --project-name=explainer-docs
 
   deploy-blog:
     needs: build-blog
@@ -146,7 +146,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=baptistep-blog
+          command: pages deploy dist --project-name=explainer-blog
 
   deploy-website:
     needs: build-website
@@ -164,4 +164,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=baptistep-website
+          command: pages deploy dist --project-name=explainer-website
