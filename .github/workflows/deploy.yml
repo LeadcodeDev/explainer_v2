@@ -1,4 +1,4 @@
-name: Deploy explainer
+name: Deploy
 
 on:
   push:
@@ -128,7 +128,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-docs
+          command: pages deploy dist --project-name=${{ vars.PROJECT_NAME }}-docs
 
   deploy-blog:
     needs: build-blog
@@ -146,7 +146,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-blog
+          command: pages deploy dist --project-name=${{ vars.PROJECT_NAME }}-blog
 
   deploy-website:
     needs: build-website
@@ -164,4 +164,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-website
+          command: pages deploy dist --project-name=${{ vars.PROJECT_NAME }}-website

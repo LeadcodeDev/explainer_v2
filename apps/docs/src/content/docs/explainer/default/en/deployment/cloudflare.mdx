@@ -13,11 +13,14 @@ Deploy Explainer apps to Cloudflare Pages using GitHub Actions with the `cloudfl
 
 ::::step-group
 :::step{title="Set the deploy target"}
-Add a repository variable in GitHub Settings → Variables:
+Add the following repository variables in GitHub Settings → Secrets and variables → Actions → **Variables** tab:
 
 ```text
 DEPLOY_TARGET=cloudflare
+PROJECT_NAME=your-project-name
 ```
+
+`PROJECT_NAME` is used to name the Cloudflare Pages projects. For example, `PROJECT_NAME=explainer` produces `explainer-docs`, `explainer-blog`, and `explainer-website`.
 :::
 
 :::step{title="Add required secrets"}
@@ -43,9 +46,9 @@ The unified workflow at `.github/workflows/deploy.yml` handles all three apps. W
   with:
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-    command: pages deploy dist --project-name=explainer-docs
+    command: pages deploy dist --project-name=${{ vars.PROJECT_NAME }}-docs
 ```
 
 :::callout{variant="info"}
-Replace `explainer-docs` with your Cloudflare Pages project name. Each app needs its own project. See the [CI/CD](/explainer/deployment/ci-cd) page for the full workflow structure.
+The project name is built from `PROJECT_NAME` + the app suffix (`-docs`, `-blog`, `-website`). Each app must have a matching project in the Cloudflare dashboard. See the [CI/CD](/explainer/deployment/ci-cd) page for the full workflow structure.
 :::

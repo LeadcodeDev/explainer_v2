@@ -13,11 +13,14 @@ Déployez les applications Explainer sur Cloudflare Pages avec GitHub Actions en
 
 ::::step-group
 :::step{title="Définir la cible de déploiement"}
-Ajoutez une variable de dépôt dans GitHub Settings → Variables :
+Ajoutez les variables de dépôt suivantes dans GitHub Settings → Secrets and variables → Actions → onglet **Variables** :
 
 ```text
 DEPLOY_TARGET=cloudflare
+PROJECT_NAME=nom-de-votre-projet
 ```
+
+`PROJECT_NAME` est utilisé pour nommer les projets Cloudflare Pages. Par exemple, `PROJECT_NAME=explainer` génère `explainer-docs`, `explainer-blog` et `explainer-website`.
 :::
 
 :::step{title="Ajouter les secrets requis"}
@@ -43,9 +46,9 @@ Le workflow unifié situé dans `.github/workflows/deploy.yml` gère les trois a
   with:
     apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-    command: pages deploy dist --project-name=explainer-docs
+    command: pages deploy dist --project-name=${{ vars.PROJECT_NAME }}-docs
 ```
 
 :::callout{variant="info"}
-Remplacez `explainer-docs` par le nom de votre projet Cloudflare Pages. Chaque application nécessite son propre projet. Consultez la page [CI/CD](/explainer/deployment/ci-cd) pour la structure complète du workflow.
+Le nom du projet est construit à partir de `PROJECT_NAME` + le suffixe de l'application (`-docs`, `-blog`, `-website`). Chaque application doit avoir un projet correspondant dans le tableau de bord Cloudflare. Consultez la page [CI/CD](/explainer/deployment/ci-cd) pour la structure complète du workflow.
 :::
