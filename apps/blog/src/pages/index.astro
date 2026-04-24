@@ -5,7 +5,7 @@ import { TagFilter } from '../components/TagFilter'
 import PostCard from '../components/PostCard.astro'
 import { getPublishedPosts, getPostHref, getPostLocale, getLocales, getAllTags, getReadingTime } from '../lib/posts'
 import { getAuthor } from '../lib/authors'
-import { defaultLang } from '../i18n/ui'
+import { defaultLang, ui } from '../i18n/ui'
 import { useTranslations } from '../i18n/utils'
 
 const allPosts = await getCollection('posts')
@@ -20,7 +20,8 @@ const t = useTranslations(locale)
   <!-- Page header -->
   <section class="mb-8">
     <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
-      {t('index.heading.prefix')} <span class="text-primary">{t('index.heading.highlight')}</span>
+      <span data-i18n="index.heading.prefix">{t('index.heading.prefix')}</span>{' '}
+      <span class="text-primary" data-i18n="index.heading.highlight">{t('index.heading.highlight')}</span>
     </h1>
   </section>
 
@@ -57,20 +58,32 @@ const t = useTranslations(locale)
 
 </Base>
 
-<script define:vars={{ supportedLocales: locales, fallbackLocale: locale }}>
-  function filterByLocale() {
-    const match = document.cookie.match(/(?:^|; )locale=([^;]*)/)
-    const cookieLocale = match ? match[1] : null
-    const browserLang = (navigator.language || '').split('-')[0]
-    const detected = (cookieLocale && supportedLocales.includes(cookieLocale))
+<script define:vars={{ supportedLocales: locales, fallbackLocale: locale, translations: ui }}>
+  function detectLocale() {
+    var match = document.cookie.match(/(?:^|; )locale=([^;]*)/)
+    var cookieLocale = match ? match[1] : null
+    var browserLang = (navigator.language || '').split('-')[0]
+    return (cookieLocale && supportedLocales.includes(cookieLocale))
       ? cookieLocale
       : supportedLocales.includes(browserLang) ? browserLang : fallbackLocale
+  }
 
+  function applyLocale(detected) {
+    window.__detectedLocale = detected
     document.querySelectorAll('[data-locale]').forEach(function (el) {
       el.style.display = el.dataset.locale === detected ? '' : 'none'
     })
+    window.dispatchEvent(new CustomEvent('locale:change', { detail: { locale: detected } }))
   }
 
-  filterByLocale()
-  document.addEventListener('astro:after-swap', filterByLocale)
+  window.addEventListener('locale:change', function (e) {
+    var t = translations[e.detail.locale] || translations[fallbackLocale]
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.dataset.i18n
+      if (t[key] !== undefined) el.textContent = t[key]
+    })
+  })
+
+  applyLocale(detectLocale())
+  document.addEventListener('astro:after-swap', function () { applyLocale(detectLocale()) })
 </script>

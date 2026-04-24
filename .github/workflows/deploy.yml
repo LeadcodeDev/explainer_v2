@@ -8,15 +8,15 @@ on:
       docs:
         description: 'Deploy Docs'
         type: boolean
-        default: true
+        default: false
       blog:
         description: 'Deploy Blog'
         type: boolean
-        default: true
+        default: false
       website:
         description: 'Deploy Website'
         type: boolean
-        default: true
+        default: false
 
 jobs:
   changes:
@@ -46,7 +46,7 @@ jobs:
 
   build-docs:
     needs: changes
-    if: needs.changes.outputs.docs == 'true' || (github.event_name == 'workflow_dispatch' && inputs.docs)
+    if: (github.event_name == 'push' && needs.changes.outputs.docs == 'true') || (github.event_name == 'workflow_dispatch' && inputs.docs)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -69,7 +69,7 @@ jobs:
 
   build-blog:
     needs: changes
-    if: needs.changes.outputs.blog == 'true' || (github.event_name == 'workflow_dispatch' && inputs.blog) || github.event_name == 'schedule'
+    if: (github.event_name == 'push' && needs.changes.outputs.blog == 'true') || (github.event_name == 'workflow_dispatch' && inputs.blog) || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -92,7 +92,7 @@ jobs:
 
   build-website:
     needs: changes
-    if: needs.changes.outputs.website == 'true' || (github.event_name == 'workflow_dispatch' && inputs.website)
+    if: (github.event_name == 'push' && needs.changes.outputs.website == 'true') || (github.event_name == 'workflow_dispatch' && inputs.website)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -128,7 +128,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-docs
+          command: pages deploy dist --project-name=baptistep-docs
 
   deploy-blog:
     needs: build-blog
@@ -146,7 +146,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-blog
+          command: pages deploy dist --project-name=baptistep-blog
 
   deploy-website:
     needs: build-website
@@ -164,4 +164,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=explainer-website
+          command: pages deploy dist --project-name=baptistep-website

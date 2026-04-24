@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { Icon } from '@iconify/react'
 import { cn } from '../lib/utils'
+import { setCookie, getCookie } from '../lib/cookies'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,14 +36,14 @@ export function ThemeToggle({ className }: { className?: string }) {
   const [theme, setTheme] = React.useState<Theme>('light')
 
   React.useEffect(() => {
-    const stored = localStorage.getItem('theme') as Theme | null
+    const stored = getCookie('theme') as Theme | null
     const initial: Theme = stored ?? 'system'
     setTheme(initial)
     applyTheme(initial)
 
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
     const onChange = () => {
-      if ((localStorage.getItem('theme') ?? 'system') === 'system') {
+      if ((getCookie('theme') ?? 'system') === 'system') {
         applyTheme('system')
       }
     }
@@ -52,7 +53,7 @@ export function ThemeToggle({ className }: { className?: string }) {
 
   const select = (next: Theme) => {
     setTheme(next)
-    localStorage.setItem('theme', next)
+    setCookie('theme', next)
     applyTheme(next)
   }
 

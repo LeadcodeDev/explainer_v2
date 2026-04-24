@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { Icon } from '@iconify/react'
 import { cn } from '../lib/utils'
+import { setCookie } from '../lib/cookies'
 
 export interface LocaleSwitcherProps {
   locales: string[]
@@ -25,19 +26,6 @@ const localeNames: Record<string, string> = {
   it: 'Italiano',
 }
 
-function setLocaleCookie(locale: string) {
-  const hostname = window.location.hostname
-  const parts = hostname.split('.')
-
-  // Set cookie without domain for public suffixes (e.g. pages.dev, github.io)
-  // and with root domain for custom domains (e.g. .explainer.dev)
-  const isPublicSuffix = parts.length <= 2 || ['pages.dev', 'github.io', 'vercel.app', 'netlify.app', 'workers.dev'].some(
-    (s) => hostname.endsWith(s)
-  )
-
-  const domainAttr = isPublicSuffix ? '' : `;domain=.${parts.slice(-2).join('.')}`
-  document.cookie = `locale=${locale};path=/${domainAttr};max-age=${60 * 60 * 24 * 365};SameSite=Lax`
-}
 
 export function LocaleSwitcher({ locales, currentLocale, switchUrls = {}, dropUp, onLocaleChange }: LocaleSwitcherProps) {
   const [open, setOpen] = React.useState(false)
@@ -67,7 +55,7 @@ export function LocaleSwitcher({ locales, currentLocale, switchUrls = {}, dropUp
                     : 'text-muted-foreground hover:bg-accent hover:text-foreground',
                 )}
                 onClick={(e) => {
-                  setLocaleCookie(locale)
+                  setCookie('locale', locale)
                   setOpen(false)
                   if (onLocaleChange) {
                     e.preventDefault()

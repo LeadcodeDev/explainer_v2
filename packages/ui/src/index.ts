@@ -1,4 +1,5 @@
 export { cn } from './lib/utils'
+export { setCookie, getCookie } from './lib/cookies'
 export { Button, buttonVariants, type ButtonProps } from './components/button'
 export {
   Card,

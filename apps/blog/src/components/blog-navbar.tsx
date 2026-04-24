@@ -16,7 +16,20 @@ export function BlogNavbar({ activePath, appUrlOverrides, locale: initialLocale,
   const [locale, setLocale] = useState(initialLocale)
 
   useEffect(() => {
-    setLocale(initialLocale)
+    if (!isListing) {
+      setLocale(initialLocale)
+      return
+    }
+    // On the listing page the server always renders with defaultLang.
+    // Read the locale the inline script already detected from the cookie/browser.
+    const detected = (window as any).__detectedLocale as string | undefined
+    if (detected) setLocale(detected)
+
+    const handleLocaleChange = (e: Event) => {
+      setLocale((e as CustomEvent<{ locale: string }>).detail.locale)
+    }
+    window.addEventListener('locale:change', handleLocaleChange)
+    return () => window.removeEventListener('locale:change', handleLocaleChange)
   }, [initialLocale])
   const appLinks = getAppLinks('blog', appUrlOverrides)
   const t = useTranslations(locale)
@@ -32,6 +45,7 @@ export function BlogNavbar({ activePath, appUrlOverrides, locale: initialLocale,
         document.querySelectorAll<HTMLElement>('[data-locale]').forEach((el) => {
           el.style.display = el.dataset.locale === newLocale ? '' : 'none'
         })
+        window.dispatchEvent(new CustomEvent('locale:change', { detail: { locale: newLocale } }))
         document.dispatchEvent(new Event('tags:filter'))
       }
     : undefined

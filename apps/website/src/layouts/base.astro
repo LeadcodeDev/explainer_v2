@@ -33,14 +33,16 @@ const thumbnailUrl = thumbnail ?? siteConfig.thumbnail
     <ClientRouter />
     <script is:inline>
       (function () {
-        var theme = localStorage.getItem('theme') || 'system'
+        var match = document.cookie.match(/(?:^|; )theme=([^;]*)/)
+        var theme = match ? match[1] : 'system'
         var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
         document.documentElement.classList.toggle('dark', isDark)
       })()
     </script>
     <script is:inline>
       document.addEventListener('astro:after-swap', function () {
-        var theme = localStorage.getItem('theme') || 'system'
+        var match = document.cookie.match(/(?:^|; )theme=([^;]*)/)
+        var theme = match ? match[1] : 'system'
         var isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
         document.documentElement.classList.toggle('dark', isDark)
       })

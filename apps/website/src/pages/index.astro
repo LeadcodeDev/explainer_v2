@@ -47,8 +47,8 @@ const thumbnails = { en: '/thumbnail.png', fr: '/thumbnails/fr/thumbnail.png' }
     return 'en'
   }
 
-  function applyTranslations() {
-    const locale = detectLocale()
+  function applyTranslations(e) {
+    const locale = (e instanceof CustomEvent && e.detail && e.detail.locale) ? e.detail.locale : detectLocale()
     document.documentElement.lang = locale
 
     if (locale === 'en') {
@@ -72,4 +72,5 @@ const thumbnails = { en: '/thumbnail.png', fr: '/thumbnails/fr/thumbnail.png' }
 
   applyTranslations()
   document.addEventListener('astro:after-swap', applyTranslations)
+  window.addEventListener('locale:change', applyTranslations)
 </script>

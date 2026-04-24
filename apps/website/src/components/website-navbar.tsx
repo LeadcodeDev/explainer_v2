@@ -47,7 +47,10 @@ export function WebsiteNavbar({ appUrlOverrides }: WebsiteNavbarProps) {
         <LocaleSwitcher
           locales={['en', 'fr']}
           currentLocale={locale}
-          onLocaleChange={() => window.location.reload()}
+          onLocaleChange={(newLocale) => {
+            setLocale(newLocale)
+            window.dispatchEvent(new CustomEvent('locale:change', { detail: { locale: newLocale } }))
+          }}
         />
       }
     />
