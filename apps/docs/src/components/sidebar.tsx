@@ -8,9 +8,11 @@ interface SidebarProps {
   currentPath: string
 }
 
+const normalize = (p: string) => p.replace(/\/$/, '') || '/'
+
 export function Sidebar({ items: initialItems, currentPath: initialPath }: SidebarProps) {
   const [items, setItems] = React.useState(initialItems)
-  const [currentPath, setCurrentPath] = React.useState(initialPath)
+  const [currentPath, setCurrentPath] = React.useState(() => normalize(initialPath))
 
   React.useEffect(() => {
     const handleBeforeSwap = (e: Event) => {
@@ -22,7 +24,7 @@ export function Sidebar({ items: initialItems, currentPath: initialPath }: Sideb
         } catch {}
       }
     }
-    const handleAfterSwap = () => setCurrentPath(window.location.pathname)
+    const handleAfterSwap = () => setCurrentPath(normalize(window.location.pathname))
 
     document.addEventListener('astro:before-swap', handleBeforeSwap)
     document.addEventListener('astro:after-swap', handleAfterSwap)
@@ -74,7 +76,7 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
   }
 
   if (item.type === 'page') {
-    const isActive = currentPath === item.href
+    const isActive = currentPath === normalize(item.href)
     return (
       <li>
         <a
@@ -124,6 +126,6 @@ function SidebarItem({ item, currentPath, depth = 0 }: { item: NavItem; currentP
 }
 
 function isActiveCategory(item: NavItem, currentPath: string): boolean {
-  if (item.type === 'page') return currentPath === item.href
+  if (item.type === 'page') return currentPath === normalize(item.href)
   return item.children?.some((child) => isActiveCategory(child, currentPath)) ?? false
 }
