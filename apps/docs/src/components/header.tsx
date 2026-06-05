@@ -63,6 +63,7 @@ export function Header({
             hasVersioning={currentProjectInfo?.hasVersioning ?? false}
             versionSwitchUrls={versionSwitchUrls}
             appLinks={appLinks}
+            authEnabled={authEnabled}
           />
         }
         rightSlot={

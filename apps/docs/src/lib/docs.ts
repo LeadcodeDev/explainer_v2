@@ -313,6 +313,22 @@ export function getBreadcrumb(navItems: NavItem[], currentPath: string): Breadcr
   return result
 }
 
+export function filterNavByAccess(
+  items: NavItem[],
+  canAccess: (item: NavItem) => boolean,
+): NavItem[] {
+  const out: NavItem[] = []
+  for (const item of items) {
+    if (item.type === 'page') {
+      if (canAccess(item)) out.push(item)
+    } else {
+      const children = filterNavByAccess(item.children ?? [], canAccess)
+      if (children.length) out.push({ ...item, children })
+    }
+  }
+  return out
+}
+
 export function loadMetaFiles(
   globs: Record<string, unknown>,
 ): Record<string, MetaFile> {
