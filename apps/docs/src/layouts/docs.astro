@@ -10,6 +10,7 @@ import { Pagination } from '../components/pagination'
 import { Footer } from '../components/footer'
 import { siteConfig } from '../config'
 import type { NavItem, ProjectInfo, BreadcrumbItem } from '../lib/docs'
+import { AuthGate } from '@explainer/auth/react'
 
 interface Props {
   title: string
@@ -29,6 +30,8 @@ interface Props {
   localeSwitchUrls: Record<string, string>
   breadcrumb: BreadcrumbItem[]
   thumbnail?: string
+  requiredRoles?: string[]
+  roleMatch?: 'any' | 'all'
 }
 
 const {
@@ -49,7 +52,12 @@ const {
   localeSwitchUrls,
   breadcrumb,
   thumbnail,
+  requiredRoles = [],
+  roleMatch = 'any',
 } = Astro.props
+
+const authEnabled = import.meta.env.PUBLIC_AUTH_ENABLED === 'true'
+const isProtected = authEnabled && requiredRoles.length > 0
 
 const contributors = sortContributors(
   await fetchContributors({ token: import.meta.env.GITHUB_TOKEN }),
@@ -122,6 +130,7 @@ const appUrlOverrides = {
       navItems={navItems}
       currentPath={currentPath}
       appUrlOverrides={appUrlOverrides}
+      authEnabled={authEnabled}
       client:load
       transition:persist
       transition:animate="none"
@@ -129,7 +138,7 @@ const appUrlOverrides = {
     <div id="docs-nav-data" data-items={JSON.stringify(navItems)} hidden />
     <div class="flex max-w-350 mx-auto">
       <div class="hidden lg:block w-64 shrink-0 border-r h-[calc(100vh-var(--header-height))] overflow-y-auto sticky top-(--header-height) py-6 pl-3 pr-3" transition:persist transition:animate="none">
-        <Sidebar items={navItems} currentPath={currentPath} client:load />
+        <Sidebar items={navItems} currentPath={currentPath} authEnabled={authEnabled} client:load />
       </div>
       <main class="flex-1 min-w-0 px-4 sm:px-8 py-6" transition:animate="none">
         {breadcrumb.length > 1 && (
@@ -146,9 +155,18 @@ const appUrlOverrides = {
             ))}
           </nav>
         )}
-        <article class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>
-          <slot />
-        </article>
+        {isProtected ? (
+          <>
+            <AuthGate requiredRoles={requiredRoles} match={roleMatch} contentId="protected-doc" client:load />
+            <article id="protected-doc" hidden class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>
+              <slot />
+            </article>
+          </>
+        ) : (
+          <article class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>
+            <slot />
+          </article>
+        )}
         <Pagination prev={prev} next={next} client:load />
         <Footer config={siteConfig} locale={currentLocale} appUrlOverrides={appUrlOverrides} client:load />
       </main>
