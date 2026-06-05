@@ -158,7 +158,7 @@ const appUrlOverrides = {
         {isProtected ? (
           <>
             <AuthGate requiredRoles={requiredRoles} match={roleMatch} contentId="protected-doc" client:load />
-            <article id="protected-doc" hidden class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>
+            <article id="protected-doc" hidden class="prose prose-neutral dark:prose-invert max-w-none">
               <slot />
             </article>
           </>
