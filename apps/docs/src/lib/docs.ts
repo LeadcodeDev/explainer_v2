@@ -1,10 +1,13 @@
 import type { CollectionEntry } from 'astro:content'
+import { resolvePageAccess } from '@explainer/auth'
 
 export interface MetaFile {
   title?: string
   icon?: string
   order?: number
   type?: 'group' | 'category'
+  roles?: string[]
+  roleMatch?: 'any' | 'all'
 }
 
 export interface NavItem {
@@ -15,6 +18,8 @@ export interface NavItem {
   icon?: string
   order: number
   children?: NavItem[]
+  requiredRoles?: string[]
+  roleMatch?: 'any' | 'all'
 }
 
 export interface ProjectInfo {
@@ -189,6 +194,7 @@ export function buildNavTree(
       const isLast = i === segments.length - 1
 
       if (isLast) {
+        const access = resolvePageAccess(entry.id, entry.data.roles, entry.data.roleMatch, metaFiles)
         currentLevel.push({
           type: 'page',
           title: entry.data.title,
@@ -196,6 +202,8 @@ export function buildNavTree(
           href: buildHref(entry),
           icon: entry.data.icon,
           order: entry.data.order ?? Infinity,
+          requiredRoles: access.roles.length ? access.roles : undefined,
+          roleMatch: access.roles.length ? access.match : undefined,
         })
       } else {
         currentPath += `/${segment}`
