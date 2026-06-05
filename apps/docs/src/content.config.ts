@@ -9,6 +9,8 @@ const docs = defineCollection({
     permalink: z.string().optional(),
     icon: z.string().optional(),
     order: z.number().optional(),
+    roles: z.array(z.string()).optional(),
+    roleMatch: z.enum(['any', 'all']).optional(),
   }),
 })
 
