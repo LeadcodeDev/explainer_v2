@@ -1,66 +1,70 @@
 import * as React from 'react'
-import { useAuth } from './use-auth'
-import { login, logout } from '../store'
 import { hasRequiredRole } from '../roles'
-import type { RoleMatch } from '../contracts'
+import { LOGOUT_FLAG_KEY, login } from '../store'
+import { useAuth } from './use-auth'
 
-interface AuthGateProps {
-  requiredRoles: string[]
-  match?: RoleMatch
-  /** id of the sibling element holding the protected content (hidden by default). */
-  contentId?: string
+/** A logout is "recent" for this long, during which auto-login stays suppressed. */
+const LOGOUT_GRACE_MS = 10_000
+
+/** True once, right after a logout, so the post-logout landing skips auto-login. */
+function consumeRecentLogout(): boolean {
+  if (typeof window === 'undefined') return false
+  const ts = sessionStorage.getItem(LOGOUT_FLAG_KEY)
+  if (!ts) return false
+  sessionStorage.removeItem(LOGOUT_FLAG_KEY)
+  return Date.now() - Number(ts) < LOGOUT_GRACE_MS
 }
 
-export function AuthGate({ requiredRoles, match = 'any', contentId = 'protected-doc' }: AuthGateProps) {
+interface AuthGateProps {
+  requiredRoles?: string[]
+  /** id of the sibling element holding the protected content (hidden by default). */
+  contentId?: string
+  /** id of the sibling element holding the not-found content shown when access is forbidden (hidden by default). */
+  forbiddenId?: string
+}
+
+export function AuthGate({
+  requiredRoles = [],
+  contentId = 'protected-doc',
+  forbiddenId,
+}: AuthGateProps) {
   const { status, user } = useAuth()
   const authorized =
-    status === 'authenticated' && hasRequiredRole(user?.roles ?? [], requiredRoles, match)
+    status === 'authenticated' && hasRequiredRole(user?.roles ?? [], requiredRoles)
+  const forbidden = status === 'authenticated' && !authorized
 
   React.useEffect(() => {
-    const el = document.getElementById(contentId)
-    if (el) el.hidden = !(status === 'disabled' || authorized)
+    const element = document.getElementById(contentId)
+    if (element) element.hidden = !(status === 'disabled' || authorized)
   }, [status, authorized, contentId])
 
   React.useEffect(() => {
-    if (status === 'unauthenticated') void login()
+    if (!forbiddenId) return
+    const element = document.getElementById(forbiddenId)
+    if (element) element.hidden = !forbidden
+  }, [forbidden, forbiddenId])
+
+  React.useEffect(() => {
+    if (status !== 'unauthenticated') return
+    if (consumeRecentLogout()) {
+      window.location.assign('/')
+      return
+    }
+    void login()
   }, [status])
 
-  if (status === 'disabled' || authorized) return null
+  if (status === 'disabled' || authorized || forbidden) return null
 
   if (status === 'loading') {
-    return <GateMessage>Vérification de l'accès…</GateMessage>
+    return <GateMessage>Loading</GateMessage>
   }
-  if (status === 'unauthenticated') {
-    return <GateMessage>Redirection vers l'authentification…</GateMessage>
-  }
-  return <Forbidden requiredRoles={requiredRoles} userRoles={user?.roles ?? []} />
+  return <GateMessage>Authentication required</GateMessage>
 }
 
 function GateMessage({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-[40vh] items-center justify-center text-muted-foreground" role="status">
       {children}
-    </div>
-  )
-}
-
-function Forbidden({ requiredRoles, userRoles }: { requiredRoles: string[]; userRoles: string[] }) {
-  return (
-    <div className="flex min-h-[40vh] flex-col items-center justify-center gap-3 text-center">
-      <h1 className="text-2xl font-semibold">Accès refusé</h1>
-      <p className="text-muted-foreground">
-        Cette page requiert {requiredRoles.length > 1 ? 'les rôles' : 'le rôle'}{' '}
-        <strong>{requiredRoles.join(', ')}</strong>.
-      </p>
-      <p className="text-sm text-muted-foreground">
-        Vos rôles : {userRoles.length ? userRoles.join(', ') : 'aucun'}.
-      </p>
-      <button
-        onClick={() => void logout()}
-        className="mt-2 rounded-lg border px-4 py-2 text-sm hover:bg-muted"
-      >
-        Changer de compte
-      </button>
     </div>
   )
 }

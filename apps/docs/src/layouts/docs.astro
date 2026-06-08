@@ -11,6 +11,7 @@ import { Footer } from '../components/footer'
 import { siteConfig } from '../config'
 import type { NavItem, ProjectInfo, BreadcrumbItem } from '../lib/docs'
 import { AuthGate } from '@explainer/auth/react'
+import NotFoundContent from '../components/not-found-content.astro'
 
 interface Props {
   title: string
@@ -30,8 +31,8 @@ interface Props {
   localeSwitchUrls: Record<string, string>
   breadcrumb: BreadcrumbItem[]
   thumbnail?: string
+  requiresAuth?: boolean
   requiredRoles?: string[]
-  roleMatch?: 'any' | 'all'
 }
 
 const {
@@ -52,12 +53,12 @@ const {
   localeSwitchUrls,
   breadcrumb,
   thumbnail,
+  requiresAuth = false,
   requiredRoles = [],
-  roleMatch = 'any',
 } = Astro.props
 
 const authEnabled = import.meta.env.PUBLIC_AUTH_ENABLED === 'true'
-const isProtected = authEnabled && requiredRoles.length > 0
+const isProtected = authEnabled && requiresAuth
 
 const contributors = sortContributors(
   await fetchContributors({ token: import.meta.env.GITHUB_TOKEN }),
@@ -157,10 +158,18 @@ const appUrlOverrides = {
         )}
         {isProtected ? (
           <>
-            <AuthGate requiredRoles={requiredRoles} match={roleMatch} contentId="protected-doc" client:load />
+            <AuthGate
+              requiredRoles={requiredRoles}
+              contentId="protected-doc"
+              forbiddenId="forbidden-content"
+              client:only="react"
+            />
             <article id="protected-doc" hidden class="prose prose-neutral dark:prose-invert max-w-none">
               <slot />
             </article>
+            <div id="forbidden-content" hidden class="flex flex-col items-center justify-center px-6 text-center py-20">
+              <NotFoundContent />
+            </div>
           </>
         ) : (
           <article class="prose prose-neutral dark:prose-invert max-w-none" data-pagefind-body>

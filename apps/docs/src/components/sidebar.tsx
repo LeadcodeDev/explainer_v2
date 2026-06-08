@@ -21,8 +21,9 @@ export function Sidebar({ items: initialItems, currentPath: initialPath, authEna
   const visibleItems = React.useMemo(() => {
     if (!authEnabled) return items
     return filterNavByAccess(items, (item) => {
-      if (!item.requiredRoles?.length) return true
-      return status === 'authenticated' && hasRequiredRole(user?.roles ?? [], item.requiredRoles, item.roleMatch)
+      if (!item.requiresAuth) return true
+      if (status !== 'authenticated') return false
+      return hasRequiredRole(user?.roles ?? [], item.requiredRoles ?? [])
     })
   }, [items, authEnabled, status, user])
 

@@ -6,9 +6,7 @@ export function AuthCallback() {
 
   React.useEffect(() => {
     handleCallback()
-      .then((returnTo) => {
-        window.location.replace(returnTo)
-      })
+      .then((returnTo) => window.location.replace(returnTo))
       .catch((e) => setError(e instanceof Error ? e.message : String(e)))
   }, [])
 

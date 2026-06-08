@@ -1,6 +1,5 @@
-import * as React from 'react'
-import { useAuth } from './use-auth'
 import { login, logout } from '../store'
+import { useAuth } from './use-auth'
 
 export function AuthButton() {
   const { status, user } = useAuth()
@@ -14,12 +13,12 @@ export function AuthButton() {
         disabled={status === 'loading'}
         className="rounded-lg border px-3 py-1.5 text-sm font-medium hover:bg-muted disabled:opacity-50"
       >
-        Se connecter
+        Login
       </button>
     )
   }
 
-  const label = user?.name ?? user?.email ?? 'Compte'
+  const label = user?.name ?? user?.email ?? 'Account'
   return (
     <div className="flex items-center gap-2">
       <span className="hidden text-sm text-muted-foreground sm:inline" title={user?.email}>
@@ -29,7 +28,7 @@ export function AuthButton() {
         onClick={() => void logout()}
         className="rounded-lg border px-3 py-1.5 text-sm hover:bg-muted"
       >
-        Se déconnecter
+        Logout
       </button>
     </div>
   )

@@ -6,8 +6,7 @@ export interface MetaFile {
   icon?: string
   order?: number
   type?: 'group' | 'category'
-  roles?: string[]
-  roleMatch?: 'any' | 'all'
+  auth?: { enabled?: boolean; roles?: string[] }
 }
 
 export interface NavItem {
@@ -18,8 +17,8 @@ export interface NavItem {
   icon?: string
   order: number
   children?: NavItem[]
+  requiresAuth?: boolean
   requiredRoles?: string[]
-  roleMatch?: 'any' | 'all'
 }
 
 export interface ProjectInfo {
@@ -194,7 +193,7 @@ export function buildNavTree(
       const isLast = i === segments.length - 1
 
       if (isLast) {
-        const access = resolvePageAccess(entry.id, entry.data.roles, entry.data.roleMatch, metaFiles)
+        const access = resolvePageAccess(entry.id, entry.data.auth, metaFiles)
         currentLevel.push({
           type: 'page',
           title: entry.data.title,
@@ -202,8 +201,8 @@ export function buildNavTree(
           href: buildHref(entry),
           icon: entry.data.icon,
           order: entry.data.order ?? Infinity,
+          requiresAuth: access.enabled || undefined,
           requiredRoles: access.roles.length ? access.roles : undefined,
-          roleMatch: access.roles.length ? access.match : undefined,
         })
       } else {
         currentPath += `/${segment}`

@@ -30,6 +30,9 @@ export function resolveAuthConfig(env: Env): AuthConfig {
       scope: str(env.PUBLIC_OIDC_SCOPE) ?? 'openid profile email',
       rolesClaim: str(env.PUBLIC_OIDC_ROLES_CLAIM) ?? 'realm_access.roles',
       audience: str(env.PUBLIC_OIDC_AUDIENCE),
+      endSessionEndpoint:
+        str(env.PUBLIC_OIDC_END_SESSION_ENDPOINT) ??
+        `${issuer.replace(/\/$/, '')}/protocol/openid-connect/logout`,
     },
   }
 }

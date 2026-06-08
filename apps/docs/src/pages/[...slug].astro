@@ -54,7 +54,7 @@ const flatEntries = getFlatEntries(allDocs, project, version, locale)
 const currentHref = buildHref(entry)
 const { prev, next } = getPagination(currentHref, flatEntries)
 const breadcrumb = getBreadcrumb(navItems, currentHref)
-const access = resolvePageAccess(entry.id, entry.data.roles, entry.data.roleMatch, metaFiles)
+const access = resolvePageAccess(entry.id, entry.data.auth, metaFiles)
 
 // Build switch URLs for project/version/locale switchers
 const current = { project, version, locale, segments }
@@ -109,8 +109,8 @@ const { Content, headings } = await render(entry)
   versionSwitchUrls={versionSwitchUrls}
   localeSwitchUrls={localeSwitchUrls}
   breadcrumb={breadcrumb}
+  requiresAuth={access.enabled}
   requiredRoles={access.roles}
-  roleMatch={access.match}
   thumbnail={`${currentHref}/thumbnail.png`}
 >
   <Content components={{

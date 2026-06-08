@@ -45,12 +45,8 @@ export function getUserRoles(
   return Array.from(new Set([...fromProfile, ...fromAccess]))
 }
 
-export function hasRequiredRole(
-  userRoles: string[],
-  required: string[],
-  match: 'any' | 'all' = 'any',
-): boolean {
+export function hasRequiredRole(userRoles: string[], required: string[]): boolean {
   if (required.length === 0) return true
   const set = new Set(userRoles)
-  return match === 'all' ? required.every((r) => set.has(r)) : required.some((r) => set.has(r))
+  return required.some((r) => set.has(r))
 }

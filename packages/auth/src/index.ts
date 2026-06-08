@@ -1,10 +1,10 @@
 export type {
-  RoleMatch,
   OidcConfig,
   AuthConfig,
   AuthUser,
   AuthStatus,
   AuthState,
+  PageAuth,
   PageAccess,
 } from './contracts'
 export { resolveAuthConfig } from './config'

@@ -2,8 +2,18 @@ import { UserManager, type User } from 'oidc-client-ts'
 import type { AuthConfig, AuthState, AuthUser } from './contracts'
 import { getUserRoles } from './roles'
 
+/**
+ * Set just before a logout redirect so the post-logout landing can suppress the
+ * protected-page auto-login. Needed because some IdPs (e.g. FerrisKey 0.6.0)
+ * keep their SSO cookie and bounce back to the app instead of honoring
+ * post_logout_redirect_uri, which would otherwise silently re-authenticate.
+ */
+export const LOGOUT_FLAG_KEY = 'auth:logged-out'
+
 let manager: UserManager | null = null
 let rolesClaim = 'realm_access.roles'
+let endSessionEndpoint: string | undefined
+let postLogoutRedirectUri = '/'
 let state: AuthState = { status: 'loading', user: null }
 const listeners = new Set<() => void>()
 
@@ -44,6 +54,8 @@ export function initAuth(cfg: AuthConfig): void {
 
   const o = cfg.oidc
   rolesClaim = o.rolesClaim
+  endSessionEndpoint = o.endSessionEndpoint
+  postLogoutRedirectUri = toAbsolute(o.postLogoutRedirectUri)
   manager = new UserManager({
     authority: o.issuer,
     client_id: o.clientId,
@@ -90,7 +102,32 @@ export async function login(returnTo?: string): Promise<void> {
 
 export async function logout(): Promise<void> {
   if (!manager) return
-  await manager.signoutRedirect()
+
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem(LOGOUT_FLAG_KEY, String(Date.now()))
+  }
+
+  // Prefer a discovered end_session_endpoint; fall back to the configured one
+  // for IdPs (e.g. FerrisKey) that don't advertise it in their discovery doc.
+  const discovered = await manager.metadataService.getEndSessionEndpoint().catch(() => undefined)
+  const endpoint = discovered ?? endSessionEndpoint
+
+  const user = await manager.getUser()
+  await manager.removeUser()
+
+  if (typeof window === 'undefined') return
+
+  // Without an endpoint or id token we can only clear the local session.
+  if (!endpoint || !user?.id_token) {
+    window.location.assign(postLogoutRedirectUri)
+    return
+  }
+
+  const params = new URLSearchParams({
+    id_token_hint: user.id_token,
+    post_logout_redirect_uri: postLogoutRedirectUri,
+  })
+  window.location.assign(`${endpoint}?${params.toString()}`)
 }
 
 /** Completes the OIDC redirect; resolves to the URL to return the user to. */

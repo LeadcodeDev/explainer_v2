@@ -50,14 +50,10 @@ describe('getUserRoles', () => {
 
 describe('hasRequiredRole', () => {
   it('public when no roles required', () => {
-    expect(hasRequiredRole([], [], 'any')).toBe(true)
+    expect(hasRequiredRole([], [])).toBe(true)
   })
-  it('any: at least one match', () => {
-    expect(hasRequiredRole(['devops'], ['devops', 'admin'], 'any')).toBe(true)
-    expect(hasRequiredRole(['reader'], ['devops'], 'any')).toBe(false)
-  })
-  it('all: every role required', () => {
-    expect(hasRequiredRole(['devops', 'admin'], ['devops', 'admin'], 'all')).toBe(true)
-    expect(hasRequiredRole(['devops'], ['devops', 'admin'], 'all')).toBe(false)
+  it('passes when the user has at least one required role', () => {
+    expect(hasRequiredRole(['devops'], ['devops', 'admin'])).toBe(true)
+    expect(hasRequiredRole(['reader'], ['devops'])).toBe(false)
   })
 })
