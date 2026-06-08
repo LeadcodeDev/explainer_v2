@@ -27,6 +27,7 @@ import Pre from '@explainer/mdx/overrides/pre.astro'
 import Blockquote from '@explainer/mdx/overrides/blockquote.astro'
 import { Code } from '@explainer/mdx'
 import { H1, H2, H3, H4, H5, H6, Link, Paragraph, UnorderedList, OrderedList } from '@explainer/mdx'
+import { resolvePageAccess } from '@explainer/auth'
 
 export async function getStaticPaths() {
   const allDocs = await getCollection('docs')
@@ -53,6 +54,7 @@ const flatEntries = getFlatEntries(allDocs, project, version, locale)
 const currentHref = buildHref(entry)
 const { prev, next } = getPagination(currentHref, flatEntries)
 const breadcrumb = getBreadcrumb(navItems, currentHref)
+const access = resolvePageAccess(entry.id, entry.data.auth, metaFiles)
 
 // Build switch URLs for project/version/locale switchers
 const current = { project, version, locale, segments }
@@ -107,6 +109,8 @@ const { Content, headings } = await render(entry)
   versionSwitchUrls={versionSwitchUrls}
   localeSwitchUrls={localeSwitchUrls}
   breadcrumb={breadcrumb}
+  requiresAuth={access.enabled}
+  requiredRoles={access.roles}
   thumbnail={`${currentHref}/thumbnail.png`}
 >
   <Content components={{

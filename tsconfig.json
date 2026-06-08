@@ -20,7 +20,9 @@
       "@explainer/mdx": ["./packages/mdx/src"],
       "@explainer/mdx/*": ["./packages/mdx/src/*"],
       "@explainer/thumbnail": ["./packages/thumbnail/src"],
-      "@explainer/thumbnail/*": ["./packages/thumbnail/src/*"]
+      "@explainer/thumbnail/*": ["./packages/thumbnail/src/*"],
+      "@explainer/auth": ["./packages/auth/src"],
+      "@explainer/auth/*": ["./packages/auth/src/*"]
     }
   },
   "exclude": ["node_modules", "dist"]

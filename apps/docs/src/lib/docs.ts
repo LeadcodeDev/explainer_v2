@@ -1,10 +1,12 @@
 import type { CollectionEntry } from 'astro:content'
+import { resolvePageAccess } from '@explainer/auth'
 
 export interface MetaFile {
   title?: string
   icon?: string
   order?: number
   type?: 'group' | 'category'
+  auth?: { enabled?: boolean; roles?: string[] }
 }
 
 export interface NavItem {
@@ -15,6 +17,8 @@ export interface NavItem {
   icon?: string
   order: number
   children?: NavItem[]
+  requiresAuth?: boolean
+  requiredRoles?: string[]
 }
 
 export interface ProjectInfo {
@@ -189,6 +193,7 @@ export function buildNavTree(
       const isLast = i === segments.length - 1
 
       if (isLast) {
+        const access = resolvePageAccess(entry.id, entry.data.auth, metaFiles)
         currentLevel.push({
           type: 'page',
           title: entry.data.title,
@@ -196,6 +201,8 @@ export function buildNavTree(
           href: buildHref(entry),
           icon: entry.data.icon,
           order: entry.data.order ?? Infinity,
+          requiresAuth: access.enabled || undefined,
+          requiredRoles: access.roles.length ? access.roles : undefined,
         })
       } else {
         currentPath += `/${segment}`
@@ -303,6 +310,22 @@ export function getBreadcrumb(navItems: NavItem[], currentPath: string): Breadcr
 
   walk(navItems)
   return result
+}
+
+export function filterNavByAccess(
+  items: NavItem[],
+  canAccess: (item: NavItem) => boolean,
+): NavItem[] {
+  const out: NavItem[] = []
+  for (const item of items) {
+    if (item.type === 'page') {
+      if (canAccess(item)) out.push(item)
+    } else {
+      const children = filterNavByAccess(item.children ?? [], canAccess)
+      if (children.length) out.push({ ...item, children })
+    }
+  }
+  return out
 }
 
 export function loadMetaFiles(

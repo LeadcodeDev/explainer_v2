@@ -1,4 +1,5 @@
 import { LocaleSwitcher, Navbar, getAppLinks } from '@explainer/ui'
+import { AuthButton } from '@explainer/auth/react'
 import type { NavItem, ProjectInfo } from '../lib/docs'
 import { MobileMenu } from './mobile-menu'
 import { ProjectTabs } from './project-tabs'
@@ -18,6 +19,7 @@ interface HeaderProps {
   navItems: NavItem[]
   currentPath: string
   appUrlOverrides?: Partial<Record<string, string>>
+  authEnabled?: boolean
 }
 
 export function Header({
@@ -33,6 +35,7 @@ export function Header({
   navItems,
   currentPath,
   appUrlOverrides,
+  authEnabled = false,
 }: HeaderProps) {
   const currentProjectInfo = projects.find((p) => p.name === currentProject)
   const showTabs = projects.length > 1
@@ -60,6 +63,7 @@ export function Header({
             hasVersioning={currentProjectInfo?.hasVersioning ?? false}
             versionSwitchUrls={versionSwitchUrls}
             appLinks={appLinks}
+            authEnabled={authEnabled}
           />
         }
         rightSlot={
@@ -84,6 +88,11 @@ export function Header({
                 switchUrls={localeSwitchUrls}
               />
             </div>
+            {authEnabled && (
+              <div className="hidden lg:block">
+                <AuthButton />
+              </div>
+            )}
           </>
         }
       />

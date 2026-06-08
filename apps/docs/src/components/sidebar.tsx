@@ -1,18 +1,31 @@
 import { cn } from '@explainer/ui'
 import { Icon } from '@iconify/react'
 import * as React from 'react'
-import type { NavItem } from '../lib/docs'
+import { useAuth } from '@explainer/auth/react'
+import { hasRequiredRole } from '@explainer/auth'
+import { filterNavByAccess, type NavItem } from '../lib/docs'
 
 interface SidebarProps {
   items: NavItem[]
   currentPath: string
+  authEnabled?: boolean
 }
 
 const normalize = (p: string) => p.replace(/\/$/, '') || '/'
 
-export function Sidebar({ items: initialItems, currentPath: initialPath }: SidebarProps) {
+export function Sidebar({ items: initialItems, currentPath: initialPath, authEnabled = false }: SidebarProps) {
   const [items, setItems] = React.useState(initialItems)
   const [currentPath, setCurrentPath] = React.useState(() => normalize(initialPath))
+
+  const { status, user } = useAuth()
+  const visibleItems = React.useMemo(() => {
+    if (!authEnabled) return items
+    return filterNavByAccess(items, (item) => {
+      if (!item.requiresAuth) return true
+      if (status !== 'authenticated') return false
+      return hasRequiredRole(user?.roles ?? [], item.requiredRoles ?? [])
+    })
+  }, [items, authEnabled, status, user])
 
   React.useEffect(() => {
     const handleBeforeSwap = (e: Event) => {
@@ -37,7 +50,7 @@ export function Sidebar({ items: initialItems, currentPath: initialPath }: Sideb
   return (
     <nav className="flex-1 overflow-y-auto">
       <ul>
-        {items.map((item) => (
+        {visibleItems.map((item) => (
           <SidebarItem key={item.slug} item={item} currentPath={currentPath} />
         ))}
       </ul>

@@ -15,6 +15,7 @@ interface MobileMenuProps {
   hasVersioning: boolean
   versionSwitchUrls: Record<string, string>
   appLinks?: AppLink[]
+  authEnabled?: boolean
 }
 
 export function MobileMenu({
@@ -28,6 +29,7 @@ export function MobileMenu({
   hasVersioning,
   versionSwitchUrls,
   appLinks,
+  authEnabled = false,
 }: MobileMenuProps) {
   return (
     <MobileMenuShell
@@ -50,7 +52,7 @@ export function MobileMenu({
         </>
       }
     >
-      <Sidebar items={items} currentPath={currentPath} />
+      <Sidebar items={items} currentPath={currentPath} authEnabled={authEnabled} />
       {appLinks && appLinks.length > 0 && (
         <div className="mt-4 pt-4 border-t">
           <span className="px-3 py-1 text-xs font-medium text-muted-foreground uppercase tracking-wider">
